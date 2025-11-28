@@ -44,7 +44,7 @@
             android:id="@+id/editTextClassCode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Código de 6 dígitos"
+            android:hint="6 digitu kodea"
             android:inputType="number"
             android:maxLength="6"
             android:gravity="center"
