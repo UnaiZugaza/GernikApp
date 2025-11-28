@@ -27,13 +27,14 @@ class IrakasleActivity : AppCompatActivity() {
 
         // --- Configuración del Menú Común (Footer) ---
         val footerView = findViewById<android.view.View>(R.id.footer_layout)
+        
+        // CORRECCIÓN: buttonContinue es ImageButton
         val btnBack = footerView.findViewById<ImageButton>(R.id.buttonBack)
-        val btnContinue = footerView.findViewById<Button>(R.id.buttonContinue)
+        val btnContinue = footerView.findViewById<ImageButton>(R.id.buttonContinue)
 
         // Habilitamos el botón de ir atrás para volver a MainActivity
         btnBack.visibility = android.view.View.VISIBLE
         btnBack.setOnClickListener {
-            // Vuelve a la actividad anterior
             finish()
         }
 

@@ -11,43 +11,35 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        // Cargamos el layout corregido 'inicio.xml'
+        setContentView(R.layout.inicio)
 
-        // --- Configuración del Menú Común (Header) ---
-        // 🚨 CORREGIDO: Usar R.id.header_layout (ID de la etiqueta <include>) en lugar de R.id.menu_arriba
+        // --- Configuración del Header ---
         val headerView = findViewById<android.view.View>(R.id.header_layout)
         val headerTitle = headerView.findViewById<TextView>(R.id.textViewHeaderTitle)
-        // Establecemos el título para esta pantalla
         headerTitle.text = "HASIERA"
 
-        // --- Configuración del Menú Común (Footer) ---
-        // 🚨 CORREGIDO: Usar R.id.footer_layout (ID de la etiqueta <include>) en lugar de R.id.footer
+        // --- Configuración del Footer ---
         val footerView = findViewById<android.view.View>(R.id.footer_layout)
+        
+        // CORRECCIÓN CRÍTICA: Ambos deben ser ImageButton
         val btnBack = footerView.findViewById<ImageButton>(R.id.buttonBack)
-        val btnContinue = footerView.findViewById<Button>(R.id.buttonContinue)
+        val btnContinue = footerView.findViewById<ImageButton>(R.id.buttonContinue) // Antes estaba como Button
 
-        // En la pantalla principal no mostramos el botón de ir atrás.
+        // Ocultamos flechas en la pantalla principal
         btnBack.visibility = android.view.View.INVISIBLE
-        // El botón JARRAITU (Continue) se usa para ir adelante después de la selección.
-        // Lo ocultamos por ahora, ya que el diseño usa los botones de rol para la navegación.
         btnContinue.visibility = android.view.View.INVISIBLE
 
-        // --- Lógica Principal de la Pantalla ---
+        // --- Lógica Principal ---
         val buttonIrakasle = findViewById<Button>(R.id.buttonIrakasle)
         val buttonIkasle = findViewById<Button>(R.id.buttonIkasle)
 
-        // Acción al pulsar IRAKASLE
         buttonIrakasle.setOnClickListener {
-            // Navega a la pantalla del profesor (generar código)
-            val intent = Intent(this, IrakasleActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, IrakasleActivity::class.java))
         }
 
-        // Acción al pulsar IKASLE
         buttonIkasle.setOnClickListener {
-            // Navega a la pantalla del estudiante (introducir código)
-            val intent = Intent(this, IkasleActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, IkasleActivity::class.java))
         }
     }
 }

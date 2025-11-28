@@ -21,13 +21,14 @@ class IkasleActivity : AppCompatActivity() {
 
         // --- Configuración del Menú Común (Footer) ---
         val footerView = findViewById<android.view.View>(R.id.footer_layout)
+        
+        // CORRECCIÓN: Ambos son ImageButton
         val btnBack = footerView.findViewById<ImageButton>(R.id.buttonBack)
-        val btnContinue = footerView.findViewById<Button>(R.id.buttonContinue)
+        val btnContinue = footerView.findViewById<ImageButton>(R.id.buttonContinue)
 
         // Habilitamos el botón de ir atrás para volver a MainActivity
         btnBack.visibility = android.view.View.VISIBLE
         btnBack.setOnClickListener {
-            // Vuelve a la actividad anterior
             finish()
         }
 
@@ -43,10 +44,7 @@ class IkasleActivity : AppCompatActivity() {
             if (code.length == 6) {
                 // Aquí iría la lógica para validar el código con un servidor o base de datos
                 Toast.makeText(this, "Código $code enviado. ¡Entrando a la clase!", Toast.LENGTH_SHORT).show()
-                // Navegación a la siguiente pantalla (e.g., Tablero del estudiante)
-                // val intent = Intent(this, NextScreenActivity::class.java)
-                // startActivity(intent)
-
+                // Navegación a la siguiente pantalla
             } else {
                 Toast.makeText(this, "Por favor, introduce un código de 6 dígitos.", Toast.LENGTH_SHORT).show()
             }
