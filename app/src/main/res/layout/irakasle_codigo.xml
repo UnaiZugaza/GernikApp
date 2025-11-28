@@ -57,7 +57,7 @@
             android:id="@+id/buttonGenerateCode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Generar Código"
+            android:text="Kodigoa sortu"
             android:backgroundTint="#81d4fa"
             android:textColor="#3b82f6"
             android:textSize="18sp"/>
