@@ -1,8 +1,19 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+
+    <style name="App.Widget.TextView" parent="Widget.MaterialComponents.TextView">
+        <item name="fontFamily">@font/comic_sans</item>
+        <item name="android:fontFamily">@font/comic_sans</item>
+    </style>
+
+    <style name="App.Widget.Button" parent="Widget.Material3.Button">
+        <item name="fontFamily">@font/comic_sans</item>
+        <item name="android:fontFamily">@font/comic_sans</item>
+    </style>
+
     <style name="Base.Theme.GernikApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:textViewStyle">@style/App.Widget.TextView</item>
+
+        <item name="materialButtonStyle">@style/App.Widget.Button</item>
     </style>
 
     <style name="Theme.GernikApp" parent="Base.Theme.GernikApp" />
