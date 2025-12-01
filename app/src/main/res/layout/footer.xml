@@ -29,32 +29,29 @@
         app:layout_constraintStart_toStartOf="parent" />
 
 
-    <!-- 3. Botón ATRÁS (Izquierda) -->
+    <!-- 4. LOGO CENTRAL (Siempre visible) -->
     <ImageButton
         android:id="@+id/buttonBack"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="8dp"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
         android:background="@android:color/transparent"
         android:contentDescription="Atzera"
+        android:padding="8dp"
         android:scaleType="fitCenter"
         android:src="@drawable/flechaatzera"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/bar_blue"
-        app:layout_constraintEnd_toStartOf="@+id/imageViewLogo"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.25"
+        app:layout_constraintTop_toTopOf="@+id/background_top"
+        app:layout_constraintVertical_bias="0.607"
         tools:visibility="visible" />
 
-
-    <!-- 4. LOGO CENTRAL (Siempre visible) -->
     <ImageView
         android:id="@+id/imageViewLogo"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="4dp"
+        android:layout_width="122dp"
+        android:layout_height="117dp"
         android:contentDescription="Logo GernikApp"
+        android:padding="8dp"
         android:scaleType="fitCenter"
         android:src="@drawable/logogernikapp"
         app:layout_constraintBottom_toTopOf="@+id/bar_blue"
@@ -63,22 +60,19 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <!-- 5. Botón SIGUIENTE (Derecha) -->
     <ImageButton
         android:id="@+id/buttonContinue"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="8dp"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
         android:background="@android:color/transparent"
         android:contentDescription="Jarraitu"
+        android:padding="8dp"
         android:scaleType="fitCenter"
         android:src="@drawable/flechajarraitu"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/bar_blue"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageViewLogo"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.25" />
+        app:layout_constraintTop_toTopOf="@+id/background_top" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
