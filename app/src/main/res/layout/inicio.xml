@@ -1,102 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="#e0f2fe"
-    tools:context=".MainActivity"> <!-- Color azul claro -->
+    tools:context=".MainActivity">
 
-    <!-- 1. HEADER (Menú Común) -->
+    <!-- 1. HEADER (Menú de arriba) -->
     <include
         android:id="@+id/header_layout"
         layout="@layout/menu_arriba"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-    <!-- CONTENIDO PRINCIPAL -->
+    <!-- 2. CONTENIDO PRINCIPAL (Centrado) -->
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_weight="1"
         android:orientation="vertical"
-        android:padding="24dp"
-        app:layout_constraintBottom_toTopOf="@+id/footer_layout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/header_layout">
+        android:gravity="center"
+        android:padding="24dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="NOR ZARA?"
-            android:textSize="20sp"
+            android:textSize="32sp"
             android:textStyle="bold"
             android:textColor="#3b82f6"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="24dp"/>
 
-        <!-- Cuadro de selección (simulado con un card y borde) -->
-        <androidx.cardview.widget.CardView
+        <!-- NUEVO: Campo para escribir el nombre -->
+        <EditText
+            android:id="@+id/editTextNombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp"
-            app:cardUseCompatPadding="true"
-            android:layout_marginBottom="16dp"
-            android:backgroundTint="@android:color/transparent">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/rounded_border"
-                android:text=" "
-                android:importantForAccessibility="no" /> <!-- Corrección: Añadir esta línea -->
-        </androidx.cardview.widget.CardView>
+            android:hint="Idatzi zure izena (Escribe tu nombre)"
+            android:inputType="textPersonName"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:padding="12dp"
+            android:background="@android:color/white"
+            android:layout_marginBottom="32dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Aukeratu bat"
-            android:textSize="16sp"
-            android:textColor="#3b82f6"
-            android:layout_marginBottom="32dp"/>
-
-        <!-- Opción IRAKASLE (Botón) -->
+        <!-- Botón IRAKASLE -->
         <Button
             android:id="@+id/buttonIrakasle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Irakasle"
-            android:textSize="18sp"
+            android:text="IRAKASLE"
+            android:textSize="20sp"
+            android:textStyle="bold"
             android:backgroundTint="#81d4fa"
-            android:textColor="#3b82f6"
-            android:layout_marginBottom="16dp"/>
+            android:textColor="#0f172a"
+            android:paddingVertical="16dp"
+            android:layout_marginBottom="24dp"/>
 
-        <!-- Opción IKASLE (Botón) -->
+        <!-- Botón IKASLE -->
         <Button
             android:id="@+id/buttonIkasle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ikasle"
-            android:textSize="18sp"
+            android:text="IKASLE"
+            android:textSize="20sp"
+            android:textStyle="bold"
             android:backgroundTint="#81d4fa"
-            android:textColor="#3b82f6"
-            android:layout_marginBottom="32dp"/>
-
-        <!-- Contenedor para imágenes, no es necesario incluirlas, pero se deja el espacio -->
-        <!-- Las imágenes y el icono JARRAITU serán gestionados por el Footer en este layout, aunque el diseño original lo pone flotando -->
+            android:textColor="#0f172a"
+            android:paddingVertical="16dp"/>
 
     </LinearLayout>
 
-    <!-- 2. FOOTER (Menú Común) -->
+    <!-- 3. FOOTER (Menú de abajo) -->
     <include
         android:id="@+id/footer_layout"
         layout="@layout/footer"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -1,40 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="64dp"
-    android:background="#3b82f6"
-    android:padding="8dp">
+    android:layout_height="120dp">
 
-    <!-- Botón de Retroceso (Atrás) -->
-    <!-- Por defecto invisible, se mostrará/ocultará en cada Activity/Fragment -->
-    <ImageButton
-        android:id="@+id/buttonBack"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="Atrás"
-        android:padding="12dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_arrow_back_white_24dp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
+
+    <!-- 1. Fondo superior (Azul claro) donde van las imágenes -->
+    <View
+        android:id="@+id/background_top"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#e0f2fe"
+        app:layout_constraintBottom_toTopOf="@+id/bar_blue"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Botón de Avance (Siguiente) - con un texto de ejemplo como JARRAITU -->
-    <Button
-        android:id="@+id/buttonContinue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#81d4fa"
-        android:text="JARRAITU"
-        android:textColor="#3b82f6"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:visibility="visible"
+
+    <!-- 2. Barra inferior (Azul más oscuro) -->
+    <View
+        android:id="@+id/bar_blue"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:background="#3b82f6"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <!-- 4. LOGO CENTRAL (Siempre visible) -->
+    <ImageButton
+        android:id="@+id/buttonBack"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="Atzera"
+        android:padding="8dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/flechaatzera"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/bar_blue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/background_top"
+        app:layout_constraintVertical_bias="0.607"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/imageViewLogo"
+        android:layout_width="122dp"
+        android:layout_height="117dp"
+        android:contentDescription="Logo GernikApp"
+        android:padding="8dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/logogernikapp"
+        app:layout_constraintBottom_toTopOf="@+id/bar_blue"
+        app:layout_constraintEnd_toStartOf="@+id/buttonContinue"
+        app:layout_constraintStart_toEndOf="@+id/buttonBack"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageButton
+        android:id="@+id/buttonContinue"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="Jarraitu"
+        android:padding="8dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/flechajarraitu"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/bar_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/background_top" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
