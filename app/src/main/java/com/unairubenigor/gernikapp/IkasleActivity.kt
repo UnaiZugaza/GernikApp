@@ -1,55 +1,62 @@
 package com.unairubenigor.gernikapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class IkasleActivity : AppCompatActivity() {
 
+    // Declarar las vistas
+    private lateinit var classCodeEditText: EditText
+    private lateinit var continueButton: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.ikasle_codigo)
+        setContentView(R.layout.ikasle_codigo) // Asumo que el layout se llama activity_ikasle.xml
 
-        // --- Configuración del Menú Común (Header) ---
-        val headerView = findViewById<android.view.View>(R.id.header_layout)
-        val headerTitle = headerView.findViewById<TextView>(R.id.textViewHeaderTitle)
-        headerTitle.text = "KODEA" // Título para esta pantalla
+        // 1. Inicializar las vistas
+        classCodeEditText = findViewById(R.id.editTextClassCode)
 
-        // --- Configuración del Menú Común (Footer) ---
-        val footerView = findViewById<android.view.View>(R.id.footer_layout)
-        val btnBack = footerView.findViewById<ImageButton>(R.id.buttonBack)
-        val btnContinue = footerView.findViewById<Button>(R.id.buttonContinue)
+        // El botón "Jarraitu" está en el layout incluido (footer_layout).
+        // Primero encontramos el layout padre (footer_layout) y luego el botón dentro de él.
+        val footerLayout = findViewById<android.view.View>(R.id.footer_layout)
+        continueButton = footerLayout.findViewById(R.id.buttonContinue) // **¡IMPORTANTE! Usa el ID real del botón "Jarraitu"**
 
-        // Habilitamos el botón de ir atrás para volver a MainActivity
-        btnBack.visibility = android.view.View.VISIBLE
-        btnBack.setOnClickListener {
-            // Vuelve a la actividad anterior
-            finish()
+        // 2. Configurar el listener del botón
+        continueButton.setOnClickListener {
+            // Llamar a la función de validación y navegación
+            validateAndNavigate()
+        }
+    }
+
+    private fun validateAndNavigate() {
+        val classCode = classCodeEditText.text.toString().trim()
+
+        // 1. Validar que el código tiene exactamente 6 dígitos
+        if (classCode.length != 6) {
+            Toast.makeText(this, "Kodeak 6 digitu izan behar ditu.", Toast.LENGTH_SHORT).show()
+            return
         }
 
-        // El botón JARRAITU (Continue) es visible por defecto para enviar el código
-        btnContinue.visibility = android.view.View.VISIBLE
+        // 2. Validación de la base de datos (SIMULACIÓN)
+        // En una app real, aquí enviarías 'classCode' a un servidor o base de datos
+        // para verificar si es válido.
+        val isCodeValid = true // SIMULAMOS que el código es válido para la navegación
 
-        // --- Lógica Principal de la Pantalla ---
-        val editTextCode = findViewById<EditText>(R.id.editTextClassCode)
+        if (isCodeValid) {
+            // 3. Crear el Intent para navegar a IkasleMenuActivity
+            val intent = Intent(this, IkasleMenuActivity::class.java)
+            // Opcional: Puedes pasar el código de clase a la siguiente actividad si es necesario
+            intent.putExtra("CLASS_CODE", classCode)
+            startActivity(intent)
+            finish() // Opcional: Cierra IkasleActivity para que el usuario no pueda volver atrás con el botón físico 'Atrás'
 
-        btnContinue.setOnClickListener {
-            val code = editTextCode.text.toString()
-
-            if (code.length == 6) {
-                // Aquí iría la lógica para validar el código con un servidor o base de datos
-                Toast.makeText(this, "Código $code enviado. ¡Entrando a la clase!", Toast.LENGTH_SHORT).show()
-                // Navegación a la siguiente pantalla (e.g., Tablero del estudiante)
-                // val intent = Intent(this, NextScreenActivity::class.java)
-                // startActivity(intent)
-
-            } else {
-                Toast.makeText(this, "Por favor, introduce un código de 6 dígitos.", Toast.LENGTH_SHORT).show()
-            }
+        } else {
+            // Mensaje de error si la base de datos dice que el código no existe
+            Toast.makeText(this, "Kodea ez da zuzena. Saiatu berriro.", Toast.LENGTH_SHORT).show()
         }
     }
 }
