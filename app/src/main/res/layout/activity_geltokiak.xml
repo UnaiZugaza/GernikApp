@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#e0f2fe"
+    tools:context=".GeltokiakActivity">
+
+    <!-- HEADER -->
+    <include
+        android:id="@+id/header_layout"
+        layout="@layout/menu_arriba"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingHorizontal="32dp"
+        android:paddingVertical="16dp">
+
+        <!-- Botón 1: ASTRA -->
+        <Button
+            android:id="@+id/btnAstra"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="ASTRA"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#3b82f6"
+            android:backgroundTint="@android:color/white"
+            app:strokeColor="#3b82f6"
+            app:strokeWidth="3dp"
+            app:cornerRadius="8dp"
+            android:paddingVertical="14dp"
+            app:layout_constraintVertical_chainStyle="spread"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/btnArbola"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Botón 2: GERNIKAKO ARBOLA -->
+        <Button
+            android:id="@+id/btnArbola"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="GERNIKAKO ARBOLA"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#3b82f6"
+            android:backgroundTint="@android:color/white"
+            app:strokeColor="#3b82f6"
+            app:strokeWidth="3dp"
+            app:cornerRadius="8dp"
+            android:paddingVertical="14dp"
+            app:layout_constraintTop_toBottomOf="@+id/btnAstra"
+            app:layout_constraintBottom_toTopOf="@+id/btnPasileku"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Botón 3: PASILEKU PLAZA -->
+        <Button
+            android:id="@+id/btnPasileku"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="PASILEKU PLAZA"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#3b82f6"
+            android:backgroundTint="@android:color/white"
+            app:strokeColor="#3b82f6"
+            app:strokeWidth="3dp"
+            app:cornerRadius="8dp"
+            android:paddingVertical="14dp"
+            app:layout_constraintTop_toBottomOf="@+id/btnArbola"
+            app:layout_constraintBottom_toTopOf="@+id/btnAndraMari"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Botón 4: ANDRA MARI ELIZA -->
+        <Button
+            android:id="@+id/btnAndraMari"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="ANDRA MARI ELIZA"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#3b82f6"
+            android:backgroundTint="@android:color/white"
+            app:strokeColor="#3b82f6"
+            app:strokeWidth="3dp"
+            app:cornerRadius="8dp"
+            android:paddingVertical="14dp"
+            app:layout_constraintTop_toBottomOf="@+id/btnPasileku"
+            app:layout_constraintBottom_toTopOf="@+id/btnMurala"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Botón 5: GERNIKAKO MURALA -->
+        <Button
+            android:id="@+id/btnMurala"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="GERNIKAKO MURALA"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#3b82f6"
+            android:backgroundTint="@android:color/white"
+            app:strokeColor="#3b82f6"
+            app:strokeWidth="3dp"
+            app:cornerRadius="8dp"
+            android:paddingVertical="14dp"
+            app:layout_constraintTop_toBottomOf="@+id/btnAndraMari"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- FOOTER -->
+    <include
+        android:id="@+id/footer_layout"
+        layout="@layout/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

@@ -8,10 +8,13 @@ import android.widget.TextView
 
 class IkasleMenuActivity : AppCompatActivity() {
 
-    // Define las clases de destino en un Companion Object
+    // Define las clases de destino
     companion object {
         private val ACTIVITY_A = OptionAActivity::class.java
-        private val ACTIVITY_B = OptionBActivity::class.java
+        
+        // CAMBIO: Ahora la opción B (Geltokiak) va a GeltokiakActivity
+        private val ACTIVITY_B = GeltokiakActivity::class.java
+        
         private val ACTIVITY_C = OptionCActivity::class.java
         private val ACTIVITY_D = OptionDActivity::class.java
     }
@@ -29,7 +32,6 @@ class IkasleMenuActivity : AppCompatActivity() {
         val userName = intent.getStringExtra("USER_NAME")
         val textViewUserName = findViewById<TextView>(R.id.textViewUserName)
         
-        // Si el nombre no es nulo ni está vacío, lo muestra
         if (!userName.isNullOrEmpty()) {
             textViewUserName.text = "Kaixo, $userName!"
         }
@@ -41,7 +43,7 @@ class IkasleMenuActivity : AppCompatActivity() {
         val cardOption4: CardView = findViewById(R.id.cardOption4)
 
         cardOption1.setOnClickListener { navigateTo(ACTIVITY_A) }
-        cardOption2.setOnClickListener { navigateTo(ACTIVITY_B) }
+        cardOption2.setOnClickListener { navigateTo(ACTIVITY_B) } // Abre GeltokiakActivity
         cardOption3.setOnClickListener { navigateTo(ACTIVITY_C) }
         cardOption4.setOnClickListener { navigateTo(ACTIVITY_D) }
     }

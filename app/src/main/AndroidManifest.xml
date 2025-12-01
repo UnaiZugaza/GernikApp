@@ -16,14 +16,14 @@
         <activity
             android:name=".SplashActivity"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"> <!-- Ocultamos la barra de título en la splash -->
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!-- MainActivity ya no tiene el intent-filter de inicio -->
+        <!-- MainActivity -->
         <activity
             android:name=".MainActivity"
             android:exported="true" />
@@ -32,6 +32,10 @@
         <activity android:name=".IrakasleActivity" />
         <activity android:name=".IkasleActivity" />
         <activity android:name=".IkasleMenuActivity" />
+        
+        <!-- NUEVA ACTIVIDAD: Geltokiak -->
+        <activity android:name=".GeltokiakActivity" />
+
         <activity android:name=".OptionAActivity" />
         <activity android:name=".OptionBActivity" />
         <activity android:name=".OptionCActivity" />
