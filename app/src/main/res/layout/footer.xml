@@ -11,7 +11,7 @@
         android:id="@+id/background_top"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#E1F5FE"
+        android:background="#e0f2fe"
         app:layout_constraintBottom_toTopOf="@+id/bar_blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +23,7 @@
         android:id="@+id/bar_blue"
         android:layout_width="0dp"
         android:layout_height="24dp"
-        android:background="#0288D1"
+        android:background="#3b82f6"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
