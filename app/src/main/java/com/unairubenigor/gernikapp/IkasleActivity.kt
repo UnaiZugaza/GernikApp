@@ -2,7 +2,6 @@ package com.unairubenigor.gernikapp
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
@@ -15,6 +14,9 @@ class IkasleActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.ikasle_codigo)
 
+        // 1. Recoger el nombre de usuario de la actividad anterior
+        val userName = intent.getStringExtra("USER_NAME")
+
         // --- Configuración del Header ---
         val headerView = findViewById<android.view.View>(R.id.header_layout)
         val headerTitle = headerView.findViewById<TextView>(R.id.textViewHeaderTitle)
@@ -22,18 +24,12 @@ class IkasleActivity : AppCompatActivity() {
 
         // --- Configuración del Footer ---
         val footerView = findViewById<android.view.View>(R.id.footer_layout)
-        
-        // Referencias a los botones del footer
         val btnBack = footerView.findViewById<ImageButton>(R.id.buttonBack)
         val btnContinue = footerView.findViewById<ImageButton>(R.id.buttonContinue)
 
-        // Botón ATRÁS visible
         btnBack.visibility = android.view.View.VISIBLE
-        btnBack.setOnClickListener {
-            finish()
-        }
+        btnBack.setOnClickListener { finish() }
 
-        // Botón CONTINUAR visible
         btnContinue.visibility = android.view.View.VISIBLE
 
         // --- Lógica Principal ---
@@ -43,13 +39,13 @@ class IkasleActivity : AppCompatActivity() {
             val code = editTextCode.text.toString()
 
             if (code.length == 6) {
-                // Validación simple (aquí podrías comprobar si el código existe realmente)
-                Toast.makeText(this, "Código $code enviado. ¡Entrando a la clase!", Toast.LENGTH_SHORT).show()
-                
                 // NAVEGACIÓN A IKASLE MENU ACTIVITY
                 val intent = Intent(this, IkasleMenuActivity::class.java)
-                // (Opcional) Pasamos el código a la siguiente actividad si hace falta
+                
+                // 2. Pasar tanto el código como el nombre de usuario a la siguiente pantalla
                 intent.putExtra("CLASS_CODE", code)
+                intent.putExtra("USER_NAME", userName)
+                
                 startActivity(intent)
                 
             } else {

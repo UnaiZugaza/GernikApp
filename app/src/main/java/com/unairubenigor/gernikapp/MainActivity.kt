@@ -3,6 +3,7 @@ package com.unairubenigor.gernikapp
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -11,7 +12,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Cargamos el layout corregido 'inicio.xml'
         setContentView(R.layout.inicio)
 
         // --- Configuración del Header ---
@@ -21,16 +21,14 @@ class MainActivity : AppCompatActivity() {
 
         // --- Configuración del Footer ---
         val footerView = findViewById<android.view.View>(R.id.footer_layout)
-        
-        // CORRECCIÓN CRÍTICA: Ambos deben ser ImageButton
         val btnBack = footerView.findViewById<ImageButton>(R.id.buttonBack)
-        val btnContinue = footerView.findViewById<ImageButton>(R.id.buttonContinue) // Antes estaba como Button
+        val btnContinue = footerView.findViewById<ImageButton>(R.id.buttonContinue)
 
-        // Ocultamos flechas en la pantalla principal
         btnBack.visibility = android.view.View.INVISIBLE
         btnContinue.visibility = android.view.View.INVISIBLE
 
         // --- Lógica Principal ---
+        val editTextNombre = findViewById<EditText>(R.id.editTextNombre)
         val buttonIrakasle = findViewById<Button>(R.id.buttonIrakasle)
         val buttonIkasle = findViewById<Button>(R.id.buttonIkasle)
 
@@ -39,7 +37,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         buttonIkasle.setOnClickListener {
-            startActivity(Intent(this, IkasleActivity::class.java))
+            val nombre = editTextNombre.text.toString()
+
+            // CORRECCIÓN: Apuntar a IkasleActivity (la del código)
+            val intent = Intent(this, IkasleActivity::class.java)
+
+            // Le pasamos el nombre a la siguiente pantalla
+            intent.putExtra("USER_NAME", nombre)
+
+            startActivity(intent)
         }
     }
 }
