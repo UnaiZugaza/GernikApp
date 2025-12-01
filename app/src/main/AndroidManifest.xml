@@ -31,7 +31,12 @@
         <!-- Resto de actividades -->
         <activity android:name=".IrakasleActivity" />
         <activity android:name=".IkasleActivity" />
-        
+        <activity android:name=".IkasleMenuActivity" />
+        <activity android:name=".OptionAActivity" />
+        <activity android:name=".OptionBActivity" />
+        <activity android:name=".OptionCActivity" />
+        <activity android:name=".OptionDActivity" />
+
     </application>
 
 </manifest>
