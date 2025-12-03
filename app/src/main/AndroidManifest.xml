@@ -23,18 +23,17 @@
             </intent-filter>
         </activity>
 
-        <!-- MainActivity -->
         <activity
             android:name=".MainActivity"
             android:exported="true" />
 
-        <!-- Resto de actividades -->
         <activity android:name=".IrakasleActivity" />
         <activity android:name=".IkasleActivity" />
         <activity android:name=".IkasleMenuActivity" />
-        
-        <!-- NUEVA ACTIVIDAD: Geltokiak -->
         <activity android:name=".GeltokiakActivity" />
+        
+        <!-- NUEVA ACTIVIDAD: Murala Ongi Etorri -->
+        <activity android:name=".GernikakoMuralaOngiEtorriActivity" />
 
         <activity android:name=".OptionAActivity" />
         <activity android:name=".OptionBActivity" />

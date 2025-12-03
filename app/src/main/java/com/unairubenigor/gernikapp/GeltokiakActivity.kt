@@ -1,5 +1,6 @@
 package com.unairubenigor.gernikapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
@@ -29,19 +30,35 @@ class GeltokiakActivity : AppCompatActivity() {
             finish() // Vuelve al menú
         }
 
-        // Configurar botón SIGUIENTE (invisible, como pediste)
+        // Configurar botón SIGUIENTE (invisible)
         btnContinue.visibility = android.view.View.INVISIBLE
 
         // --- Lógica de Botones de Opciones ---
-        // Aquí puedes añadir qué pasa al pulsar cada botón (ir a detalle, marcar mapa, etc.)
+
+        // 1. Astra
         findViewById<Button>(R.id.btnAstra).setOnClickListener {
-            Toast.makeText(this, "Astra aukeratuta", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Astra (Laster)", Toast.LENGTH_SHORT).show()
         }
-        
+
+        // 2. Gernikako Arbola
         findViewById<Button>(R.id.btnArbola).setOnClickListener {
-            Toast.makeText(this, "Gernikako Arbola aukeratuta", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Gernikako Arbola (Laster)", Toast.LENGTH_SHORT).show()
         }
         
-        // (Puedes añadir listeners para los demás botones aquí)
+        // 3. Pasileku
+        findViewById<Button>(R.id.btnPasileku).setOnClickListener {
+            Toast.makeText(this, "Pasileku (Laster)", Toast.LENGTH_SHORT).show()
+        }
+        
+        // 4. Andra Mari
+        findViewById<Button>(R.id.btnAndraMari).setOnClickListener {
+            Toast.makeText(this, "Andra Mari (Laster)", Toast.LENGTH_SHORT).show()
+        }
+
+        // 5. GERNIKAKO MURALA - ¡Conectado!
+        findViewById<Button>(R.id.btnMurala).setOnClickListener {
+            val intent = Intent(this, GernikakoMuralaOngiEtorriActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
