@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f0f9ff"
+    android:background="#e0f2fe"
     tools:context=".OptionAActivity">
 
+    <!-- HEADER -->
     <include
         android:id="@+id/header_layout"
         layout="@layout/menu_arriba"
@@ -16,6 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- CONTENIDO MAPA -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -50,6 +52,7 @@
 
     </LinearLayout>
 
+    <!-- FOOTER -->
     <include
         android:id="@+id/footer_layout"
         layout="@layout/footer"

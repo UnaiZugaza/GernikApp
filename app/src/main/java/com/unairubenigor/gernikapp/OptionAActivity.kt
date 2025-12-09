@@ -2,6 +2,8 @@ package com.unairubenigor.gernikapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ImageButton
+import android.widget.TextView
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -17,7 +19,26 @@ class OptionAActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_option_a)
 
-        // Buscamos el fragmento del mapa que ahora está dentro del LinearLayout
+        // --- Configuración Header ---
+        val headerView = findViewById<android.view.View>(R.id.header_layout)
+        val headerTitle = headerView.findViewById<TextView>(R.id.textViewHeaderTitle)
+        headerTitle.text = "MAPA"
+
+        // --- Configuración Footer ---
+        val footerView = findViewById<android.view.View>(R.id.footer_layout)
+        val btnBack = footerView.findViewById<ImageButton>(R.id.buttonBack)
+        val btnContinue = footerView.findViewById<ImageButton>(R.id.buttonContinue)
+
+        // Botón ATRÁS: Visible y cierra la actividad
+        btnBack.visibility = android.view.View.VISIBLE
+        btnBack.setOnClickListener {
+            finish()
+        }
+
+        // Botón SIGUIENTE: Invisible
+        btnContinue.visibility = android.view.View.INVISIBLE
+
+        // --- Mapa ---
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -26,12 +47,12 @@ class OptionAActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        // 1. Configuración Visual (Satélite + Controles)
+        // 1. Configuración Visual
         mMap.mapType = GoogleMap.MAP_TYPE_HYBRID
         mMap.uiSettings.isZoomControlsEnabled = true
         mMap.uiSettings.isCompassEnabled = true
 
-        // 2. Coordenadas de Gernika
+        // 2. Coordenadas
         val mural      = LatLng(43.315528, -2.680083)
         val museoPaz   = LatLng(43.315056, -2.678394)
         val iglesia    = LatLng(43.314503, -2.679192)
@@ -47,7 +68,7 @@ class OptionAActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.addMarker(MarkerOptions().position(arbol).title("Gernikako Arbola"))
         mMap.addMarker(MarkerOptions().position(astra).title("Astra"))
 
-        // 4. Enfocar Gernika al iniciar
+        // 4. Enfocar Gernika
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mural, 16f))
     }
 }
