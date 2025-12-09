@@ -17,7 +17,7 @@ class OptionMapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_option_a)
+        setContentView(R.layout.activity_option_maps)
 
         // --- Configuración Header ---
         val headerView = findViewById<android.view.View>(R.id.header_layout)
