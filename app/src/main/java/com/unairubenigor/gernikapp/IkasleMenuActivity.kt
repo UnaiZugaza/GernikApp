@@ -10,7 +10,7 @@ class IkasleMenuActivity : AppCompatActivity() {
 
     // Define las clases de destino
     companion object {
-        private val ACTIVITY_A = OptionAActivity::class.java
+        private val ACTIVITY_A = OptionMapsActivity::class.java
         
         // CAMBIO: Ahora la opción B (Geltokiak) va a GeltokiakActivity
         private val ACTIVITY_B = GeltokiakActivity::class.java
