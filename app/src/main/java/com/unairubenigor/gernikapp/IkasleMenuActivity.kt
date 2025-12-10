@@ -15,8 +15,8 @@ class IkasleMenuActivity : AppCompatActivity() {
         // CAMBIO: Ahora la opción B (Geltokiak) va a GeltokiakActivity
         private val ACTIVITY_B = GeltokiakActivity::class.java
         
-        private val ACTIVITY_C = OptionCActivity::class.java
-        private val ACTIVITY_D = OptionDActivity::class.java
+        private val ACTIVITY_C = OptionRankingActivity::class.java
+        private val ACTIVITY_D = OptionPuzzleActivity::class.java
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

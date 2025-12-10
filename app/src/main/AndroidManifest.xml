@@ -37,11 +37,9 @@
         
         <!-- NUEVA ACTIVIDAD: Murala Ongi Etorri -->
         <activity android:name=".GernikakoMuralaOngiEtorriActivity" />
-
         <activity android:name=".OptionMapsActivity" />
-        <activity android:name=".OptionBActivity" />
-        <activity android:name=".OptionCActivity" />
-        <activity android:name=".OptionDActivity" />
+        <activity android:name=".OptionRankingActivity" />
+        <activity android:name=".OptionPuzzleActivity" />
 
     </application>
 
