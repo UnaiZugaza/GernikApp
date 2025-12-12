@@ -1,7 +1,8 @@
 package com.unairubenigor.gernikapp
 
 import android.os.Bundle
-import android.widget.ImageView
+import android.view.View
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,36 +14,45 @@ class OptionRankingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_option_ranking)
 
-        // 1. Poner título al Header
-        val headerView = findViewById<android.view.View>(R.id.header_layout)
+        // --- 1. HEADER ---
+        val headerView = findViewById<View>(R.id.header_layout)
         val headerTitle = headerView.findViewById<TextView>(R.id.textViewHeaderTitle)
         headerTitle.text = "RANKING"
 
-        // 2. Configurar el botón de Volver (Flecha abajo-izquierda)
-        val btnAtras = findViewById<ImageView>(R.id.btnFlechaAtras)
-        btnAtras.setOnClickListener {
-            finish() // Cierra y vuelve al menú anterior
-        }
+        // --- 2. FOOTER (Con tu XML nuevo) ---
+        val footerView = findViewById<View>(R.id.footer_layout)
+        val btnBack = footerView.findViewById<ImageButton>(R.id.buttonBack)
+        val btnContinue = footerView.findViewById<ImageButton>(R.id.buttonContinue)
 
-        // 3. Configurar la Lista (RecyclerView)
+        // Botón ATRÁS: Visible
+        btnBack.visibility = View.VISIBLE
+        btnBack.setOnClickListener { finish() }
+
+        // Botón JARRAITU: Invisible
+        btnContinue.visibility = View.INVISIBLE
+
+        // --- 3. BASE DE DATOS Y USUARIO ACTUAL ---
+
+        // Recuperamos el nombre del usuario que ha iniciado sesión
+        // Si por lo que sea viene vacío, le llamamos "Ezezaguna"
+        val nombreUsuarioActual = intent.getStringExtra("USER_NAME") ?: "Ezezaguna"
+
+        val dbHelper = AdminSQL(this)
+
+        // TRUCO: Sumamos 0 puntos.
+        // Si el usuario es nuevo, esto lo CREA en la base de datos con 0 puntos.
+        // Si ya existía, se queda como está.
+        dbHelper.registrarPuntos(nombreUsuarioActual, 0)
+
+        // --- 4. CONFIGURAR LISTA (RECYCLERVIEW) ---
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerViewRanking)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        // Cargar datos (Aquí luego conectarás tu SQL)
-        val listaDatos = obtenerDatos()
-        val adapter = RankingAdapter(listaDatos)
-        recyclerView.adapter = adapter
-    }
+        // Pedimos la lista real a la base de datos
+        val listaRanking = dbHelper.obtenerRanking()
 
-    // Datos de prueba para ver el diseño
-    private fun obtenerDatos(): List<RankingUsuario> {
-        val lista = ArrayList<RankingUsuario>()
-        lista.add(RankingUsuario(1, "Unai", 2500))
-        lista.add(RankingUsuario(2, "Ruben", 2300))
-        lista.add(RankingUsuario(3, "Igor", 2150))
-        lista.add(RankingUsuario(4, "Ane", 1900))
-        lista.add(RankingUsuario(5, "Mikel", 1800))
-        lista.add(RankingUsuario(6, "Maite", 1500))
-        return lista
+        // Se la pasamos al adaptador
+        val adapter = RankingAdapter(listaRanking)
+        recyclerView.adapter = adapter
     }
 }

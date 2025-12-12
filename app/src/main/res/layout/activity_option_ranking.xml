@@ -25,24 +25,18 @@
             android:id="@+id/recyclerViewRanking"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="16dp"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/btnFlechaAtras"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:listitem="@layout/item_ranking" />
 
-        <ImageView
-            android:id="@+id/btnFlechaAtras"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/flechaatzera"
-            android:contentDescription="@string/volver_atr_s"
-            android:clickable="true"
-            android:focusable="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <include
+        android:id="@+id/footer_layout"
+        layout="@layout/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
