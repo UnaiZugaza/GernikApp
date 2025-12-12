@@ -1,10 +1,12 @@
-package com.unairubenigor.gernikapp
+package com.unairubenigor.gernikapp.irakasle
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.unairubenigor.gernikapp.R
 
 class IrakasleActivity : AppCompatActivity() {
 
@@ -21,25 +23,25 @@ class IrakasleActivity : AppCompatActivity() {
         setContentView(R.layout.irakasle_codigo)
 
         // --- Configuración del Menú Común (Header) ---
-        val headerView = findViewById<android.view.View>(R.id.header_layout)
+        val headerView = findViewById<View>(R.id.header_layout)
         val headerTitle = headerView.findViewById<TextView>(R.id.textViewHeaderTitle)
         headerTitle.text = "KODEA" // Título para esta pantalla
 
         // --- Configuración del Menú Común (Footer) ---
-        val footerView = findViewById<android.view.View>(R.id.footer_layout)
-        
+        val footerView = findViewById<View>(R.id.footer_layout)
+
         // CORRECCIÓN: buttonContinue es ImageButton
         val btnBack = footerView.findViewById<ImageButton>(R.id.buttonBack)
         val btnContinue = footerView.findViewById<ImageButton>(R.id.buttonContinue)
 
         // Habilitamos el botón de ir atrás para volver a MainActivity
-        btnBack.visibility = android.view.View.VISIBLE
+        btnBack.visibility = View.VISIBLE
         btnBack.setOnClickListener {
             finish()
         }
 
         // El botón JARRAITU (Continue) se mantendrá visible para avanzar una vez generado el código
-        btnContinue.visibility = android.view.View.INVISIBLE // Inicialmente oculto hasta tener código
+        btnContinue.visibility = View.INVISIBLE // Inicialmente oculto hasta tener código
 
         // --- Lógica Principal de la Pantalla ---
         val buttonGenerate = findViewById<Button>(R.id.buttonGenerateCode)
@@ -51,13 +53,13 @@ class IrakasleActivity : AppCompatActivity() {
 
             // 2. Muestra el código y lo hace visible
             textViewCode.text = code
-            textViewCode.visibility = android.view.View.VISIBLE
+            textViewCode.visibility = View.VISIBLE
 
             // 3. Oculta el botón de generación
-            buttonGenerate.visibility = android.view.View.INVISIBLE
+            buttonGenerate.visibility = View.INVISIBLE
 
             // 4. Muestra el botón de continuar para avanzar a la siguiente pantalla lógica
-            btnContinue.visibility = android.view.View.VISIBLE
+            btnContinue.visibility = View.VISIBLE
 
             // Agrega aquí la lógica para guardar el código si es necesario
 

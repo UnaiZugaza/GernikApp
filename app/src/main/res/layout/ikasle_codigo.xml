@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#e0f2fe"
-    tools:context=".IkasleActivity">
+    tools:context=".ikasle.IkasleActivity">
 
     <!-- 1. HEADER (Menú Común) -->
     <include

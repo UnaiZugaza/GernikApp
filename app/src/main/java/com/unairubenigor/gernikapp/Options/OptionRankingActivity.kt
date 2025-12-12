@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.unairubenigor.gernikapp.AdminSQL
 import com.unairubenigor.gernikapp.R
-import com.unairubenigor.gernikapp.RankingAdapter
+import com.unairubenigor.gernikapp.Programas_Ranking.RankingAdapter
 
 class OptionRankingActivity : AppCompatActivity() {
 

@@ -13,11 +13,11 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.unairubenigor.gernikapp.AndraMariActivity
-import com.unairubenigor.gernikapp.ArbolaActivity
-import com.unairubenigor.gernikapp.AstraActivity
-import com.unairubenigor.gernikapp.GernikakoMuralaOngiEtorriActivity
-import com.unairubenigor.gernikapp.PasilekuActivity
+import com.unairubenigor.gernikapp.Actividades_Geltokiak.AndraMariActivity
+import com.unairubenigor.gernikapp.Actividades_Geltokiak.ArbolaActivity
+import com.unairubenigor.gernikapp.Actividades_Geltokiak.AstraActivity
+import com.unairubenigor.gernikapp.Actividades_Geltokiak.GernikakoMuralaOngiEtorriActivity
+import com.unairubenigor.gernikapp.Actividades_Geltokiak.PasilekuActivity
 import com.unairubenigor.gernikapp.R
 
 class OptionMapsActivity : AppCompatActivity(), OnMapReadyCallback {

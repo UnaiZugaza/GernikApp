@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import com.unairubenigor.gernikapp.Programas_Ranking.RankingUsuario
 
 class AdminSQL(context: Context) : SQLiteOpenHelper(context, "GernikappDB", null, 1) {
 

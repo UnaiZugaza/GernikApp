@@ -1,12 +1,14 @@
-package com.unairubenigor.gernikapp
+package com.unairubenigor.gernikapp.ikasle
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.unairubenigor.gernikapp.R
 
 class IkasleActivity : AppCompatActivity() {
 
@@ -18,19 +20,19 @@ class IkasleActivity : AppCompatActivity() {
         val userName = intent.getStringExtra("USER_NAME")
 
         // --- Configuración del Header ---
-        val headerView = findViewById<android.view.View>(R.id.header_layout)
+        val headerView = findViewById<View>(R.id.header_layout)
         val headerTitle = headerView.findViewById<TextView>(R.id.textViewHeaderTitle)
         headerTitle.text = "KODEA"
 
         // --- Configuración del Footer ---
-        val footerView = findViewById<android.view.View>(R.id.footer_layout)
+        val footerView = findViewById<View>(R.id.footer_layout)
         val btnBack = footerView.findViewById<ImageButton>(R.id.buttonBack)
         val btnContinue = footerView.findViewById<ImageButton>(R.id.buttonContinue)
 
-        btnBack.visibility = android.view.View.VISIBLE
+        btnBack.visibility = View.VISIBLE
         btnBack.setOnClickListener { finish() }
 
-        btnContinue.visibility = android.view.View.VISIBLE
+        btnContinue.visibility = View.VISIBLE
 
         // --- Lógica Principal ---
         val editTextCode = findViewById<EditText>(R.id.editTextClassCode)

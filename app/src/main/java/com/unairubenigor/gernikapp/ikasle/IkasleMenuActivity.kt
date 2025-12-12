@@ -1,4 +1,4 @@
-package com.unairubenigor.gernikapp
+package com.unairubenigor.gernikapp.ikasle
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -9,6 +9,7 @@ import com.unairubenigor.gernikapp.Options.GeltokiakActivity
 import com.unairubenigor.gernikapp.Options.OptionMapsActivity
 import com.unairubenigor.gernikapp.Options.OptionPuzzleActivity
 import com.unairubenigor.gernikapp.Options.OptionRankingActivity
+import com.unairubenigor.gernikapp.R
 
 class IkasleMenuActivity : AppCompatActivity() {
 

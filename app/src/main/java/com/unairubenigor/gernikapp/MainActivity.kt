@@ -7,6 +7,8 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.unairubenigor.gernikapp.ikasle.IkasleActivity
+import com.unairubenigor.gernikapp.irakasle.IrakasleActivity
 
 class MainActivity : AppCompatActivity() {
 
