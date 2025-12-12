@@ -1,7 +1,8 @@
-package com.unairubenigor.gernikapp
+package com.unairubenigor.gernikapp.Options
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.unairubenigor.gernikapp.R
 
 class OptionPuzzleActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

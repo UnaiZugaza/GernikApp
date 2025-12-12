@@ -5,6 +5,10 @@ import androidx.cardview.widget.CardView
 import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
+import com.unairubenigor.gernikapp.Options.GeltokiakActivity
+import com.unairubenigor.gernikapp.Options.OptionMapsActivity
+import com.unairubenigor.gernikapp.Options.OptionPuzzleActivity
+import com.unairubenigor.gernikapp.Options.OptionRankingActivity
 
 class IkasleMenuActivity : AppCompatActivity() {
 

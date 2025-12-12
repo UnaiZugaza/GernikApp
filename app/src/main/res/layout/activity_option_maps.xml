@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#e0f2fe"
-    tools:context=".OptionMapsActivity">
+    tools:context=".Options.OptionMapsActivity">
 
     <!-- HEADER -->
     <include

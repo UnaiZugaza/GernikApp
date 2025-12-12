@@ -1,7 +1,8 @@
-package com.unairubenigor.gernikapp
+package com.unairubenigor.gernikapp.Options
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -12,6 +13,12 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.unairubenigor.gernikapp.AndraMariActivity
+import com.unairubenigor.gernikapp.ArbolaActivity
+import com.unairubenigor.gernikapp.AstraActivity
+import com.unairubenigor.gernikapp.GernikakoMuralaOngiEtorriActivity
+import com.unairubenigor.gernikapp.PasilekuActivity
+import com.unairubenigor.gernikapp.R
 
 class OptionMapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -22,19 +29,19 @@ class OptionMapsActivity : AppCompatActivity(), OnMapReadyCallback {
         setContentView(R.layout.activity_option_maps)
 
         // --- 1. HEADER ---
-        val headerView = findViewById<android.view.View>(R.id.header_layout)
+        val headerView = findViewById<View>(R.id.header_layout)
         val headerTitle = headerView.findViewById<TextView>(R.id.textViewHeaderTitle)
         headerTitle.text = "MAPA"
 
         // --- 2. FOOTER ---
-        val footerView = findViewById<android.view.View>(R.id.footer_layout)
+        val footerView = findViewById<View>(R.id.footer_layout)
         val btnBack = footerView.findViewById<ImageButton>(R.id.buttonBack)
         val btnContinue = footerView.findViewById<ImageButton>(R.id.buttonContinue)
 
-        btnBack.visibility = android.view.View.VISIBLE
+        btnBack.visibility = View.VISIBLE
         btnBack.setOnClickListener { finish() }
 
-        btnContinue.visibility = android.view.View.INVISIBLE
+        btnContinue.visibility = View.INVISIBLE
 
         // --- 3. INICIALIZAR MAPA ---
         val mapFragment = supportFragmentManager

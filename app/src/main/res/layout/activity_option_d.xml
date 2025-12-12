@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f0f9ff"
-    tools:context=".OptionMapsActivity">
+    tools:context=".Options.OptionMapsActivity">
 
     <!-- 1. HEADER (Menú Común) - Incluido para mantener la consistencia de la aplicación -->
     <include

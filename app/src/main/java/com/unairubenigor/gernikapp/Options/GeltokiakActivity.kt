@@ -1,11 +1,18 @@
-package com.unairubenigor.gernikapp
+package com.unairubenigor.gernikapp.Options
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.unairubenigor.gernikapp.AndraMariActivity
+import com.unairubenigor.gernikapp.ArbolaActivity
+import com.unairubenigor.gernikapp.AstraActivity
+import com.unairubenigor.gernikapp.GernikakoMuralaOngiEtorriActivity
+import com.unairubenigor.gernikapp.PasilekuActivity
+import com.unairubenigor.gernikapp.R
 
 class GeltokiakActivity : AppCompatActivity() {
 
@@ -14,24 +21,24 @@ class GeltokiakActivity : AppCompatActivity() {
         setContentView(R.layout.activity_geltokiak)
 
         // --- Header ---
-        val headerView = findViewById<android.view.View>(R.id.header_layout)
+        val headerView = findViewById<View>(R.id.header_layout)
         val headerTitle = headerView.findViewById<TextView>(R.id.textViewHeaderTitle)
         headerTitle.text = "GELTOKIAK"
 
         // --- Footer (Botones de navegación) ---
         // Aquí usas la lógica del footer que ya tenías, que está bien para esta pantalla
-        val footerView = findViewById<android.view.View>(R.id.footer_layout)
+        val footerView = findViewById<View>(R.id.footer_layout)
         val btnBack = footerView.findViewById<ImageButton>(R.id.buttonBack)
         val btnContinue = footerView.findViewById<ImageButton>(R.id.buttonContinue)
 
         // Configurar botón ATRÁS (visible) -> Vuelve al menú principal
-        btnBack.visibility = android.view.View.VISIBLE
+        btnBack.visibility = View.VISIBLE
         btnBack.setOnClickListener {
             finish()
         }
 
         // Configurar botón SIGUIENTE (invisible)
-        btnContinue.visibility = android.view.View.INVISIBLE
+        btnContinue.visibility = View.INVISIBLE
 
         // --- LÓGICA DE BOTONES DE OPCIONES (Navegación) ---
 

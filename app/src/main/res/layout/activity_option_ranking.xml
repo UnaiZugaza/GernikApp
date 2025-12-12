@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#e0f2fe"
-    tools:context=".OptionRankingActivity">
+    tools:context=".Options.OptionRankingActivity">
 
     <include
         android:id="@+id/header_layout"

@@ -33,13 +33,13 @@
         <activity android:name=".IrakasleActivity" />
         <activity android:name=".IkasleActivity" />
         <activity android:name=".IkasleMenuActivity" />
-        <activity android:name=".GeltokiakActivity" />
+        <activity android:name=".Options.GeltokiakActivity" />
         
         <!-- NUEVA ACTIVIDAD: Murala Ongi Etorri -->
         <activity android:name=".GernikakoMuralaOngiEtorriActivity" />
-        <activity android:name=".OptionMapsActivity" />
-        <activity android:name=".OptionRankingActivity" />
-        <activity android:name=".OptionPuzzleActivity" />
+        <activity android:name=".Options.OptionMapsActivity" />
+        <activity android:name=".Options.OptionRankingActivity" />
+        <activity android:name=".Options.OptionPuzzleActivity" />
 
     </application>
 

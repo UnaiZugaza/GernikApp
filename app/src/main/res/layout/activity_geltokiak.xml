@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#e0f2fe"
-    tools:context=".GeltokiakActivity">
+    tools:context=".Options.GeltokiakActivity">
 
     <!-- HEADER -->
     <include
