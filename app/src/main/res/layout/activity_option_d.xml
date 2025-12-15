@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f0f9ff"
-    tools:context=".Options.OptionMapsActivity">
+    android:background="#e0f2fe"
+    tools:context=".OptionPuzzleActivity">
 
-    <!-- 1. HEADER (Menú Común) - Incluido para mantener la consistencia de la aplicación -->
+    <!-- 1. HEADER (Menú Común) -->
     <include
         android:id="@+id/header_layout"
         layout="@layout/menu_arriba"
@@ -17,65 +17,46 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- CONTENIDO PRINCIPAL: Actividades (Jarduerak) -->
-    <LinearLayout
+    <!-- 2. BANDA DE PIEZAS (ABAJO) -->
+    <HorizontalScrollView
+        android:id="@+id/pieces_container_scrollview"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:background="#81d4fa"
+        app:layout_constraintBottom_toBottomOf="parent" 
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:id="@+id/pieces_container"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="8dp"/>
+    </HorizontalScrollView>
+
+    <!-- 3. TABLERO DEL PUZZLE (CENTRO) -->
+    <FrameLayout
+        android:id="@+id/puzzle_board_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:orientation="vertical"
-        android:padding="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/footer_layout"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header_layout"
+        app:layout_constraintBottom_toTopOf="@id/pieces_container_scrollview"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/header_layout">
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Título de la sección -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Jarduerak (Actividades)"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:textColor="#0369a1"
-            android:paddingBottom="16dp"
-            android:gravity="center_horizontal"/>
-
-        <!-- Separador visual -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="#93c5fd"
-            android:layout_marginBottom="24dp"/>
-
-        <!-- Placeholder para la lista de actividades -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="¡Aquí se mostrarán las actividades asignadas por el profesor!"
-            android:textSize="18sp"
-            android:textColor="#334155"
-            android:gravity="center"
-            android:layout_marginBottom="16dp"/>
-
-        <!-- RecyclerView o ListView iría aquí para mostrar las tareas -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewActivities"
+        <GridLayout
+            android:id="@+id/puzzle_board"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="8dp"
-            android:clipToPadding="false"
-            tools:listitem="@layout/item_activity_placeholder"
-            />
+            android:columnCount="6"
+            android:rowCount="5">
 
-    </LinearLayout>
+            <!-- Las 30 celdas se añadirán aquí dinámicamente desde el código -->
 
-    <!-- 2. FOOTER (Menú Común) - Incluido para mantener la consistencia de la aplicación -->
-    <include
-        android:id="@+id/footer_layout"
-        layout="@layout/footer"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        </GridLayout>
+
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

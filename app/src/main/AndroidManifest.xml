@@ -30,16 +30,20 @@
             android:name=".MainActivity"
             android:exported="true" />
 
-        <activity android:name=".irakasle.IrakasleActivity" />
-        <activity android:name=".ikasle.IkasleActivity" />
-        <activity android:name=".ikasle.IkasleMenuActivity" />
-        <activity android:name=".Options.GeltokiakActivity" />
+        <activity android:name=".IrakasleActivity" />
+        <activity android:name=".IkasleActivity" />
+        <activity android:name=".IkasleMenuActivity" />
+        <activity android:name=".GeltokiakActivity" />
         
         <!-- NUEVA ACTIVIDAD: Murala Ongi Etorri -->
-        <activity android:name=".Actividades_Geltokiak.GernikakoMuralaOngiEtorriActivity" />
-        <activity android:name=".Options.OptionMapsActivity" />
-        <activity android:name=".Options.OptionRankingActivity" />
-        <activity android:name=".Options.OptionPuzzleActivity" />
+        <activity android:name=".GernikakoMuralaOngiEtorriActivity" />
+        <activity android:name=".OptionMapsActivity" />
+        <activity android:name=".OptionRankingActivity" />
+
+        <!-- MODIFICACIÓN: Forzar la orientación horizontal para el puzzle -->
+        <activity 
+            android:name=".OptionPuzzleActivity"
+            android:screenOrientation="landscape" />
 
     </application>
 
