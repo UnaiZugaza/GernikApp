@@ -32,18 +32,21 @@
 
         <activity android:name=".IrakasleActivity" />
         <activity android:name=".IkasleActivity" />
-        <activity android:name=".IkasleMenuActivity" />
-        <activity android:name=".GeltokiakActivity" />
         
-        <!-- NUEVA ACTIVIDAD: Murala Ongi Etorri -->
-        <activity android:name=".GernikakoMuralaOngiEtorriActivity" />
-        <activity android:name=".OptionMapsActivity" />
-        <activity android:name=".OptionRankingActivity" />
+        <!-- CORREGIDO: IkasleMenuActivity está en la subcarpeta .ikasle -->
+        <activity android:name=".ikasle.IkasleMenuActivity" />
+        
+        <!-- CORREGIDO: Estas actividades están en la subcarpeta .Options -->
+        <activity android:name=".Options.GeltokiakActivity" />
+        <activity android:name=".Options.OptionMapsActivity" />
+        <activity android:name=".Options.OptionRankingActivity" />
 
-        <!-- MODIFICACIÓN: Forzar la orientación horizontal para el puzzle -->
+        <!-- CORREGIDO: OptionPuzzleActivity en la subcarpeta .Options y con orientación horizontal -->
         <activity 
-            android:name=".OptionPuzzleActivity"
+            android:name=".Options.OptionPuzzleActivity"
             android:screenOrientation="landscape" />
+            
+        <activity android:name=".GernikakoMuralaOngiEtorriActivity" />
 
     </application>
 

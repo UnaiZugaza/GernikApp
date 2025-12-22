@@ -1,4 +1,4 @@
-package com.unairubenigor.gernikapp
+package com.unairubenigor.gernikapp.Options
 
 import android.content.ClipData
 import android.content.ClipDescription
@@ -13,22 +13,16 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.unairubenigor.gernikapp.R
 import java.util.Collections
 
 class OptionPuzzleActivity : AppCompatActivity() {
 
-    // Contenedores del layout
     private lateinit var piecesContainer: LinearLayout
     private lateinit var puzzleBoard: GridLayout
     private lateinit var puzzleBoardContainer: View
-
-    // Lista para guardar las piezas
     private val pieceViews = mutableListOf<ImageView>()
-
-    // Contador de piezas colocadas
     private var piecesPlaced = 0
-
-    // Variables para la funcionalidad de ZOOM
     private var scaleFactor = 1.0f
     private lateinit var scaleGestureDetector: ScaleGestureDetector
 
@@ -36,17 +30,14 @@ class OptionPuzzleActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_option_d)
 
-        // --- 1. CONFIGURACIÓN INICIAL Y REFERENCIAS ---
         piecesContainer = findViewById(R.id.pieces_container)
         puzzleBoard = findViewById(R.id.puzzle_board)
         puzzleBoardContainer = findViewById(R.id.puzzle_board_container)
 
-        // Configurar el Header
         val headerView = findViewById<View>(R.id.header_layout)
         val headerTitle = headerView.findViewById<TextView>(R.id.textViewHeaderTitle)
         headerTitle.text = "PUZZLE"
 
-        // --- 2. PREPARAR PIEZAS, TABLERO Y ZOOM ---
         setupZoom()
         setupPuzzlePieces()
         setupPuzzleBoard()
@@ -62,7 +53,6 @@ class OptionPuzzleActivity : AppCompatActivity() {
                 return true
             }
         })
-
         puzzleBoardContainer.setOnTouchListener { _, event ->
             scaleGestureDetector.onTouchEvent(event)
             true
@@ -78,30 +68,20 @@ class OptionPuzzleActivity : AppCompatActivity() {
                 }
             }
         }
-
         Collections.shuffle(pieceResources)
-
         for (resId in pieceResources) {
             val piece = ImageView(this).apply {
                 layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.MATCH_PARENT
-                ).apply {
-                    setMargins(8, 8, 8, 8)
-                }
+                ).apply { setMargins(8, 8, 8, 8) }
                 adjustViewBounds = true
-
-                // --- ¡CORRECCIÓN CLAVE! ---
-                // Cambiamos de CENTER_CROP a FIT_CENTER para que la imagen no se recorte.
                 scaleType = ImageView.ScaleType.FIT_CENTER
-
                 setImageResource(resId)
                 tag = resources.getResourceEntryName(resId)
-
                 setOnTouchListener { v, _ ->
                     val clipData = ClipData.newPlainText("piece_tag", v.tag.toString())
-                    val shadowBuilder = View.DragShadowBuilder(v)
-                    v.startDragAndDrop(clipData, shadowBuilder, v, 0)
+                    v.startDragAndDrop(clipData, View.DragShadowBuilder(v), v, 0)
                     v.visibility = View.INVISIBLE
                     true
                 }
@@ -113,11 +93,8 @@ class OptionPuzzleActivity : AppCompatActivity() {
 
     private fun setupPuzzleBoard() {
         puzzleBoard.post {
-            val boardWidth = puzzleBoard.width
-            val boardHeight = puzzleBoard.height
-            val cellWidth = boardWidth / 6
-            val cellHeight = boardHeight / 5
-
+            val cellWidth = puzzleBoard.width / 6
+            val cellHeight = puzzleBoard.height / 5
             for (i in 1..5) {
                 for (j in 1..6) {
                     val slot = ImageView(this).apply {
@@ -139,22 +116,19 @@ class OptionPuzzleActivity : AppCompatActivity() {
         override fun onDrag(v: View, event: DragEvent): Boolean {
             val targetSlot = v as ImageView
             when (event.action) {
-                DragEvent.ACTION_DRAG_STARTED -> {
-                    return event.clipDescription.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)
-                }
+                DragEvent.ACTION_DRAG_STARTED -> return event.clipDescription.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)
                 DragEvent.ACTION_DROP -> {
                     val draggedPieceTag = event.clipData.getItemAt(0).text.toString()
-                    val targetSlotTag = targetSlot.tag.toString()
-
-                    if (draggedPieceTag == targetSlotTag) {
-                        val draggedView = event.localState as ImageView
+                    if (draggedPieceTag == targetSlot.tag.toString()) {
                         val originalPiece = pieceViews.find { it.tag == draggedPieceTag }
-
                         targetSlot.setImageDrawable(originalPiece?.drawable)
+                        
+                        // --- MEJORA: Estirar para que no haya huecos ---
+                        targetSlot.scaleType = ImageView.ScaleType.FIT_XY
+                        
                         targetSlot.setBackground(null)
                         targetSlot.setOnDragListener(null)
-                        draggedView.visibility = View.GONE
-
+                        (event.localState as View).visibility = View.GONE
                         piecesPlaced++
                         checkCompletion()
                         return true
@@ -165,9 +139,7 @@ class OptionPuzzleActivity : AppCompatActivity() {
                     }
                 }
                 DragEvent.ACTION_DRAG_ENDED -> {
-                    if (!event.result) {
-                        (event.localState as View).visibility = View.VISIBLE
-                    }
+                    if (!event.result) (event.localState as View).visibility = View.VISIBLE
                     return true
                 }
                 else -> return true
