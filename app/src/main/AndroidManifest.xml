@@ -30,8 +30,8 @@
             android:name=".MainActivity"
             android:exported="true" />
 
-        <activity android:name=".IrakasleActivity" />
-        <activity android:name=".IkasleActivity" />
+        <activity android:name=".irakasle.IrakasleActivity" />
+        <activity android:name=".ikasle.IkasleActivity" />
         
         <!-- CORREGIDO: IkasleMenuActivity está en la subcarpeta .ikasle -->
         <activity android:name=".ikasle.IkasleMenuActivity" />
@@ -46,7 +46,7 @@
             android:name=".Options.OptionPuzzleActivity"
             android:screenOrientation="landscape" />
             
-        <activity android:name=".GernikakoMuralaOngiEtorriActivity" />
+        <activity android:name=".Actividades_Geltokiak.GernikakoMuralaOngiEtorriActivity" />
 
     </application>
 
