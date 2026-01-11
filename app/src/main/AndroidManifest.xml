@@ -43,6 +43,7 @@
         <activity android:name=".Actividades_Geltokiak.ArbolaActivity" />
         <activity android:name=".Actividades_Geltokiak.PasilekuActivity" />
         <activity android:name=".Actividades_Geltokiak.AndraMariActivity" />
+        <activity android:name=".Actividades_Geltokiak.AstraAdminActivity" />
 
     </application>
 

@@ -1,11 +1,13 @@
 package com.unairubenigor.gernikapp.irakasle
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.unairubenigor.gernikapp.Actividades_Geltokiak.AstraAdminActivity
 import com.unairubenigor.gernikapp.R
 
 class IrakasleActivity : AppCompatActivity() {
@@ -33,6 +35,9 @@ class IrakasleActivity : AppCompatActivity() {
         // CORRECCIÓN: buttonContinue es ImageButton
         val btnBack = footerView.findViewById<ImageButton>(R.id.buttonBack)
         val btnContinue = footerView.findViewById<ImageButton>(R.id.buttonContinue)
+
+        val intent = Intent(this, AstraAdminActivity::class.java)
+        startActivity(intent)
 
         // Habilitamos el botón de ir atrás para volver a MainActivity
         btnBack.visibility = View.VISIBLE

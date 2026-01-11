@@ -1,6 +1,7 @@
 package com.unairubenigor.gernikapp.Actividades_Geltokiak
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -14,7 +15,7 @@ import com.unairubenigor.gernikapp.R
 
 class AstraActivity : AppCompatActivity() {
 
-    // Referencias UI
+    // UI
     private lateinit var layoutCarga: LinearLayout
     private lateinit var layoutPueblo: LinearLayout
     private lateinit var layoutPolicia: LinearLayout
@@ -36,7 +37,6 @@ class AstraActivity : AppCompatActivity() {
 
     // Firestore
     private val db = FirebaseFirestore.getInstance()
-    // Guardamos los listeners para poder detenerlos si salimos de la pantalla
     private var listenerPartida: ListenerRegistration? = null
     private var listenerJugador: ListenerRegistration? = null
 
@@ -44,22 +44,52 @@ class AstraActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_astra)
 
-        // Recogemos datos del Intent
         nombreUsuario = intent.getStringExtra("USER_NAME") ?: ""
         codigoClase = intent.getStringExtra("CLASS_CODE") ?: ""
 
+        inicializarVistas()
+
         if (nombreUsuario.isEmpty() || codigoClase.isEmpty()) {
-            Toast.makeText(this, "Error: Datos de partida incompletos", Toast.LENGTH_LONG).show()
-            finish()
+            mensajeError("Error: Faltan datos de usuario o clase.")
             return
         }
 
-        inicializarVistas()
-        escucharFirestore()
+        // PASO 1: Intentar unirse a la partida (crear el usuario si no existe)
+        unirseAPartida()
+    }
+
+    private fun unirseAPartida() {
+        val jugadorRef = db.collection("partidas").document(codigoClase)
+            .collection("jugadores").document(nombreUsuario)
+
+        // Comprobamos si ya existo antes de escribir nada
+        jugadorRef.get().addOnSuccessListener { document ->
+            if (document.exists()) {
+                mensajeEstado("Reconectando a la partida...")
+                escucharJuego() // Ya existo, solo escucho
+            } else {
+                // NO EXISTO -> ME CREO AUTOMÁTICAMENTE
+                val nuevosDatos = hashMapOf(
+                    "rol" to "PUEBLO", // Por defecto todos entran como Pueblo
+                    "vivo" to true
+                )
+
+                jugadorRef.set(nuevosDatos)
+                    .addOnSuccessListener {
+                        mensajeEstado("¡Te has unido a la partida con éxito!")
+                        escucharJuego() // Ahora que existo, empiezo a escuchar
+                    }
+                    .addOnFailureListener { e ->
+                        mensajeError("No se pudo entrar a la partida: ${e.message}")
+                        // Si falla aquí, suele ser por las REGLAS de seguridad de Firebase
+                    }
+            }
+        }.addOnFailureListener { e ->
+            mensajeError("Error al comprobar usuario: ${e.message}")
+        }
     }
 
     private fun inicializarVistas() {
-        // Vinculamos con el XML (activity_astra.xml que te pasé antes)
         layoutCarga = findViewById(R.id.layoutCarga)
         layoutPueblo = findViewById(R.id.layoutPueblo)
         layoutPolicia = findViewById(R.id.layoutPolicia)
@@ -75,50 +105,35 @@ class AstraActivity : AppCompatActivity() {
 
         btnAcusar.setOnClickListener {
             val sospechoso = etSospechoso.text.toString().trim()
-            if (sospechoso.isNotEmpty()) {
-                intentarAcusar(sospechoso)
-            } else {
-                Toast.makeText(this, "Escribe un nombre", Toast.LENGTH_SHORT).show()
-            }
+            if (sospechoso.isNotEmpty()) intentarAcusar(sospechoso)
         }
-
         btnSalir.setOnClickListener { finish() }
     }
 
-    private fun escucharFirestore() {
-        // 1. Escuchar el Estado General de la Partida (si alguien ganó)
-        // Estructura: Colección "partidas" -> Documento "1234"
-        val partidaDoc = db.collection("partidas").document(codigoClase)
+    private fun escucharJuego() {
+        // 1. Escuchar estado global de la partida
+        val partidaRef = db.collection("partidas").document(codigoClase)
+        listenerPartida = partidaRef.addSnapshotListener { snapshot, e ->
+            if (e != null) return@addSnapshotListener
 
-        listenerPartida = partidaDoc.addSnapshotListener { snapshot, e ->
-            if (e != null || snapshot == null || !snapshot.exists()) {
-                // Error o partida no existe
-                return@addSnapshotListener
-            }
-
-            val estado = snapshot.getString("estado") ?: "JUGANDO"
-            if (estado.startsWith("TERMINADO")) {
-                val ganador = estado.substringAfter("_")
-                mostrarPantallaFin(ganador)
+            if (snapshot != null && snapshot.exists()) {
+                val estado = snapshot.getString("estado") ?: "JUGANDO"
+                if (estado.startsWith("TERMINADO")) {
+                    mostrarPantallaFin(estado.substringAfter("_"))
+                }
             }
         }
 
-        // 2. Escuchar MI ESTADO (Rol y Vida)
-        // Estructura: partidas -> 1234 -> jugadores (Subcolección) -> Ruben (Documento)
-        val miJugadorDoc = partidaDoc.collection("jugadores").document(nombreUsuario)
+        // 2. Escuchar mi propio estado (Rol y Vida)
+        val jugadorRef = partidaRef.collection("jugadores").document(nombreUsuario)
+        listenerJugador = jugadorRef.addSnapshotListener { snapshot, e ->
+            if (e != null) return@addSnapshotListener
 
-        listenerJugador = miJugadorDoc.addSnapshotListener { snapshot, e ->
-            if (e != null || snapshot == null || !snapshot.exists()) {
-                // Aún no existo en la base de datos (o error)
-                layoutCarga.visibility = View.VISIBLE
-                return@addSnapshotListener
+            if (snapshot != null && snapshot.exists()) {
+                miRol = snapshot.getString("rol") ?: "PUEBLO"
+                estoyVivo = snapshot.getBoolean("vivo") ?: true
+                actualizarPantalla()
             }
-
-            // Leemos los campos
-            miRol = snapshot.getString("rol") ?: "PUEBLO"
-            estoyVivo = snapshot.getBoolean("vivo") ?: true
-
-            actualizarPantalla()
         }
     }
 
@@ -131,12 +146,12 @@ class AstraActivity : AppCompatActivity() {
         layoutMuerto.visibility = View.GONE
         layoutFinJuego.visibility = View.GONE
 
-        // Lógica de pantallas
         if (!estoyVivo) {
             layoutMuerto.visibility = View.VISIBLE
             return
         }
 
+        // Mostramos según el rol que venga de Firebase
         when (miRol) {
             "POLICIA" -> layoutPolicia.visibility = View.VISIBLE
             "ASESINO" -> layoutAsesino.visibility = View.VISIBLE
@@ -145,18 +160,14 @@ class AstraActivity : AppCompatActivity() {
     }
 
     private fun intentarAcusar(sospechoso: String) {
-        // Leer el nombre del asesino del documento de la partida
         db.collection("partidas").document(codigoClase).get()
             .addOnSuccessListener { document ->
                 val asesinoReal = document.getString("asesino") ?: ""
-
                 if (asesinoReal.equals(sospechoso, ignoreCase = true)) {
-                    // ACIERTO -> Terminar juego
                     terminarPartida("PUEBLO y POLICIA")
                 } else {
-                    // FALLO -> Matar al policía
                     eliminarme()
-                    Toast.makeText(this, "¡Fallaste! Has sido eliminado.", Toast.LENGTH_LONG).show()
+                    mensajeError("¡Fallaste! Has sido eliminado.")
                 }
             }
     }
@@ -172,29 +183,28 @@ class AstraActivity : AppCompatActivity() {
             .update("estado", "TERMINADO_$ganador")
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        // Importante: Dejar de escuchar cuando cerramos la app para ahorrar datos
-        listenerPartida?.remove()
-        listenerJugador?.remove()
-    }
     private fun mostrarPantallaFin(ganador: String) {
-        // Ocultamos todas las pantallas de juego
         layoutCarga.visibility = View.GONE
         layoutPueblo.visibility = View.GONE
         layoutPolicia.visibility = View.GONE
         layoutAsesino.visibility = View.GONE
         layoutMuerto.visibility = View.GONE
-
-        // Mostramos la pantalla de fin
         layoutFinJuego.visibility = View.VISIBLE
         tvGanador.text = "GANADOR: $ganador"
+    }
 
-        // Cambiamos el color del texto según quién gane
-        if (ganador == "ASESINO") {
-            tvGanador.setTextColor(resources.getColor(android.R.color.holo_red_dark, null))
-        } else {
-            tvGanador.setTextColor(resources.getColor(android.R.color.holo_green_dark, null))
-        }
+    private fun mensajeError(msg: String) {
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
+        Log.e("ASTRA_DEBUG", msg)
+    }
+
+    private fun mensajeEstado(msg: String) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        listenerPartida?.remove()
+        listenerJugador?.remove()
     }
 }
