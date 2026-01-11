@@ -14,22 +14,25 @@ import com.unairubenigor.gernikapp.R
 class IkasleMenuActivity : AppCompatActivity() {
 
     private var nombreUsuario: String? = null
+    private var codigoClase: String? = null // NUEVO: Variable para el código
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.ikasle_menu)
 
+        // RECUPERAMOS AMBOS DATOS
         nombreUsuario = intent.getStringExtra("USER_NAME")
+        codigoClase = intent.getStringExtra("CLASS_CODE") // NUEVO
 
         val textViewUserName = findViewById<TextView>(R.id.textViewUserName)
         if (!nombreUsuario.isNullOrEmpty()) {
             textViewUserName.text = "Kaixo, $nombreUsuario!"
         }
 
-        val cardOption1: CardView = findViewById(R.id.cardOption1)
-        val cardOption2: CardView = findViewById(R.id.cardOption2)
-        val cardOption3: CardView = findViewById(R.id.cardOption3)
-        val cardOption4: CardView = findViewById(R.id.cardOption4)
+        val cardOption1: CardView = findViewById(R.id.cardOption1) // Mapa
+        val cardOption2: CardView = findViewById(R.id.cardOption2) // Geltokiak (Estaciones)
+        val cardOption3: CardView = findViewById(R.id.cardOption3) // Ranking
+        val cardOption4: CardView = findViewById(R.id.cardOption4) // Puzzle
 
         cardOption1.setOnClickListener {
             navegarA(OptionMapsActivity::class.java)
@@ -50,8 +53,12 @@ class IkasleMenuActivity : AppCompatActivity() {
 
     private fun navegarA(claseDestino: Class<*>) {
         val intent = Intent(this, claseDestino)
+        // PASAMOS LA "MOCHILA" DE DATOS A LA SIGUIENTE PANTALLA
         if (nombreUsuario != null) {
             intent.putExtra("USER_NAME", nombreUsuario)
+        }
+        if (codigoClase != null) {
+            intent.putExtra("CLASS_CODE", codigoClase) // NUEVO: Enviamos el código
         }
         startActivity(intent)
     }

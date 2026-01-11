@@ -7,69 +7,70 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.unairubenigor.gernikapp.Actividades_Geltokiak.AndraMariActivity
-import com.unairubenigor.gernikapp.Actividades_Geltokiak.ArbolaActivity
-import com.unairubenigor.gernikapp.Actividades_Geltokiak.AstraActivity
-import com.unairubenigor.gernikapp.Actividades_Geltokiak.GernikakoMuralaOngiEtorriActivity
-import com.unairubenigor.gernikapp.Actividades_Geltokiak.PasilekuActivity
+import com.unairubenigor.gernikapp.Actividades_Geltokiak.* // Importamos todas las actividades de golpe
 import com.unairubenigor.gernikapp.R
 
 class GeltokiakActivity : AppCompatActivity() {
 
+    // Variables para guardar los datos temporalmente
+    private var nombreUsuario: String? = ""
+    private var codigoClase: String? = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_geltokiak)
+
+        // 1. RECOGEMOS LOS DATOS DEL MENÚ
+        nombreUsuario = intent.getStringExtra("USER_NAME")
+        codigoClase = intent.getStringExtra("CLASS_CODE")
 
         // --- Header ---
         val headerView = findViewById<View>(R.id.header_layout)
         val headerTitle = headerView.findViewById<TextView>(R.id.textViewHeaderTitle)
         headerTitle.text = "GELTOKIAK"
 
-        // --- Footer (Botones de navegación) ---
-        // Aquí usas la lógica del footer que ya tenías, que está bien para esta pantalla
+        // --- Footer ---
         val footerView = findViewById<View>(R.id.footer_layout)
         val btnBack = footerView.findViewById<ImageButton>(R.id.buttonBack)
         val btnContinue = footerView.findViewById<ImageButton>(R.id.buttonContinue)
 
-        // Configurar botón ATRÁS (visible) -> Vuelve al menú principal
         btnBack.visibility = View.VISIBLE
-        btnBack.setOnClickListener {
-            finish()
-        }
-
-        // Configurar botón SIGUIENTE (invisible)
+        btnBack.setOnClickListener { finish() }
         btnContinue.visibility = View.INVISIBLE
 
-        // --- LÓGICA DE BOTONES DE OPCIONES (Navegación) ---
+        // --- BOTONES CON PASO DE DATOS OBLIGATORIO ---
 
-        // 1. Astra -> AstraActivity
+        // 1. Astra
         findViewById<Button>(R.id.btnAstra).setOnClickListener {
-            val intent = Intent(this, AstraActivity::class.java)
-            startActivity(intent)
+            abrirActividad(AstraActivity::class.java)
         }
 
-        // 2. Gernikako Arbola -> ArbolaActivity
+        // 2. Gernikako Arbola
         findViewById<Button>(R.id.btnArbola).setOnClickListener {
-            val intent = Intent(this, ArbolaActivity::class.java)
-            startActivity(intent)
+            abrirActividad(ArbolaActivity::class.java)
         }
 
-        // 3. Pasileku -> PasilekuActivity
+        // 3. Pasileku
         findViewById<Button>(R.id.btnPasileku).setOnClickListener {
-            val intent = Intent(this, PasilekuActivity::class.java)
-            startActivity(intent)
+            abrirActividad(PasilekuActivity::class.java)
         }
 
-        // 4. Andra Mari -> AndraMariActivity
+        // 4. Andra Mari
         findViewById<Button>(R.id.btnAndraMari).setOnClickListener {
-            val intent = Intent(this, AndraMariActivity::class.java)
-            startActivity(intent)
+            abrirActividad(AndraMariActivity::class.java)
         }
 
-        // 5. GERNIKAKO MURALA -> GernikakoMuralaOngiEtorriActivity
+        // 5. GERNIKAKO MURALA
         findViewById<Button>(R.id.btnMurala).setOnClickListener {
-            val intent = Intent(this, GernikakoMuralaOngiEtorriActivity::class.java)
-            startActivity(intent)
+            abrirActividad(GernikakoMuralaOngiEtorriActivity::class.java)
         }
+    }
+
+    // Función auxiliar para no repetir código y PASAR SIEMPRE LOS DATOS
+    private fun abrirActividad(clase: Class<*>) {
+        val intent = Intent(this, clase)
+        intent.putExtra("USER_NAME", nombreUsuario)
+        intent.putExtra("CLASS_CODE", codigoClase)
+        startActivity(intent)
     }
 }

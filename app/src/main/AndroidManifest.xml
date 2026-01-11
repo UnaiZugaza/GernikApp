@@ -11,11 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GernikApp">
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_api" />
 
-        <!-- SplashActivity ahora es la actividad principal (LAUNCHER) -->
         <activity
             android:name=".SplashActivity"
             android:exported="true"
@@ -26,27 +26,23 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".MainActivity"
-            android:exported="true" />
-
+        <activity android:name=".MainActivity" android:exported="true" />
         <activity android:name=".irakasle.IrakasleActivity" />
         <activity android:name=".ikasle.IkasleActivity" />
-        
-        <!-- CORREGIDO: IkasleMenuActivity está en la subcarpeta .ikasle -->
         <activity android:name=".ikasle.IkasleMenuActivity" />
-        
-        <!-- CORREGIDO: Estas actividades están en la subcarpeta .Options -->
+
         <activity android:name=".Options.GeltokiakActivity" />
         <activity android:name=".Options.OptionMapsActivity" />
         <activity android:name=".Options.OptionRankingActivity" />
-
-        <!-- CORREGIDO: OptionPuzzleActivity en la subcarpeta .Options y con orientación horizontal -->
-        <activity 
+        <activity
             android:name=".Options.OptionPuzzleActivity"
             android:screenOrientation="landscape" />
-            
+
         <activity android:name=".Actividades_Geltokiak.GernikakoMuralaOngiEtorriActivity" />
+        <activity android:name=".Actividades_Geltokiak.AstraActivity" />
+        <activity android:name=".Actividades_Geltokiak.ArbolaActivity" />
+        <activity android:name=".Actividades_Geltokiak.PasilekuActivity" />
+        <activity android:name=".Actividades_Geltokiak.AndraMariActivity" />
 
     </application>
 
