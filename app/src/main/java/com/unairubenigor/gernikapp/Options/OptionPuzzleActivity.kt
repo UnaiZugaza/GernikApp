@@ -8,8 +8,10 @@ import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
 import android.widget.GridLayout
+import android.widget.HorizontalScrollView
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -21,6 +23,8 @@ class OptionPuzzleActivity : AppCompatActivity() {
     private lateinit var piecesContainer: LinearLayout
     private lateinit var puzzleBoard: GridLayout
     private lateinit var puzzleBoardContainer: View
+    private lateinit var piecesContainerScrollView: HorizontalScrollView
+    private lateinit var piecesScrollBar: SeekBar
     private val pieceViews = mutableListOf<ImageView>()
     private var piecesPlaced = 0
     private var scaleFactor = 1.0f
@@ -33,6 +37,8 @@ class OptionPuzzleActivity : AppCompatActivity() {
         piecesContainer = findViewById(R.id.pieces_container)
         puzzleBoard = findViewById(R.id.puzzle_board)
         puzzleBoardContainer = findViewById(R.id.puzzle_board_container)
+        piecesContainerScrollView = findViewById(R.id.pieces_container_scrollview)
+        piecesScrollBar = findViewById(R.id.pieces_scrollbar)
 
         val headerView = findViewById<View>(R.id.header_layout)
         val headerTitle = headerView.findViewById<TextView>(R.id.textViewHeaderTitle)
@@ -41,6 +47,7 @@ class OptionPuzzleActivity : AppCompatActivity() {
         setupZoom()
         setupPuzzlePieces()
         setupPuzzleBoard()
+        setupSeekBar()
     }
 
     private fun setupZoom() {
@@ -108,6 +115,29 @@ class OptionPuzzleActivity : AppCompatActivity() {
                     }
                     puzzleBoard.addView(slot)
                 }
+            }
+        }
+    }
+
+    private fun setupSeekBar() {
+        piecesScrollBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if (fromUser) {
+                    val maxScroll = piecesContainer.width - piecesContainerScrollView.width
+                    val scrollTo = (maxScroll * progress) / 100
+                    piecesContainerScrollView.scrollTo(scrollTo, 0)
+                }
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
+        piecesContainerScrollView.viewTreeObserver.addOnScrollChangedListener { 
+            val maxScroll = piecesContainer.width - piecesContainerScrollView.width
+            if(maxScroll > 0){
+                 val scrollPercentage = (piecesContainerScrollView.scrollX * 100) / maxScroll
+                 piecesScrollBar.progress = scrollPercentage
             }
         }
     }

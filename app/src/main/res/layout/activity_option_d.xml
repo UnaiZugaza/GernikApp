@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#e0f2fe"
-    tools:context=".OptionPuzzleActivity">
+    tools:context=".Options.OptionPuzzleActivity">
 
     <!-- 1. HEADER (Menú Común) -->
     <include
@@ -23,18 +23,34 @@
         android:layout_width="0dp"
         android:layout_height="100dp"
         android:background="#81d4fa"
-        app:layout_constraintBottom_toBottomOf="parent" 
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:scrollbars="none"
+        app:layout_constraintBottom_toTopOf="@+id/pieces_scrollbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
             android:id="@+id/pieces_container"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:padding="8dp"/>
+            android:orientation="horizontal"
+            android:padding="8dp" />
     </HorizontalScrollView>
+
+    <SeekBar
+        android:id="@+id/pieces_scrollbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:progressDrawable="@drawable/seekbar_progress"
+        android:thumb="@drawable/seekbar_thumb"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <!-- 3. TABLERO DEL PUZZLE (CENTRO) -->
     <FrameLayout
