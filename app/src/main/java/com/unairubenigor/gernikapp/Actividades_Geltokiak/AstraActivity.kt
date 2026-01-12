@@ -160,14 +160,68 @@ class AstraActivity : AppCompatActivity() {
     }
 
     private fun intentarAcusar(sospechoso: String) {
+        // 1. Obtenemos la lista de asesinos de la partida
         db.collection("partidas").document(codigoClase).get()
             .addOnSuccessListener { document ->
-                val asesinoReal = document.getString("asesino") ?: ""
-                if (asesinoReal.equals(sospechoso, ignoreCase = true)) {
+                val textoAsesinos = document.getString("asesino") ?: ""
+                val listaAsesinos = textoAsesinos.split(" ") // ["Juan", "Carlos"]
+
+                var esAsesino = false
+                var nombreRealAsesino = ""
+
+                // Buscamos si el sospechoso coincide con alguno de la lista
+                for (nombre in listaAsesinos) {
+                    if (nombre.equals(sospechoso, ignoreCase = true)) {
+                        esAsesino = true
+                        nombreRealAsesino = nombre // Guardamos el nombre exacto (por mayúsculas/minúsculas)
+                        break
+                    }
+                }
+
+                if (esAsesino) {
+                    // ¡ACIERTO!
+                    mensajeEstado("¡Has atrapado a $nombreRealAsesino! Eliminándolo...")
+
+                    // PASO A: Matamos al asesino en la base de datos
+                    eliminarJugador(nombreRealAsesino) {
+                        // PASO B: Una vez muerto, comprobamos si quedan más
+                        verificarSiQuedanAsesinos()
+                    }
+
+                } else {
+                    // ¡FALLO! - El policía muere
+                    eliminarme()
+                    mensajeError("¡Fallaste! $sospechoso es inocente. Has sido eliminado.")
+                }
+            }
+    }
+
+    // Función auxiliar para matar a OTRO jugador (al asesino)
+    private fun eliminarJugador(nombreJugador: String, alTerminar: () -> Unit) {
+        db.collection("partidas").document(codigoClase)
+            .collection("jugadores").document(nombreJugador)
+            .update("vivo", false)
+            .addOnSuccessListener {
+                alTerminar() // Avisamos de que ya está "muerto"
+            }
+    }
+
+    // Función crucial: Cuenta cuántos asesinos siguen vivos
+    private fun verificarSiQuedanAsesinos() {
+        db.collection("partidas").document(codigoClase)
+            .collection("jugadores")
+            .whereEqualTo("rol", "ASESINO") // Filtramos solo asesinos...
+            .whereEqualTo("vivo", true)     // ...que sigan vivos
+            .get()
+            .addOnSuccessListener { documentos ->
+                val asesinosVivos = documentos.size()
+
+                if (asesinosVivos == 0) {
+                    // ¡YA NO QUEDAN! Ahora sí ganamos
                     terminarPartida("PUEBLO y POLICIA")
                 } else {
-                    eliminarme()
-                    mensajeError("¡Fallaste! Has sido eliminado.")
+                    // Aún quedan
+                    mensajeError("¡Bien hecho! Pero aún queda $asesinosVivos asesino(s) suelto(s).")
                 }
             }
     }

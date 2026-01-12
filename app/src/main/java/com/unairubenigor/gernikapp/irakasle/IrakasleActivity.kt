@@ -2,78 +2,49 @@ package com.unairubenigor.gernikapp.irakasle
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
-import android.widget.ImageButton
-import android.widget.TextView
+import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.unairubenigor.gernikapp.Actividades_Geltokiak.AstraAdminActivity
 import com.unairubenigor.gernikapp.R
 
 class IrakasleActivity : AppCompatActivity() {
 
-    // Genera un código aleatorio de 6 dígitos
-    private fun generateRandomCode(): String {
-        val charset = "0123456789"
-        return (1..6)
-            .map { charset.random() }
-            .joinToString("")
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.irakasle_codigo)
+        // Carga el XML del Login que acabamos de crear
+        setContentView(R.layout.activity_irakasle)
 
-        // --- Configuración del Menú Común (Header) ---
-        val headerView = findViewById<View>(R.id.header_layout)
-        val headerTitle = headerView.findViewById<TextView>(R.id.textViewHeaderTitle)
-        headerTitle.text = "KODEA" // Título para esta pantalla
+        val etUsuario = findViewById<EditText>(R.id.etUsuarioProfesor)
+        val etPassword = findViewById<EditText>(R.id.etPasswordProfesor)
+        val btnEntrar = findViewById<Button>(R.id.btnLoginProfesor)
+        val btnVolver = findViewById<Button>(R.id.btnVolverLogin)
 
-        // --- Configuración del Menú Común (Footer) ---
-        val footerView = findViewById<View>(R.id.footer_layout)
+        // Botón Entrar: Verifica la contraseña
+        btnEntrar.setOnClickListener {
+            val usuario = etUsuario.text.toString().trim()
+            val password = etPassword.text.toString().trim()
 
-        // CORRECCIÓN: buttonContinue es ImageButton
-        val btnBack = footerView.findViewById<ImageButton>(R.id.buttonBack)
-        val btnContinue = footerView.findViewById<ImageButton>(R.id.buttonContinue)
+            // AQUÍ ESTÁN LAS CREDENCIALES FIJAS
+            if (usuario == "profesores" && password == "gernikapp") {
+                Toast.makeText(this, "Acceso concedido", Toast.LENGTH_SHORT).show()
 
-        val intent = Intent(this, AstraAdminActivity::class.java)
-        startActivity(intent)
+                // Si es correcto, nos vamos al Panel de Administración (AstraAdminActivity)
+                val intent = Intent(this, AstraAdminActivity::class.java)
+                startActivity(intent)
 
-        // Habilitamos el botón de ir atrás para volver a MainActivity
-        btnBack.visibility = View.VISIBLE
-        btnBack.setOnClickListener {
-            finish()
+                // Cerramos el login para que no se pueda volver atrás
+                finish()
+            } else {
+                Toast.makeText(this, "Datos incorrectos", Toast.LENGTH_SHORT).show()
+                etPassword.text.clear() // Borra la contraseña para reintentar
+            }
         }
 
-        // El botón JARRAITU (Continue) se mantendrá visible para avanzar una vez generado el código
-        btnContinue.visibility = View.INVISIBLE // Inicialmente oculto hasta tener código
-
-        // --- Lógica Principal de la Pantalla ---
-        val buttonGenerate = findViewById<Button>(R.id.buttonGenerateCode)
-        val textViewCode = findViewById<TextView>(R.id.textViewGeneratedCode)
-
-        buttonGenerate.setOnClickListener {
-            // 1. Genera el código
-            val code = generateRandomCode()
-
-            // 2. Muestra el código y lo hace visible
-            textViewCode.text = code
-            textViewCode.visibility = View.VISIBLE
-
-            // 3. Oculta el botón de generación
-            buttonGenerate.visibility = View.INVISIBLE
-
-            // 4. Muestra el botón de continuar para avanzar a la siguiente pantalla lógica
-            btnContinue.visibility = View.VISIBLE
-
-            // Agrega aquí la lógica para guardar el código si es necesario
-
-            // Ahora el botón de continuar tiene funcionalidad (ejemplo de avance)
-            btnContinue.setOnClickListener {
-                // Aquí va la navegación a la siguiente pantalla (e.g., Tablero de la clase)
-                // val intent = Intent(this, NextScreenActivity::class.java)
-                // startActivity(intent)
-            }
+        // Botón Volver: Por si el alumno entró sin querer
+        btnVolver.setOnClickListener {
+            finish()
         }
     }
 }
