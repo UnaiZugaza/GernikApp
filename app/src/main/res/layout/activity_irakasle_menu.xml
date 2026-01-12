@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="20dp"
+    android:background="#ECEFF1">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PANEL DE CONTROL\nPROFESOR"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="#37474F"
+        android:layout_marginBottom="50dp"/>
+
+    <Button
+        android:id="@+id/btnAdminAstra"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="GESTIONAR ASTRA (ASESINO)"
+        android:padding="20dp"
+        android:backgroundTint="#D32F2F"
+        android:layout_marginBottom="20dp"/>
+
+    <Button
+        android:id="@+id/btnAdminAndraMari"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="GESTIONAR ANDRA MARI"
+        android:padding="20dp"
+        android:backgroundTint="#1976D2"
+        android:layout_marginBottom="20dp"/>
+
+    <Button
+        android:id="@+id/btnAdminArbola"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="GESTIONAR ARBOLA"
+        android:padding="20dp"
+        android:backgroundTint="#388E3C"/>
+
+</LinearLayout>

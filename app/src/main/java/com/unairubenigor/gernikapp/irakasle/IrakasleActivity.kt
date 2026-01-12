@@ -6,14 +6,13 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.unairubenigor.gernikapp.Actividades_Geltokiak.AstraAdminActivity
 import com.unairubenigor.gernikapp.R
 
 class IrakasleActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Carga el XML del Login que acabamos de crear
+        // Usamos el diseño del Login que creamos (activity_irakasle.xml)
         setContentView(R.layout.activity_irakasle)
 
         val etUsuario = findViewById<EditText>(R.id.etUsuarioProfesor)
@@ -21,28 +20,28 @@ class IrakasleActivity : AppCompatActivity() {
         val btnEntrar = findViewById<Button>(R.id.btnLoginProfesor)
         val btnVolver = findViewById<Button>(R.id.btnVolverLogin)
 
-        // Botón Entrar: Verifica la contraseña
+        // Botón Entrar: Verifica usuario y contraseña
         btnEntrar.setOnClickListener {
             val usuario = etUsuario.text.toString().trim()
             val password = etPassword.text.toString().trim()
 
-            // AQUÍ ESTÁN LAS CREDENCIALES FIJAS
+            // 1. Comprobamos las credenciales
             if (usuario == "profesores" && password == "gernikapp") {
                 Toast.makeText(this, "Acceso concedido", Toast.LENGTH_SHORT).show()
 
-                // Si es correcto, nos vamos al Panel de Administración (AstraAdminActivity)
-                val intent = Intent(this, AstraAdminActivity::class.java)
+                // 2. CAMBIO IMPORTANTE: Abrimos el MENÚ DE SELECCIÓN (donde están los 3 botones)
+                val intent = Intent(this, IrakasleMenuActivity::class.java)
                 startActivity(intent)
 
-                // Cerramos el login para que no se pueda volver atrás
+                // 3. Cerramos la pantalla de login para que no puedan volver atrás
                 finish()
             } else {
                 Toast.makeText(this, "Datos incorrectos", Toast.LENGTH_SHORT).show()
-                etPassword.text.clear() // Borra la contraseña para reintentar
+                etPassword.text.clear() // Limpiamos la contraseña para reintentar
             }
         }
 
-        // Botón Volver: Por si el alumno entró sin querer
+        // Botón Volver: Por si entraste aquí por error
         btnVolver.setOnClickListener {
             finish()
         }
