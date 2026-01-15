@@ -4,7 +4,6 @@ import android.content.ClipData
 import android.content.ClipDescription
 import android.os.Bundle
 import android.view.DragEvent
-import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
 import android.widget.GridLayout
@@ -32,7 +31,7 @@ class OptionPuzzleActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_option_d)
+        setContentView(R.layout.activity_puzle)
 
         piecesContainer = findViewById(R.id.pieces_container)
         puzzleBoard = findViewById(R.id.puzzle_board)
