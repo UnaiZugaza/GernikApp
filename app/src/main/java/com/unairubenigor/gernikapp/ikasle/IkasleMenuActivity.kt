@@ -24,6 +24,10 @@ class IkasleMenuActivity : AppCompatActivity() {
         nombreUsuario = intent.getStringExtra("USER_NAME")
         codigoClase = intent.getStringExtra("CLASS_CODE") // NUEVO
 
+        // Configurar Header - Cambiar título a "MENÚ"
+        val headerTitle = findViewById<TextView>(R.id.textViewHeaderTitle)
+        headerTitle.text = "MENÚ"
+
         val textViewUserName = findViewById<TextView>(R.id.textViewUserName)
         if (!nombreUsuario.isNullOrEmpty()) {
             textViewUserName.text = "Kaixo, $nombreUsuario!"
