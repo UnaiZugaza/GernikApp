@@ -1,196 +1,258 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:background="#FAFAFA">
+    android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/layoutCarga"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:background="#ECEFF1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Conectando con el satélite..."
+            android:textColor="#455A64" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutEspera"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FF9800"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="30dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@android:drawable/ic_menu_my_calendar"
+            app:tint="#FFFFFF"
+            android:layout_marginBottom="20dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SALA DE ESPERA"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Espera a que el profesor inicie la partida..."
+            android:textColor="#FFF3E0"
+            android:gravity="center"
+            android:textSize="18sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutPueblo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFEB3B"
+        android:gravity="center"
         android:orientation="vertical"
         android:padding="20dp"
-        android:gravity="center">
+        android:visibility="gone">
 
-        <LinearLayout
-            android:id="@+id/layoutCarga"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="ERES PUEBLO"
+            android:textColor="#F57F17"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¡Sobrevive y ayuda a encontrar a los asesinos!"
             android:gravity="center"
-            android:orientation="vertical">
-            <ProgressBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Conectando con la sala..."
-                android:layout_marginTop="10dp"/>
-        </LinearLayout>
+            android:textColor="#FBC02D"
+            android:textSize="18sp"
+            android:layout_marginBottom="40dp"/>
 
-        <LinearLayout
-            android:id="@+id/layoutPueblo"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/btnSalir"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="HERRITARRA (PUEBLO)"
-                android:textSize="28sp"
-                android:textStyle="bold"
-                android:textColor="#4CAF50"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Usa esta pantalla para apuntar tus sospechas y enséñaselo al policía si lo encuentras."
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"/>
-
-            <EditText
-                android:id="@+id/etBlocNotas"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:background="#FFF9C4"
-                android:gravity="top|start"
-                android:padding="15dp"
-                android:hint="Escribe aquí tus sospechas..."
-                android:inputType="textMultiLine"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layoutPolicia"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="POLIZIA (POLICÍA)"
-                android:textSize="28sp"
-                android:textStyle="bold"
-                android:textColor="#2196F3"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Eres el encargado de atrapar al asesino. Si fallas, serás eliminado."
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="30dp"/>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Nombre del sospechoso">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etSospechoso"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <Button
-                android:id="@+id/btnAcusar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="ACUSAR (FINALIZAR JUEGO)"
-                android:backgroundTint="#D32F2F"
-                android:layout_marginTop="20dp"
-                android:padding="15dp"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layoutAsesino"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="HILTZAILEA (ASESINO)"
-                android:textSize="32sp"
-                android:textStyle="bold"
-                android:textColor="#D32F2F"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="🤫"
-                android:textSize="80sp"
-                android:layout_marginTop="20dp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Que no te descubran. Si eliminan a todos los policías, tú ganas."
-                android:gravity="center"
-                android:layout_marginTop="20dp"
-                android:textSize="18sp"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layoutMuerto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="☠️"
-                android:textSize="80sp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="HAS SIDO ELIMINADO"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:textColor="#000000"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layoutFinJuego"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:visibility="gone"
-            android:background="#E0F7FA"
-            android:padding="20dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="JUEGO TERMINADO"
-                android:textSize="22sp"/>
-
-            <TextView
-                android:id="@+id/tvGanador"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="GANADOR: ???"
-                android:textSize="30sp"
-                android:textStyle="bold"
-                android:layout_marginTop="10dp"
-                android:textColor="#000000"/>
-
-            <Button
-                android:id="@+id/btnSalir"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Volver al Menú"
-                android:layout_marginTop="30dp"/>
-        </LinearLayout>
-
+            android:text="SALIR"
+            android:backgroundTint="#FBC02D"/>
     </LinearLayout>
-</ScrollView>
+
+    <LinearLayout
+        android:id="@+id/layoutPolicia"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#2196F3"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@android:drawable/ic_menu_search"
+            app:tint="#FFFFFF"
+            android:layout_marginBottom="20dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ERES POLICÍA"
+            android:textColor="#FFFFFF"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Encuentra a los asesinos:"
+            android:textColor="#BBDEFB"
+            android:textSize="18sp"
+            android:layout_marginBottom="20dp"/>
+
+        <Spinner
+            android:id="@+id/spinnerSospechosos"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@android:drawable/btn_dropdown"
+            android:layout_marginBottom="20dp"/>
+
+        <Button
+            android:id="@+id/btnAcusar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="⚖️ ACUSAR / INVESTIGAR"
+            android:textSize="18sp"
+            android:padding="15dp"
+            android:backgroundTint="#0D47A1"
+            android:textColor="#FFFFFF"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutAsesino"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="#D32F2F"
+        android:visibility="gone"
+        android:padding="20dp">
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@android:drawable/ic_delete"
+            app:tint="#FFFFFF"
+            android:layout_marginBottom="20dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ERES EL ASESINO"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Elige una víctima:"
+            android:textColor="#FFCDD2"
+            android:layout_marginBottom="10dp"/>
+
+        <Spinner
+            android:id="@+id/spinnerVictimas"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@android:drawable/btn_dropdown"
+            android:layout_marginBottom="20dp"/>
+
+        <Button
+            android:id="@+id/btnMatar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="☠️ MATAR ☠️"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:backgroundTint="#212121"
+            android:textColor="#FFFFFF"
+            android:padding="15dp"/>
+
+        <TextView
+            android:id="@+id/tvCooldown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Recargando..."
+            android:textColor="#FFEB3B"
+            android:textSize="16sp"
+            android:visibility="invisible"
+            android:layout_marginTop="10dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutMuerto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#212121"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            app:tint="#F44336"
+            android:layout_marginBottom="20dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HAS SIDO ELIMINADO"
+            android:textColor="#F44336"
+            android:textSize="28sp"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutFinJuego"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#4CAF50"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvGanador"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GANADOR: PUEBLO"
+            android:textColor="#FFFFFF"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            android:gravity="center"/>
+    </LinearLayout>
+
+</FrameLayout>
