@@ -1,6 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#D1ECFF"
+    tools:context=".Actividades_Geltokiak.AndraMari5Activity">
+
+    <!-- 1. Header -->
+    <include
+        android:id="@+id/include_header"
+        layout="@layout/menu_arriba"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 2. Contenido Central con Scroll -->
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@+id/include_header"
+        app:layout_constraintBottom_toTopOf="@+id/include_footer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:gravity="center">
+
+            <!-- Tarjeta 1: Título -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="25dp"
+                app:cardBackgroundColor="#4EBFFF"
+                app:cardElevation="4dp">
+
+                <TextView
+                    android:id="@+id/text_activity_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp"
+                    android:text="Entzun ondo ondorengo kopla eta bete hutsuneak kopla osatuz."
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:gravity="center" />
+            </androidx.cardview.widget.CardView>
+
+            <!-- Tarjeta 2: Video -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="25dp"
+                app:cardBackgroundColor="#4EBFFF"
+                app:cardElevation="4dp">
+
+                <VideoView
+                    android:id="@+id/video_view_kopla"
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:layout_gravity="center"
+                    android:padding="8dp"/>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Tarjeta 3: Rellenar Huecos -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="25dp"
+                app:cardBackgroundColor="#4EBFFF"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:gravity="center_vertical">
+
+                    <!-- Línea 1 -->
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Solista: &quot;" style="@style/KoplaTextStyle"/>
+                        <EditText android:id="@+id/kopla_answer_1" style="@style/KoplaEditTextStyle" android:hint="Santu"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=" honetan...&quot;" style="@style/KoplaTextStyle"/>
+                    </LinearLayout>
+
+                    <!-- Línea 2 -->
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Solista: &quot;" style="@style/KoplaTextStyle"/>
+                        <EditText android:id="@+id/kopla_answer_2" style="@style/KoplaEditTextStyle" android:hint="Kristoren"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=" jaiotzea&quot;" style="@style/KoplaTextStyle"/>
+                    </LinearLayout>
+
+                    <!-- Línea 3 -->
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginTop="8dp">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Coro: &quot;Kontentuaren amiz, guztioz pozkaitian," style="@style/KoplaTextStyle"/>
+                        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+                            <EditText android:id="@+id/kopla_answer_3" style="@style/KoplaEditTextStyle" android:hint="Maria"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=", " style="@style/KoplaTextStyle"/>
+                            <EditText android:id="@+id/kopla_answer_4" style="@style/KoplaEditTextStyle" android:hint="Jose"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=", " style="@style/KoplaTextStyle"/>
+                            <EditText android:id="@+id/kopla_answer_5" style="@style/KoplaEditTextStyle" android:hint="Jesus"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=", " style="@style/KoplaTextStyle"/>
+                            <EditText android:id="@+id/kopla_answer_6" style="@style/KoplaEditTextStyle" android:hint="Maria"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="&quot;" style="@style/KoplaTextStyle"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Línea 4 -->
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Solista: &quot;Noretan nor bizi da?&quot;" style="@style/KoplaTextStyle"/>
+
+                    <!-- Línea 5 -->
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Solista: &quot;" style="@style/KoplaTextStyle"/>
+                        <EditText android:id="@+id/kopla_answer_7" style="@style/KoplaEditTextStyle" android:hint="Etxe"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=" tsunar horretan&quot;" style="@style/KoplaTextStyle"/>
+                    </LinearLayout>
+
+                    <!-- Línea 6 -->
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginTop="8dp">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Coro: &quot;" style="@style/KoplaTextStyle"/>
+                        <EditText android:id="@+id/kopla_answer_8" style="@style/KoplaEditTextStyle" android:hint="Noretan"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=" zer gura " style="@style/KoplaTextStyle"/>
+                        <EditText android:id="@+id/kopla_answer_9" style="@style/KoplaEditTextStyle" android:hint="zeuke"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="...&quot;" style="@style/KoplaTextStyle"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- 3. Footer -->
+    <include
+        android:id="@+id/include_footer"
+        layout="@layout/footer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
