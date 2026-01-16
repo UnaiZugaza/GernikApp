@@ -34,11 +34,11 @@
             android:padding="16dp"
             android:gravity="center">
 
-            <!-- Tarjeta 1: Bienvenida -->
+            <!-- Tarjeta 1: Bienvenida (con más separación) -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="32dp"
                 app:cardCornerRadius="25dp"
                 app:cardBackgroundColor="#4EBFFF"
                 app:cardElevation="4dp">
@@ -56,11 +56,11 @@
 
             </androidx.cardview.widget.CardView>
 
-            <!-- Tarjeta 2: Imagen y Descripción -->
+            <!-- Tarjeta 2: Descripción y debajo la Imagen (con más separación) -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="32dp"
                 app:cardCornerRadius="25dp"
                 app:cardBackgroundColor="#4EBFFF"
                 app:cardElevation="4dp">
@@ -68,33 +68,34 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:gravity="center"
-                    android:padding="12dp">
+                    android:padding="16dp">
 
+                    <TextView
+                        android:id="@+id/text_description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:text="Urtero, abenduan, Gernikako Andra Mari Elizatik abiatzen dira talde batzuk goiz-goizetik kantatzera. Marijesiak deitzen zaie, eta Jesus jaio aurreko bederatzi gauetan ibiltzen dira kalez kale."
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp"
+                        android:gravity="center" />
+
+                    <!-- Contenedor de la imagen (más grande) -->
                     <androidx.cardview.widget.CardView
-                        android:layout_width="150dp"
-                        android:layout_height="150dp"
+                        android:layout_width="300dp"
+                        android:layout_height="180dp"
                         app:cardCornerRadius="20dp">
+
                         <ImageView
                             android:id="@+id/image_marijesiak"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
                             android:src="@drawable/marijesiak" />
+
                     </androidx.cardview.widget.CardView>
-
-                    <TextView
-                        android:id="@+id/text_description"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="16dp"
-                        android:text="Urtero, abenduan, Gernikako Andra Mari Elizatik abiatzen dira talde batzuk goiz-goizetik kantatzera."
-                        android:textColor="@android:color/black"
-                        android:textSize="18sp"
-                        android:gravity="center" />
-
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
