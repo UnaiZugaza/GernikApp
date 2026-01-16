@@ -33,9 +33,8 @@ class AndraMari3Activity : AppCompatActivity() {
         }
 
         btnNext.setOnClickListener {
-            // TODO: Navegar a la siguiente pantalla (Geltoki1Activity, por ejemplo)
-            // val intent = Intent(this, Geltoki1Activity::class.java)
-            // startActivity(intent)
+            val intent = Intent(this, AndraMari4Activity::class.java)
+            startActivity(intent)
         }
     }
 }

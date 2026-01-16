@@ -43,9 +43,10 @@
         <activity android:name=".Actividades_Geltokiak.ArbolaActivity" />
         <activity android:name=".Actividades_Geltokiak.PasilekuActivity" />
         <activity android:name=".Actividades_Geltokiak.PasilekuEndActivity" />
-        <activity android:name=".Actividades_Geltokiak.AndraMariActivity" />
+        <activity android:name=".Actividades_Geltokiak.AndraMari1Activity" />
         <activity android:name=".Actividades_Geltokiak.AndraMari2Activity" />
         <activity android:name=".Actividades_Geltokiak.AndraMari3Activity" />
+        <activity android:name=".Actividades_Geltokiak.AndraMari4Activity" />
         <activity android:name=".Actividades_Geltokiak.AstraAdminActivity" />
         <activity android:name=".irakasle.IrakasleMenuActivity" />
         <activity android:name=".Actividades_Geltokiak.AndraMariAdminActivity" />

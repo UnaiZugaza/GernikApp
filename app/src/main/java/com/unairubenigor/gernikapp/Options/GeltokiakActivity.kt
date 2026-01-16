@@ -57,7 +57,7 @@ class GeltokiakActivity : AppCompatActivity() {
 
         // 4. Andra Mari
         findViewById<Button>(R.id.btnAndraMari).setOnClickListener {
-            abrirActividad(AndraMariActivity::class.java)
+            abrirActividad(AndraMari1Activity::class.java)
         }
 
         // 5. GERNIKAKO MURALA

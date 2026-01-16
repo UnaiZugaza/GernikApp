@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#D1ECFF"
-    tools:context=".Actividades_Geltokiak.AndraMariActivity">
+    tools:context=".Actividades_Geltokiak.AndraMari1Activity">
 
     <!-- 1. Header (El título "ANDRA MARI ELIZA" se pondrá desde el código) -->
     <include

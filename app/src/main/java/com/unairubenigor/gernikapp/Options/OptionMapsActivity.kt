@@ -13,7 +13,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.unairubenigor.gernikapp.Actividades_Geltokiak.AndraMariActivity
+import com.unairubenigor.gernikapp.Actividades_Geltokiak.AndraMari1Activity
 import com.unairubenigor.gernikapp.Actividades_Geltokiak.ArbolaActivity
 import com.unairubenigor.gernikapp.Actividades_Geltokiak.AstraActivity
 import com.unairubenigor.gernikapp.Actividades_Geltokiak.GernikakoMuralaOngiEtorriActivity
@@ -97,7 +97,7 @@ class OptionMapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 }
 
                 "Andra Mari Eliza" -> {
-                    startActivity(Intent(this, AndraMariActivity::class.java))
+                    startActivity(Intent(this, AndraMari1Activity::class.java))
                 }
 
                 "Pasileku Plaza" -> {
