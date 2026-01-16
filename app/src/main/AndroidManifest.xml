@@ -47,6 +47,7 @@
         <activity android:name=".Actividades_Geltokiak.AndraMari2Activity" />
         <activity android:name=".Actividades_Geltokiak.AndraMari3Activity" />
         <activity android:name=".Actividades_Geltokiak.AndraMari4Activity" />
+        <activity android:name=".Actividades_Geltokiak.GernikakoMuralaActivity" />
         <activity android:name=".Actividades_Geltokiak.AstraAdminActivity" />
         <activity android:name=".irakasle.IrakasleMenuActivity" />
         <activity android:name=".Actividades_Geltokiak.AndraMariAdminActivity" />
