@@ -1,6 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#D1ECFF"
+    tools:context=".Actividades_Geltokiak.AndraMari2Activity">
+
+    <!-- 1. Header (El título se pondrá desde el código Kotlin) -->
+    <include
+        android:id="@+id/include_header"
+        layout="@layout/menu_arriba"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 2. Contenido Central con Scroll -->
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@+id/include_header"
+        app:layout_constraintBottom_toTopOf="@+id/include_footer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:gravity="center">
+
+            <!-- Tarjeta 1: "Gaur marijesi bat izango zara!" -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                app:cardCornerRadius="25dp"
+                app:cardBackgroundColor="#4EBFFF"
+                app:cardElevation="4dp">
+
+                <TextView
+                    android:id="@+id/text_title_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp"
+                    android:text="Gaur marijesi bat izango zara!"
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:gravity="center" />
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Tarjeta 2: Descripción de la actividad -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                app:cardCornerRadius="25dp"
+                app:cardBackgroundColor="#4EBFFF"
+                app:cardElevation="4dp">
+
+                <TextView
+                    android:id="@+id/text_description_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp"
+                    android:text="Mugikorrarekin, Andra Mari inguruan 5 geldialdi egingo dituzu. Geldialdi bakoitzean, bideo bat ikusi, galdera bati erantzun edo argazki bat atera beharko duzu.\n\nAmaieran, domina digital bat jasoko duzu: &quot;Gernikako Marijesi txikia&quot;.\n\nPrest al zaude tradizio hau ezagutzeko eta gure kulturaren zati bihurtzeko?"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    android:gravity="center"
+                    android:lineSpacingExtra="4dp"/>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Tarjeta 3: Botón "Goazen!" -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="25dp"
+                app:cardBackgroundColor="#4EBFFF"
+                app:cardElevation="4dp">
+
+                <Button
+                    android:id="@+id/button_goazen"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:padding="16dp"
+                    android:text="Goazen kontura eta argia piztera!"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- 3. Footer (mostrará las flechas) -->
+    <include
+        android:id="@+id/include_footer"
+        layout="@layout/footer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
