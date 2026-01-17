@@ -1,5 +1,6 @@
 package com.unairubenigor.gernikapp.Actividades_Geltokiak
 
+import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
@@ -70,7 +71,9 @@ class AndraMari5Activity : AppCompatActivity() {
         }
 
         btnNext.setOnClickListener {
-            validateAnswers()
+            // ALDI BATERAKO ALDAKETA: Balidazioa kendu eta zuzenean hurrengo jarduerara joan
+            val intent = Intent(this, AndraMari6Activity::class.java)
+            startActivity(intent)
         }
     }
 
@@ -93,9 +96,9 @@ class AndraMari5Activity : AppCompatActivity() {
 
         if (allCorrect) {
             Toast.makeText(this, "Zorionak! Dena ondo dago!", Toast.LENGTH_LONG).show()
-            // TODO: Aquí puedes navegar a la siguiente actividad si lo deseas
-            // val intent = Intent(this, SiguienteActividad::class.java)
-            // startActivity(intent)
+
+            val intent = Intent(this, AndraMari6Activity::class.java)
+            startActivity(intent)
         } else {
             Toast.makeText(this, "Erantzun batzuk ez dira zuzenak. Saiatu berriro!", Toast.LENGTH_SHORT).show()
         }

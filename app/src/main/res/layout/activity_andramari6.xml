@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#D1ECFF"
+    tools:context=".Actividades_Geltokiak.AndraMari6Activity">
+
+    <!-- 1. Header -->
+    <include
+        android:id="@+id/include_header"
+        layout="@layout/menu_arriba"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 2. Contenido Central con Scroll -->
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@+id/include_header"
+        app:layout_constraintBottom_toTopOf="@+id/include_footer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:gravity="center">
+
+            <!-- Tarjeta 1: Título de la actividad -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="25dp"
+                app:cardBackgroundColor="#4EBFFF"
+                app:cardElevation="4dp">
+
+                <TextView
+                    android:id="@+id/text_activity_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp"
+                    android:text="Hiru argi desberdinen argazkiak atera behar dituzu, bestela, mugikorra itzaliko da, eta marijesiek ez dute ezer ikusiko!"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:gravity="center" />
+            </androidx.cardview.widget.CardView>
+
+            <!-- Tarjeta 2: Imagen de ejemplo -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="25dp"
+                app:cardBackgroundColor="#4EBFFF"
+                app:cardElevation="4dp">
+
+                <ImageView
+                    android:id="@+id/image_farola_example"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/farola" />
+            </androidx.cardview.widget.CardView>
+
+            <!-- Contenedor para subir imágenes -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="16dp">
+
+                <ImageView
+                    android:id="@+id/image_upload_1"
+                    style="@style/UploadImageStyle"
+                    android:src="@android:drawable/ic_menu_add"/>
+
+                <ImageView
+                    android:id="@+id/image_upload_2"
+                    style="@style/UploadImageStyle"
+                    android:src="@android:drawable/ic_menu_add"/>
+
+                <ImageView
+                    android:id="@+id/image_upload_3"
+                    style="@style/UploadImageStyle"
+                    android:src="@android:drawable/ic_menu_add"/>
+            </LinearLayout>
+
+            <!-- Botón para subir a Firebase -->
+            <Button
+                android:id="@+id/button_upload_to_firebase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Argazkiak Igo"
+                android:backgroundTint="#FF9800"
+                android:textColor="@android:color/white"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- 3. Footer -->
+    <include
+        android:id="@+id/include_footer"
+        layout="@layout/footer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

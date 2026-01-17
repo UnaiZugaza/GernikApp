@@ -37,4 +37,14 @@
         <item name="android:textColor">@android:color/black</item>
         <item name="android:textSize">16sp</item>
     </style>
+
+    <!-- Estilo para los ImageView de subida de imágenes -->
+    <style name="UploadImageStyle">
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">100dp</item>
+        <item name="android:layout_margin">8dp</item>
+        <item name="android:background">#FFFFFF</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:padding">10dp</item>
+    </style>
 </resources>
