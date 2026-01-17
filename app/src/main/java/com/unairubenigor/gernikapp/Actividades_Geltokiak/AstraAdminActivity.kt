@@ -7,6 +7,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
 import com.unairubenigor.gernikapp.R
+import java.util.Calendar
+import java.util.Date
 
 class AstraAdminActivity : AppCompatActivity() {
 
@@ -27,55 +29,42 @@ class AstraAdminActivity : AppCompatActivity() {
         btnRepartir = findViewById(R.id.btnRepartirRoles)
         btnReiniciar = findViewById(R.id.btnReiniciar)
 
-        // 1. GENERAR CÓDIGO DE 6 DÍGITOS AL INICIAR
+        // Ya no necesitamos limpiar manualmente, Google lo hará solo.
         generarNuevaSala()
 
-        btnRepartir.setOnClickListener {
-            repartirRoles()
-        }
-
-        btnReiniciar.setOnClickListener {
-            // Genera uno nuevo si quieren empezar de cero total
-            generarNuevaSala()
-        }
+        btnRepartir.setOnClickListener { repartirRoles() }
+        btnReiniciar.setOnClickListener { generarNuevaSala() }
     }
 
     private fun generarNuevaSala() {
-        // Genera un número aleatorio entre 100000 y 999999
         val numeroRandom = (100000..999999).random()
         codigoClase = numeroRandom.toString()
-
-        // Lo mostramos en pantalla grande
         tvCodigo.text = codigoClase
 
-        // Creamos la sala en Firebase para que exista
+        // --- CALCULAR FECHA DE CADUCIDAD (2 DÍAS) ---
+        val calendario = Calendar.getInstance()
+        calendario.add(Calendar.DAY_OF_YEAR, 2) // Sumamos 2 días a hoy
+        val fechaMuerte = calendario.time // Objeto Date
+
         val datosSala = hashMapOf(
-            "estado" to "ESPERANDO", // Estado inicial
-            "asesino" to ""
+            "estado" to "ESPERANDO",
+            "asesino" to "",
+            "fechaExpiracion" to fechaMuerte // Guardamos la fecha futura
         )
 
         db.collection("partidas").document(codigoClase)
             .set(datosSala)
             .addOnSuccessListener {
-                Toast.makeText(this, "Sala $codigoClase abierta", Toast.LENGTH_SHORT).show()
-                // Empezamos a escuchar quién entra
+                Toast.makeText(this, "Sala creada (Caduca en 48h)", Toast.LENGTH_SHORT).show()
                 escucharJugadores()
-            }
-            .addOnFailureListener {
-                Toast.makeText(this, "Error al crear sala: ${it.message}", Toast.LENGTH_LONG).show()
             }
     }
 
     private fun escucharJugadores() {
-        // Escuchamos la colección 'jugadores' DENTRO del documento de la sala generada
         db.collection("partidas").document(codigoClase)
             .collection("jugadores")
             .addSnapshotListener { snapshots, e ->
-                if (e != null) {
-                    tvInfo.text = "Error de conexión"
-                    return@addSnapshotListener
-                }
-
+                if (e != null) return@addSnapshotListener
                 val numero = snapshots?.size() ?: 0
                 tvInfo.text = "Jugadores conectados: $numero"
             }
@@ -88,42 +77,39 @@ class AstraAdminActivity : AppCompatActivity() {
             val listaJugadores = result.documents
             val total = listaJugadores.size
 
-            if (total < 4) {
-                Toast.makeText(this, "Faltan jugadores (Mínimo 4). Hay $total", Toast.LENGTH_SHORT).show()
-                // Descomenta la siguiente línea si quieres probar solo con 1 o 2 personas:
-                // if (total < 1) return@addOnSuccessListener
+            if (total < 3) {
+                Toast.makeText(this, "Mínimo 3 jugadores", Toast.LENGTH_SHORT).show()
                 return@addOnSuccessListener
             }
 
-            // 1. Barajamos
+            val numPolis = if (total <= 5) 1 else 2
+            val numAsesinos = if (total <= 5) 1 else 2
+
             val listaBarajada = listaJugadores.shuffled()
             val batch = db.batch()
             var nombresAsesinos = ""
 
-            // 2. Asignamos roles (2 Polis, 2 Asesinos, resto Pueblo)
             listaBarajada.forEachIndexed { index, doc ->
                 var rol = "PUEBLO"
-
-                if (index == 0 || index == 1) {
+                if (index < numPolis) {
                     rol = "POLICIA"
-                } else if (index == 2 || index == 3) {
+                } else if (index < numPolis + numAsesinos) {
                     rol = "ASESINO"
-                    // Guardamos el nombre para que el sistema sepa quién es el malo
-                    val nombre = doc.id
-                    nombresAsesinos += "$nombre "
+                    nombresAsesinos += "${doc.id} "
                 }
 
                 batch.update(doc.reference, "rol", rol)
                 batch.update(doc.reference, "vivo", true)
+                // Opcional: Reiniciar estado visual
+                batch.update(doc.reference, "ultimoAtaque", 0L)
             }
 
-            // 3. Actualizamos la sala
             val partidaRef = db.collection("partidas").document(codigoClase)
             batch.update(partidaRef, "estado", "JUGANDO")
-            batch.update(partidaRef, "asesino", nombresAsesinos.trim()) // Guardamos quién es el asesino real
+            batch.update(partidaRef, "asesino", nombresAsesinos.trim())
 
             batch.commit().addOnSuccessListener {
-                Toast.makeText(this, "¡ROLES ASIGNADOS!", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Juego iniciado", Toast.LENGTH_SHORT).show()
             }
         }
     }

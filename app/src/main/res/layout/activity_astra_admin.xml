@@ -62,7 +62,7 @@
         android:id="@+id/btnRepartirRoles"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="🎲 REPARTIR ROLES (2 POLIS / 2 ASESINOS)"
+        android:text="🎲 REPARTIR ROLES"
         android:backgroundTint="#009688"
         android:padding="15dp"
         android:layout_marginTop="30dp"/>
