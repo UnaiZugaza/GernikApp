@@ -6,7 +6,6 @@
     android:layout_height="120dp">
 
 
-    <!-- 1. Fondo superior (Azul claro) donde van las imágenes -->
     <View
         android:id="@+id/background_top"
         android:layout_width="0dp"
@@ -18,7 +17,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <!-- 2. Barra inferior (Azul más oscuro) -->
     <View
         android:id="@+id/bar_blue"
         android:layout_width="0dp"
@@ -29,7 +27,6 @@
         app:layout_constraintStart_toStartOf="parent" />
 
 
-    <!-- 4. LOGO CENTRAL (Siempre visible) -->
     <ImageButton
         android:id="@+id/buttonBack"
         android:layout_width="150dp"
@@ -55,8 +52,8 @@
         android:scaleType="fitCenter"
         android:src="@drawable/logogernikapp"
         app:layout_constraintBottom_toTopOf="@+id/bar_blue"
-        app:layout_constraintEnd_toStartOf="@+id/buttonContinue"
-        app:layout_constraintStart_toEndOf="@+id/buttonBack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 

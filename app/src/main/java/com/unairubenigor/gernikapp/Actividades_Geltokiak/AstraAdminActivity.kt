@@ -1,14 +1,15 @@
 package com.unairubenigor.gernikapp.Actividades_Geltokiak
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
 import com.unairubenigor.gernikapp.R
 import java.util.Calendar
-import java.util.Date
 
 class AstraAdminActivity : AppCompatActivity() {
 
@@ -24,16 +25,41 @@ class AstraAdminActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_astra_admin)
 
+        // --- CONFIGURACIÓN HEADER Y FOOTER ---
+        configurarDiseño()
+
+        // --- REFERENCIAS UI ---
         tvCodigo = findViewById(R.id.tvCodigoGenerado)
         tvInfo = findViewById(R.id.tvInfoJugadores)
         btnRepartir = findViewById(R.id.btnRepartirRoles)
         btnReiniciar = findViewById(R.id.btnReiniciar)
 
-        // Ya no necesitamos limpiar manualmente, Google lo hará solo.
+        // Generamos la sala automáticamente al entrar
         generarNuevaSala()
 
         btnRepartir.setOnClickListener { repartirRoles() }
         btnReiniciar.setOnClickListener { generarNuevaSala() }
+    }
+
+    private fun configurarDiseño() {
+        // 1. HEADER: Título "KODEA"
+        val headerView = findViewById<View>(R.id.include_header)
+        val tvHeaderTitle = headerView.findViewById<TextView>(R.id.textViewHeaderTitle)
+        tvHeaderTitle.text = "KODEA"
+
+        // 2. FOOTER: Solo botón atrás (flechaaztera)
+        val footerView = findViewById<View>(R.id.include_footer)
+        val btnAtras = footerView.findViewById<ImageView>(R.id.buttonBack)
+        val btnContinuar = footerView.findViewById<ImageView>(R.id.buttonContinue)
+
+        // Mostrar atrás y ocultar continuar
+        btnAtras.visibility = View.VISIBLE
+        btnContinuar.visibility = View.GONE
+
+        // Acción de volver atrás
+        btnAtras.setOnClickListener {
+            finish()
+        }
     }
 
     private fun generarNuevaSala() {
@@ -41,21 +67,21 @@ class AstraAdminActivity : AppCompatActivity() {
         codigoClase = numeroRandom.toString()
         tvCodigo.text = codigoClase
 
-        // --- CALCULAR FECHA DE CADUCIDAD (2 DÍAS) ---
+        // Caducidad 2 días (TTL)
         val calendario = Calendar.getInstance()
-        calendario.add(Calendar.DAY_OF_YEAR, 2) // Sumamos 2 días a hoy
-        val fechaMuerte = calendario.time // Objeto Date
+        calendario.add(Calendar.DAY_OF_YEAR, 2)
+        val fechaMuerte = calendario.time
 
         val datosSala = hashMapOf(
             "estado" to "ESPERANDO",
             "asesino" to "",
-            "fechaExpiracion" to fechaMuerte // Guardamos la fecha futura
+            "fechaExpiracion" to fechaMuerte
         )
 
         db.collection("partidas").document(codigoClase)
             .set(datosSala)
             .addOnSuccessListener {
-                Toast.makeText(this, "Sala creada (Caduca en 48h)", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Sala creada: $codigoClase", Toast.LENGTH_SHORT).show()
                 escucharJugadores()
             }
     }
@@ -66,7 +92,7 @@ class AstraAdminActivity : AppCompatActivity() {
             .addSnapshotListener { snapshots, e ->
                 if (e != null) return@addSnapshotListener
                 val numero = snapshots?.size() ?: 0
-                tvInfo.text = "Jugadores conectados: $numero"
+                tvInfo.text = "Jokalariak konektatuta: $numero"
             }
     }
 
@@ -78,7 +104,7 @@ class AstraAdminActivity : AppCompatActivity() {
             val total = listaJugadores.size
 
             if (total < 3) {
-                Toast.makeText(this, "Mínimo 3 jugadores", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Gutxienez 3 jokalari behar dira", Toast.LENGTH_SHORT).show()
                 return@addOnSuccessListener
             }
 
@@ -100,7 +126,6 @@ class AstraAdminActivity : AppCompatActivity() {
 
                 batch.update(doc.reference, "rol", rol)
                 batch.update(doc.reference, "vivo", true)
-                // Opcional: Reiniciar estado visual
                 batch.update(doc.reference, "ultimoAtaque", 0L)
             }
 
@@ -109,7 +134,7 @@ class AstraAdminActivity : AppCompatActivity() {
             batch.update(partidaRef, "asesino", nombresAsesinos.trim())
 
             batch.commit().addOnSuccessListener {
-                Toast.makeText(this, "Juego iniciado", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Partida hasita!", Toast.LENGTH_SHORT).show()
             }
         }
     }

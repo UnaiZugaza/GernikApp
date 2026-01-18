@@ -27,29 +27,28 @@ class JugadoresGridAdapter(private var lista: List<JugadorEstadoGrid>) :
         holder.tvNombre.text = jugador.nombre
         val avatarView = holder.ivAvatar
 
-        // 1. Definir cómo se ve normalmente (Vivo = Opaco / Muerto = Transparente)
+        // 1. ELEGIR LA IMAGEN SEGÚN EL ID QUE VIENE DE FIREBASE
+        val imagenRes = when (jugador.avatarId) {
+            "2" -> R.drawable.cartman
+            "3" -> R.drawable.kenny
+            else -> R.drawable.kyle // Por defecto el 1
+        }
+        avatarView.setImageResource(imagenRes)
+
+        // 2. ESTADO VIVO/MUERTO (Transparencia)
         val alphaFinal = if (jugador.vivo) 1.0f else 0.5f
 
-        // 2. Lógica del Parpadeo (El "Tic" del Asesino)
+        // 3. PARPADEO DEL ASESINO
         if (jugador.necesitaParpadeo) {
-            // Animación: Se desvanece rápido y vuelve
             avatarView.animate()
-                .alpha(0.2f)       // Se vuelve casi invisible
-                .setDuration(150)  // Duración del "tic"
+                .alpha(0.2f)
+                .setDuration(150)
                 .withEndAction {
-                    // Vuelve a su estado normal (según si está vivo o muerto)
-                    avatarView.animate()
-                        .alpha(alphaFinal)
-                        .setDuration(150)
-                        .start()
+                    avatarView.animate().alpha(alphaFinal).setDuration(150).start()
                 }
                 .start()
-
-            // Apagamos el interruptor para que solo lo haga una vez
             jugador.necesitaParpadeo = false
         } else {
-            // Si no tiene que parpadear, aseguramos que tenga la transparencia correcta
-            // (Esto es importante porque el RecyclerView recicla las vistas)
             avatarView.alpha = alphaFinal
         }
     }
@@ -62,9 +61,10 @@ class JugadoresGridAdapter(private var lista: List<JugadorEstadoGrid>) :
     }
 }
 
-// Clase de datos que controla el estado de cada casilla
+// AÑADIMOS EL CAMPO 'avatarId'
 data class JugadorEstadoGrid(
     val nombre: String,
     val vivo: Boolean,
-    var necesitaParpadeo: Boolean = false // Esta es la clave para la pista del asesino
+    var necesitaParpadeo: Boolean = false,
+    val avatarId: String = "1"
 )

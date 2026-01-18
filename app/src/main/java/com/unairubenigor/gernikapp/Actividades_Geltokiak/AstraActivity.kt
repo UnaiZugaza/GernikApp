@@ -7,6 +7,7 @@ import android.os.CountDownTimer
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.DocumentReference
@@ -24,9 +25,13 @@ class AstraActivity : AppCompatActivity() {
     private lateinit var layoutAsesino: LinearLayout
     private lateinit var layoutMuerto: LinearLayout
     private lateinit var layoutFinJuego: LinearLayout
+    private lateinit var cardFinJuego: CardView
 
-    // UI Espera
+    // UI Espera y Selección de Avatar
     private lateinit var tvContadorJugadores: TextView
+    private lateinit var ivSelectAvatar1: ImageView
+    private lateinit var ivSelectAvatar2: ImageView
+    private lateinit var ivSelectAvatar3: ImageView
 
     // UI Grids
     private lateinit var rvPueblo: RecyclerView
@@ -44,7 +49,6 @@ class AstraActivity : AppCompatActivity() {
     private lateinit var spinnerSospechosos: Spinner
     private lateinit var btnAcusar: Button
     private lateinit var tvGanador: TextView
-    private lateinit var btnSalir: Button
 
     // --- DATOS ---
     private var nombreUsuario: String = ""
@@ -55,11 +59,7 @@ class AstraActivity : AppCompatActivity() {
 
     private var listaVictimas: MutableList<String> = mutableListOf()
     private var listaSospechosos: MutableList<String> = mutableListOf()
-
-    // --- VARIABLES PARA EL GRID Y PARPADEO ---
     private var listaEstadoJugadores: MutableList<JugadorEstadoGrid> = mutableListOf()
-
-    // Mapa para recordar cuándo atacó cada jugador por última vez
     private var mapUltimoAtaquePrevio: MutableMap<String, Long> = mutableMapOf()
     private var isFirstLoad = true
 
@@ -78,15 +78,28 @@ class AstraActivity : AppCompatActivity() {
         nombreUsuario = intent.getStringExtra("USER_NAME") ?: ""
         codigoClase = intent.getStringExtra("CLASS_CODE") ?: ""
 
+        configurarDiseno()
         inicializarVistas()
 
         if (nombreUsuario.isEmpty() || codigoClase.isEmpty()) {
-            Toast.makeText(this, "Error de datos", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Errorea datuekin", Toast.LENGTH_SHORT).show()
             finish()
             return
         }
-
         unirseAPartida()
+    }
+
+    private fun configurarDiseno() {
+        val headerView = findViewById<View>(R.id.include_header)
+        val tvHeaderTitle = headerView.findViewById<TextView>(R.id.textViewHeaderTitle)
+        tvHeaderTitle.text = "ASTRA"
+
+        val footerView = findViewById<View>(R.id.include_footer)
+        val btnAtras = footerView.findViewById<ImageButton>(R.id.buttonBack)
+        val btnContinuar = footerView.findViewById<ImageButton>(R.id.buttonContinue)
+        btnAtras.visibility = View.VISIBLE
+        btnContinuar.visibility = View.GONE
+        btnAtras.setOnClickListener { finish() }
     }
 
     private fun inicializarVistas() {
@@ -97,8 +110,18 @@ class AstraActivity : AppCompatActivity() {
         layoutAsesino = findViewById(R.id.layoutAsesino)
         layoutMuerto = findViewById(R.id.layoutMuerto)
         layoutFinJuego = findViewById(R.id.layoutFinJuego)
+        cardFinJuego = findViewById(R.id.cardFinJuego)
 
+        // SELECCIÓN DE AVATAR
         tvContadorJugadores = findViewById(R.id.tvContadorJugadores)
+        ivSelectAvatar1 = findViewById(R.id.ivSelectAvatar1)
+        ivSelectAvatar2 = findViewById(R.id.ivSelectAvatar2)
+        ivSelectAvatar3 = findViewById(R.id.ivSelectAvatar3)
+
+        // Logic de clicks para elegir avatar
+        ivSelectAvatar1.setOnClickListener { cambiarAvatar("1") }
+        ivSelectAvatar2.setOnClickListener { cambiarAvatar("2") }
+        ivSelectAvatar3.setOnClickListener { cambiarAvatar("3") }
 
         rvPueblo = findViewById(R.id.rvPueblo)
         rvPolicia = findViewById(R.id.rvPolicia)
@@ -110,10 +133,8 @@ class AstraActivity : AppCompatActivity() {
 
         rvPueblo.layoutManager = GridLayoutManager(this, 3)
         rvPueblo.adapter = adapterPueblo
-
         rvPolicia.layoutManager = GridLayoutManager(this, 3)
         rvPolicia.adapter = adapterPolicia
-
         rvAsesino.layoutManager = GridLayoutManager(this, 3)
         rvAsesino.adapter = adapterAsesino
 
@@ -123,11 +144,22 @@ class AstraActivity : AppCompatActivity() {
         spinnerSospechosos = findViewById(R.id.spinnerSospechosos)
         btnAcusar = findViewById(R.id.btnAcusar)
         tvGanador = findViewById(R.id.tvGanador)
-        btnSalir = findViewById(R.id.btnSalir)
 
         btnAcusar.setOnClickListener { intentarAcusar() }
         btnMatar.setOnClickListener { matarJugadorSeleccionado() }
-        btnSalir.setOnClickListener { finish() }
+    }
+
+    // --- NUEVO: FUNCIÓN PARA CAMBIAR AVATAR ---
+    private fun cambiarAvatar(idAvatar: String) {
+        // 1. Actualizar UI visualmente (Opacidad)
+        ivSelectAvatar1.alpha = if (idAvatar == "1") 1.0f else 0.5f
+        ivSelectAvatar2.alpha = if (idAvatar == "2") 1.0f else 0.5f
+        ivSelectAvatar3.alpha = if (idAvatar == "3") 1.0f else 0.5f
+
+        // 2. Guardar en Firebase
+        db.collection("partidas").document(codigoClase)
+            .collection("jugadores").document(nombreUsuario)
+            .update("avatar", idAvatar)
     }
 
     private fun unirseAPartida() {
@@ -136,7 +168,7 @@ class AstraActivity : AppCompatActivity() {
             if (document.exists()) {
                 gestionarJugador(salaRef)
             } else {
-                Toast.makeText(this, "Sala no existe", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Gela ez da existitzen", Toast.LENGTH_SHORT).show()
                 finish()
             }
         }
@@ -148,7 +180,13 @@ class AstraActivity : AppCompatActivity() {
             if (document.exists()) {
                 escucharJuego()
             } else {
-                val datos = hashMapOf("rol" to "PUEBLO", "vivo" to true, "ultimoAtaque" to 0L)
+                // Por defecto entramos con avatar "1"
+                val datos = hashMapOf(
+                    "rol" to "PUEBLO",
+                    "vivo" to true,
+                    "ultimoAtaque" to 0L,
+                    "avatar" to "1"
+                )
                 jugadorRef.set(datos).addOnSuccessListener { escucharJuego() }
             }
         }
@@ -168,7 +206,6 @@ class AstraActivity : AppCompatActivity() {
                     }
                 }
             }
-
         listenerJugador = db.collection("partidas").document(codigoClase)
             .collection("jugadores").document(nombreUsuario)
             .addSnapshotListener { snapshot, e ->
@@ -176,7 +213,15 @@ class AstraActivity : AppCompatActivity() {
                 if (snapshot != null && snapshot.exists()) {
                     miRol = snapshot.getString("rol") ?: "PUEBLO"
                     estoyVivo = snapshot.getBoolean("vivo") ?: true
-                    // Actualizamos pantalla solo si la partida NO ha terminado
+
+                    // Recuperar mi avatar actual para marcarlo en la UI si vuelvo a entrar
+                    val miAvatar = snapshot.getString("avatar") ?: "1"
+                    if (estadoPartida == "ESPERANDO") {
+                        ivSelectAvatar1.alpha = if (miAvatar == "1") 1.0f else 0.5f
+                        ivSelectAvatar2.alpha = if (miAvatar == "2") 1.0f else 0.5f
+                        ivSelectAvatar3.alpha = if (miAvatar == "3") 1.0f else 0.5f
+                    }
+
                     if (!estadoPartida.startsWith("TERMINADO")) {
                         actualizarPantalla()
                     }
@@ -195,12 +240,10 @@ class AstraActivity : AppCompatActivity() {
 
     private fun escucharTodosLosJugadoresEnJuego() {
         if (listenerGrid != null) return
-
         listenerGrid = db.collection("partidas").document(codigoClase)
             .collection("jugadores")
             .addSnapshotListener { snapshots, _ ->
                 if (snapshots == null) return@addSnapshotListener
-
                 val nuevaListaEstados = mutableListOf<JugadorEstadoGrid>()
                 val nuevosTiemposAtaque = mutableMapOf<String, Long>()
 
@@ -209,8 +252,10 @@ class AstraActivity : AppCompatActivity() {
                     val vivo = doc.getBoolean("vivo") ?: true
                     val ultimoAtaque = doc.getLong("ultimoAtaque") ?: 0L
 
-                    nuevosTiemposAtaque[nombre] = ultimoAtaque
+                    // LEEMOS EL AVATAR DE CADA JUGADOR
+                    val avatarId = doc.getString("avatar") ?: "1"
 
+                    nuevosTiemposAtaque[nombre] = ultimoAtaque
                     var parpadea = false
                     if (!isFirstLoad) {
                         val timestampPrevio = mapUltimoAtaquePrevio[nombre] ?: 0L
@@ -218,15 +263,13 @@ class AstraActivity : AppCompatActivity() {
                             parpadea = true
                         }
                     }
-
-                    nuevaListaEstados.add(JugadorEstadoGrid(nombre, vivo, parpadea))
+                    // Pasamos el avatarId al adaptador
+                    nuevaListaEstados.add(JugadorEstadoGrid(nombre, vivo, parpadea, avatarId))
                 }
-
                 mapUltimoAtaquePrevio = nuevosTiemposAtaque
                 listaEstadoJugadores = nuevaListaEstados
                 isFirstLoad = false
-
-                tvContadorJugadores.text = "Conectados: ${listaEstadoJugadores.size}"
+                tvContadorJugadores.text = "Konektatuta: ${listaEstadoJugadores.size}"
                 adapterPueblo.actualizarLista(listaEstadoJugadores)
                 adapterPolicia.actualizarLista(listaEstadoJugadores)
                 adapterAsesino.actualizarLista(listaEstadoJugadores)
@@ -234,9 +277,7 @@ class AstraActivity : AppCompatActivity() {
     }
 
     private fun actualizarPantalla() {
-        // Si la partida ya terminó, no cambiamos nada aquí (lo maneja mostrarPantallaFin)
         if (estadoPartida.startsWith("TERMINADO")) return
-
         layoutCarga.visibility = View.GONE
         layoutEspera.visibility = View.GONE
         layoutPueblo.visibility = View.GONE
@@ -244,7 +285,6 @@ class AstraActivity : AppCompatActivity() {
         layoutAsesino.visibility = View.GONE
         layoutMuerto.visibility = View.GONE
         layoutFinJuego.visibility = View.GONE
-
         if (estadoPartida == "ESPERANDO") {
             layoutEspera.visibility = View.VISIBLE
             return
@@ -294,22 +334,16 @@ class AstraActivity : AppCompatActivity() {
 
     private fun matarJugadorSeleccionado() {
         val victima = spinnerVictimas.selectedItem?.toString() ?: return
-
         btnMatar.isEnabled = false
         btnMatar.backgroundTintList = ColorStateList.valueOf(Color.GRAY)
         tvCooldown.visibility = View.VISIBLE
-
         val batch = db.batch()
         val partidaRef = db.collection("partidas").document(codigoClase)
-
         val victimaRef = partidaRef.collection("jugadores").document(victima)
         batch.update(victimaRef, "vivo", false)
-
         val yoRef = partidaRef.collection("jugadores").document(nombreUsuario)
         batch.update(yoRef, "ultimoAtaque", System.currentTimeMillis())
-
         batch.commit().addOnSuccessListener {
-            Toast.makeText(this, "💀 Eliminado: $victima", Toast.LENGTH_SHORT).show()
             iniciarCooldown()
             verificarVictoriaAsesinos()
         }
@@ -317,11 +351,9 @@ class AstraActivity : AppCompatActivity() {
 
     private fun intentarAcusar() {
         val sospechoso = spinnerSospechosos.selectedItem?.toString() ?: return
-
         db.collection("partidas").document(codigoClase)
             .collection("jugadores").document(nombreUsuario)
             .update("ultimoAtaque", System.currentTimeMillis())
-
         db.collection("partidas").document(codigoClase).get().addOnSuccessListener { doc ->
             val asesinos = (doc.getString("asesino") ?: "").split(" ")
             var acierto = false
@@ -334,12 +366,12 @@ class AstraActivity : AppCompatActivity() {
                 }
             }
             if (acierto) {
-                Toast.makeText(this, "¡Correcto!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Asmatu duzu!", Toast.LENGTH_SHORT).show()
                 db.collection("partidas").document(codigoClase)
                     .collection("jugadores").document(nombreAsesino).update("vivo", false)
                     .addOnSuccessListener { verificarSiQuedanAsesinos() }
             } else {
-                Toast.makeText(this, "Fallaste. Has muerto.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Huts egin duzu. Hil egin zara.", Toast.LENGTH_SHORT).show()
                 eliminarme { verificarVictoriaAsesinos() }
             }
         }
@@ -347,12 +379,12 @@ class AstraActivity : AppCompatActivity() {
 
     private fun iniciarCooldown() {
         object : CountDownTimer(30000, 1000) {
-            override fun onTick(m: Long) { tvCooldown.text = "Recargando: ${m / 1000}s" }
+            override fun onTick(m: Long) { tvCooldown.text = "${m / 1000}s" }
             override fun onFinish() {
                 tvCooldown.visibility = View.INVISIBLE
                 btnMatar.isEnabled = true
                 btnMatar.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#D32F2F"))
-                btnMatar.text = "MATAR"
+                btnMatar.text = "HIL"
             }
         }.start()
     }
@@ -379,19 +411,21 @@ class AstraActivity : AppCompatActivity() {
         db.collection("partidas").document(codigoClase).update("estado", "TERMINADO_$ganador")
     }
 
-    // --- NUEVA FUNCIÓN DE FIN DE JUEGO PERSONALIZADA ---
     private fun mostrarPantallaFin(ganador: String) {
-        // Asegurarnos de ocultar  lo demás
         layoutCarga.visibility = View.GONE
         layoutEspera.visibility = View.GONE
         layoutPueblo.visibility = View.GONE
         layoutPolicia.visibility = View.GONE
         layoutAsesino.visibility = View.GONE
         layoutMuerto.visibility = View.GONE
-
         layoutFinJuego.visibility = View.VISIBLE
 
-        // Lógica para saber si he ganado yo
+        val ganadorTraducido = when (ganador) {
+            "ASESINOS" -> "HILTZAILEAK"
+            "PUEBLO y POLICIA" -> "HERRITARRAK eta POLIZIA"
+            else -> ganador
+        }
+
         val ganadorEsPueblo = ganador.contains("PUEBLO", ignoreCase = true) || ganador.contains("POLICIA", ignoreCase = true)
         val ganadorEsAsesino = ganador.contains("ASESINO", ignoreCase = true)
 
@@ -403,14 +437,12 @@ class AstraActivity : AppCompatActivity() {
         if (ganadorEsAsesino && soyAsesino) heGanado = true
 
         if (heGanado) {
-            // --- VICTORIA (VERDE) ---
-            layoutFinJuego.setBackgroundColor(Color.parseColor("#4CAF50")) // Verde Victoria
-            tvGanador.text = "¡VICTORIA!\n\nVictoria de $ganador"
+            cardFinJuego.setCardBackgroundColor(Color.parseColor("#4CAF50"))
+            tvGanador.text = "ZORIONAK!\n\nIRABAZLEAK:\n$ganadorTraducido"
             tvGanador.setTextColor(Color.WHITE)
         } else {
-            // --- DERROTA (ROJO) ---
-            layoutFinJuego.setBackgroundColor(Color.parseColor("#D32F2F")) // Rojo Derrota
-            tvGanador.text = "DERROTA\n\nA manos de $ganador"
+            cardFinJuego.setCardBackgroundColor(Color.parseColor("#D32F2F"))
+            tvGanador.text = "GALDU DUZU\n\nIRABAZLEAK:\n$ganadorTraducido"
             tvGanador.setTextColor(Color.WHITE)
         }
     }

@@ -1,259 +1,385 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#D1ECFF"
+    tools:context=".Actividades_Geltokiak.AstraActivity">
 
-    <LinearLayout
-        android:id="@+id/layoutCarga"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#ECEFF1"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="visible">
+    <include
+        android:id="@+id/include_header"
+        layout="@layout/menu_arriba"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cargando sistema..."
-            android:textColor="#455A64" />
-    </LinearLayout>
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@+id/include_header"
+        app:layout_constraintBottom_toTopOf="@+id/include_footer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <LinearLayout
-        android:id="@+id/layoutEspera"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#FF9800"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="30dp"
-        android:visibility="gone">
-
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@android:drawable/ic_menu_my_calendar"
-            app:tint="#FFFFFF"
-            android:layout_marginBottom="20dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="SALA DE ESPERA"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            android:textColor="#FFFFFF"
-            android:layout_marginBottom="10dp"/>
-
-        <TextView
-            android:id="@+id/tvContadorJugadores"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Esperando al profesor..."
-            android:textColor="#FFF3E0"
-            android:textSize="18sp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layoutPueblo"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#FFEB3B"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:padding="10dp"
-        android:visibility="gone">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvPueblo"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginBottom="10dp"/>
-
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:background="#FFF9C4"
-            android:padding="20dp"
-            android:elevation="4dp">
+            android:padding="16dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ERES PUEBLO"
-                android:textColor="#F57F17"
-                android:textSize="30sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="10dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="¡Sobrevive!"
-                android:textColor="#FBC02D"
-                android:textSize="18sp"/>
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layoutPolicia"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#2196F3"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:padding="10dp"
-        android:visibility="gone">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvPolicia"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginBottom="10dp"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:background="#BBDEFB"
-            android:padding="15dp"
-            android:elevation="4dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="POLICÍA"
-                android:textStyle="bold"
-                android:textSize="24sp"
-                android:textColor="#0D47A1"/>
-
-            <Spinner
-                android:id="@+id/spinnerSospechosos"
+            <LinearLayout
+                android:id="@+id/layoutCarga"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@android:drawable/btn_dropdown"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"/>
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="visible">
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:indeterminateTint="#1976D2"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Konektatzen..."
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
-            <Button
-                android:id="@+id/btnAcusar"
+            <LinearLayout
+                android:id="@+id/layoutEspera"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="INVESTIGAR"
-                android:backgroundTint="#0D47A1"
-                android:textColor="#FFFFFF"/>
-        </LinearLayout>
-    </LinearLayout>
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
 
-    <LinearLayout
-        android:id="@+id/layoutAsesino"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:background="#D32F2F"
-        android:padding="10dp"
-        android:visibility="gone">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="6dp"
+                    app:cardBackgroundColor="#1976D2">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvAsesino"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginBottom="10dp"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp"
+                        android:gravity="center">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:background="#FFCDD2"
-            android:padding="15dp"
-            android:elevation="4dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="AUKERATU ZURE AVATARRA"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            android:textColor="#FFFFFF"
+                            android:layout_marginBottom="15dp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ASESINO"
-                android:textStyle="bold"
-                android:textSize="24sp"
-                android:textColor="#B71C1C"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center"
+                            android:layout_marginBottom="20dp">
 
-            <Spinner
-                android:id="@+id/spinnerVictimas"
+                            <ImageView
+                                android:id="@+id/ivSelectAvatar1"
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:src="@drawable/kyle"
+                                android:background="@drawable/rounded_border"
+                                android:padding="2dp"
+                                android:layout_marginEnd="10dp"
+                                android:alpha="1.0"/> <ImageView
+                            android:id="@+id/ivSelectAvatar2"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:src="@drawable/cartman"
+                            android:background="@drawable/rounded_border"
+                            android:padding="2dp"
+                            android:layout_marginEnd="10dp"
+                            android:alpha="0.5"/>
+
+                            <ImageView
+                                android:id="@+id/ivSelectAvatar3"
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:src="@drawable/kenny"
+                                android:background="@drawable/rounded_border"
+                                android:padding="2dp"
+                                android:alpha="0.5"/>
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tvContadorJugadores"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Irakaslearen zain..."
+                            android:textColor="#BBDEFB"
+                            android:textSize="18sp"
+                            android:gravity="center"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutPueblo"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@android:drawable/btn_dropdown"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"/>
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
 
-            <Button
-                android:id="@+id/btnMatar"
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="20dp"
+                    app:cardBackgroundColor="#FFF176"
+                    app:cardElevation="6dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="HERRITARRA ZARA"
+                            android:textColor="#F57F17"
+                            android:textSize="28sp"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="10dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Biziraun ezazu!"
+                            android:textColor="#FBC02D"
+                            android:textSize="18sp"
+                            android:layout_marginBottom="10dp"/>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvPueblo"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:layout_marginBottom="15dp"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Oharrak / Susmoak:"
+                            android:textStyle="bold"
+                            android:textColor="#F57F17"
+                            android:layout_marginBottom="5dp"
+                            android:gravity="start"/>
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:background="#FFFFFF"
+                            android:gravity="top|start"
+                            android:hint="Idatzi hemen..."
+                            android:padding="10dp"
+                            android:textSize="14sp"
+                            android:inputType="textMultiLine"
+                            android:scrollbars="vertical"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutPolicia"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="MATAR"
-                android:backgroundTint="#212121"
-                android:textColor="#FFFFFF"/>
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="20dp"
+                    app:cardBackgroundColor="#64B5F6"
+                    app:cardElevation="6dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp"
+                        android:gravity="center">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="POLIZIA"
+                            android:textColor="#0D47A1"
+                            android:textSize="28sp"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="10dp"/>
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvPolicia"
+                            android:layout_width="match_parent"
+                            android:layout_height="250dp"
+                            android:layout_marginBottom="10dp"/>
+                        <Spinner
+                            android:id="@+id/spinnerSospechosos"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:background="@android:drawable/btn_dropdown"
+                            android:layout_marginBottom="10dp"/>
+                        <Button
+                            android:id="@+id/btnAcusar"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="IKERTU / SALATU"
+                            android:backgroundTint="#0D47A1"
+                            android:textColor="#FFFFFF"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/tvCooldown"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Recargando..."
-                android:visibility="invisible"/>
-        </LinearLayout>
-    </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layoutAsesino"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="20dp"
+                    app:cardBackgroundColor="#E57373"
+                    app:cardElevation="6dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp"
+                        android:gravity="center">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="HILTZAILEA"
+                            android:textColor="#B71C1C"
+                            android:textSize="28sp"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="10dp"/>
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvAsesino"
+                            android:layout_width="match_parent"
+                            android:layout_height="250dp"
+                            android:layout_marginBottom="10dp"/>
+                        <Spinner
+                            android:id="@+id/spinnerVictimas"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:background="@android:drawable/btn_dropdown"
+                            android:layout_marginBottom="10dp"/>
+                        <Button
+                            android:id="@+id/btnMatar"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="HIL"
+                            android:backgroundTint="#212121"
+                            android:textColor="#FFFFFF"/>
+                        <TextView
+                            android:id="@+id/tvCooldown"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Kargatzen..."
+                            android:textColor="#B71C1C"
+                            android:visibility="invisible"
+                            android:layout_marginTop="5dp"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/layoutMuerto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#212121"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ELIMINADO"
-            android:textColor="#F44336"
-            android:textSize="30sp"
-            android:textStyle="bold"/>
-    </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layoutMuerto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="20dp"
+                    app:cardBackgroundColor="#424242">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="30dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:src="@android:drawable/ic_delete"
+                            app:tint="#F44336"
+                            android:layout_marginBottom="20dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="ELIMINATUA"
+                            android:textColor="#F44336"
+                            android:textSize="30sp"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/layoutFinJuego"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#4CAF50"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
-        <TextView
-            android:id="@+id/tvGanador"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="GANADOR"
-            android:textColor="#FFFFFF"
-            android:textSize="36sp"
-            android:textStyle="bold"
-            android:gravity="center"/>
-        <Button
-            android:id="@+id/btnSalir"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="SALIR"
-            android:layout_marginTop="20dp"/>
-    </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layoutFinJuego"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardFinJuego"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="10dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="30dp"
+                        android:gravity="center">
+                        <TextView
+                            android:id="@+id/tvGanador"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="IRABAZLEA"
+                            android:textColor="#000000"
+                            android:textSize="32sp"
+                            android:textStyle="bold"
+                            android:gravity="center"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
 
-</FrameLayout>
+        </FrameLayout>
+    </ScrollView>
+
+    <include
+        android:id="@+id/include_footer"
+        layout="@layout/footer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
