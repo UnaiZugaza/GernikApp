@@ -31,7 +31,10 @@ class GernikakoArbolaMarraztuActivity : AppCompatActivity() {
 
         btnBack.setOnClickListener { finish() }
         btnNext.setOnClickListener {
-            // Siguiente paso después de Marraztu
+            val intent = Intent(this, GernikakoArbolaMarrazkiarenArgazkiaActivity::class.java)
+            intent.putExtra("USER_NAME", nombreUsuario)
+            intent.putExtra("CLASS_CODE", codigoClase)
+            startActivity(intent)
         }
     }
 }

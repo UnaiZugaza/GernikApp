@@ -47,6 +47,7 @@
         <activity android:name=".Actividades_Geltokiak.GernikakoArbolaExplica3Activity" />
         <activity android:name=".Actividades_Geltokiak.GernikakoArbolaBehatuActivity" />
         <activity android:name=".Actividades_Geltokiak.GernikakoArbolaMarraztuActivity" />
+        <activity android:name=".Actividades_Geltokiak.GernikakoArbolaMarrazkiarenArgazkiaActivity" />
         <activity android:name=".Actividades_Geltokiak.PasilekuActivity" />
         <activity android:name=".Actividades_Geltokiak.PasilekuEndActivity" />
         
