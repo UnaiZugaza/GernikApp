@@ -47,7 +47,8 @@ class GeltokiakActivity : AppCompatActivity() {
 
         // 2. Gernikako Arbola
         findViewById<Button>(R.id.btnArbola).setOnClickListener {
-            abrirActividad(ArbolaActivity::class.java)
+            // CORRECCIÓN: Abrir la nueva pantalla de bienvenida del Arbola
+            abrirActividad(GernikakoArbolaOngiEtorriActivity::class.java)
         }
 
         // 3. Pasileku

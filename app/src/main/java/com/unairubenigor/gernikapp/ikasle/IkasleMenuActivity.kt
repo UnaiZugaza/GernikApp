@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.ImageButton
 import android.widget.TextView
 import com.unairubenigor.gernikapp.Options.GeltokiakActivity
 import com.unairubenigor.gernikapp.Options.OptionMapsActivity
@@ -27,6 +29,17 @@ class IkasleMenuActivity : AppCompatActivity() {
         // Configurar Header - Cambiar título a "MENÚ"
         val headerTitle = findViewById<TextView>(R.id.textViewHeaderTitle)
         headerTitle.text = "MENÚ"
+
+        // Configurar Footer
+        val btnBack = findViewById<ImageButton>(R.id.buttonBack)
+        val btnNext = findViewById<ImageButton>(R.id.buttonContinue)
+
+        btnBack.visibility = View.VISIBLE
+        btnNext.visibility = View.INVISIBLE // Ocultar el botón de hacia adelante
+
+        btnBack.setOnClickListener {
+            finish() // Volver atrás (a la pantalla anterior, probablemente identificación)
+        }
 
         val textViewUserName = findViewById<TextView>(R.id.textViewUserName)
         if (!nombreUsuario.isNullOrEmpty()) {
