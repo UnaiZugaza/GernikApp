@@ -14,8 +14,8 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.unairubenigor.gernikapp.Actividades_Geltokiak.AndraMari1Activity
-import com.unairubenigor.gernikapp.Actividades_Geltokiak.ArbolaActivity
 import com.unairubenigor.gernikapp.Actividades_Geltokiak.AstraActivity
+import com.unairubenigor.gernikapp.Actividades_Geltokiak.GernikakoArbolaOngiEtorriActivity
 import com.unairubenigor.gernikapp.Actividades_Geltokiak.GernikakoMuralaOngiEtorriActivity
 import com.unairubenigor.gernikapp.Actividades_Geltokiak.PasilekuActivity
 import com.unairubenigor.gernikapp.R
@@ -93,7 +93,7 @@ class OptionMapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 }
 
                 "Gernikako Arbola" -> {
-                    startActivity(Intent(this, ArbolaActivity::class.java))
+                    startActivity(Intent(this, GernikakoArbolaOngiEtorriActivity::class.java))
                 }
 
                 "Andra Mari Eliza" -> {

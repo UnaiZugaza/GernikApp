@@ -13,69 +13,75 @@ import com.unairubenigor.gernikapp.R
 
 class IkasleActivity : AppCompatActivity() {
 
-    // Instancia de la base de datos
     private val db = FirebaseFirestore.getInstance()
+    private lateinit var btnContinue: ImageButton // La hacemos global para poder bloquearla
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.ikasle_codigo)
 
-        // 1. Recoger el nombre de usuario (y evitar nulos)
+        // 1. Recoger el nombre (Viene de MainActivity, donde ERA OBLIGATORIO)
         val userName = intent.getStringExtra("USER_NAME") ?: ""
 
-        // --- Configuración del Header ---
+        // --- Header ---
         val headerView = findViewById<View>(R.id.header_layout)
         val headerTitle = headerView.findViewById<TextView>(R.id.textViewHeaderTitle)
         headerTitle.text = "KODEA"
 
-        // --- Configuración del Footer ---
+        // --- Footer ---
         val footerView = findViewById<View>(R.id.footer_layout)
         val btnBack = footerView.findViewById<ImageButton>(R.id.buttonBack)
-        val btnContinue = footerView.findViewById<ImageButton>(R.id.buttonContinue)
+        btnContinue = footerView.findViewById<ImageButton>(R.id.buttonContinue) // Asignamos a la variable global
 
         btnBack.visibility = View.VISIBLE
         btnBack.setOnClickListener { finish() }
 
         btnContinue.visibility = View.VISIBLE
 
-        // --- Lógica Principal ---
+        // --- Lógica ---
         val editTextCode = findViewById<EditText>(R.id.editTextClassCode)
 
         btnContinue.setOnClickListener {
             val code = editTextCode.text.toString().trim()
 
             if (code.length == 6) {
-                // AHORA VALIDAMOS AQUÍ EN LUGAR DE SOLO PASAR
+                // Bloqueamos botón y comprobamos
                 verificarSalaYEntrar(code, userName)
             } else {
-                Toast.makeText(this, "Por favor, introduce un código de 6 dígitos.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Mesedez, sartu 6 digituko kodea.", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    // --- FUNCIÓN DE VALIDACIÓN ---
     private fun verificarSalaYEntrar(code: String, userName: String) {
-        // Opcional: Podrías mostrar un ProgressBar aquí si quisieras
+        // 1. BLOQUEAR BOTÓN para evitar doble click
+        btnContinue.isEnabled = false
+        btnContinue.alpha = 0.5f // Efecto visual de deshabilitado
+        Toast.makeText(this, "Egiaztatzen...", Toast.LENGTH_SHORT).show()
 
         db.collection("partidas").document(code).get()
             .addOnSuccessListener { document ->
                 if (document.exists()) {
-                    // ¡SALA ENCONTRADA! -> Pasamos al menú
-                    Toast.makeText(this, "Código correcto. Entrando...", Toast.LENGTH_SHORT).show()
-
+                    // ¡SALA ENCONTRADA!
                     val intent = Intent(this, IkasleMenuActivity::class.java)
                     intent.putExtra("CLASS_CODE", code)
                     intent.putExtra("USER_NAME", userName)
                     startActivity(intent)
 
-                    // Opcional: finish() si no quieres que puedan volver a meter el código
+                    // Cerramos esta pantalla para que no vuelvan atrás al código
+                    finish()
                 } else {
-                    // SALA NO EXISTE -> Error y nos quedamos aquí
-                    Toast.makeText(this, "⛔ La sala $code no existe.", Toast.LENGTH_LONG).show()
+                    // SALA NO EXISTE
+                    btnContinue.isEnabled = true
+                    btnContinue.alpha = 1.0f
+                    Toast.makeText(this, "Gela hori ez da existitzen ($code).", Toast.LENGTH_LONG).show()
                 }
             }
             .addOnFailureListener { e ->
-                Toast.makeText(this, "Error de conexión: ${e.message}", Toast.LENGTH_SHORT).show()
+                // ERROR DE CONEXIÓN
+                btnContinue.isEnabled = true
+                btnContinue.alpha = 1.0f
+                Toast.makeText(this, "Errorea konexioan: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
 }

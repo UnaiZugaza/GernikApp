@@ -10,59 +10,78 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
+import com.google.firebase.firestore.Query
 import com.unairubenigor.gernikapp.R
 
 class ArbolaAdminActivity : AppCompatActivity() {
 
     private lateinit var rvLista: RecyclerView
     private lateinit var progressBar: ProgressBar
+
+    private var codigoClase: String = ""
     private val db = FirebaseFirestore.getInstance()
+    private var listenerRegistro: ListenerRegistration? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_arbola_admin)
 
-        // Configurar Header
+        codigoClase = intent.getStringExtra("CLASS_CODE") ?: ""
+
         val headerTitle = findViewById<TextView>(R.id.textViewHeaderTitle)
-        headerTitle.text = "MARRAZKIAK (ADMIN)"
+        headerTitle.text = "MARRAZKIAK ($codigoClase)"
 
         rvLista = findViewById(R.id.rvMarrazkiak)
         progressBar = findViewById(R.id.progressBarAdmin)
         rvLista.layoutManager = LinearLayoutManager(this)
 
+        // Configuración de Footer
         val btnBack = findViewById<ImageButton>(R.id.buttonBack)
+        val btnNext = findViewById<ImageButton>(R.id.buttonContinue)
+
         btnBack.visibility = View.VISIBLE
+        btnNext.visibility = View.GONE // <--- OCULTO EXPLICITAMENTE
+
         btnBack.setOnClickListener { finish() }
 
-        cargarDibujos()
+        if (codigoClase.isNotEmpty()) {
+            escucharDibujosEnTiempoReal()
+        } else {
+            Toast.makeText(this, "Errorea: Kodea falta da", Toast.LENGTH_SHORT).show()
+        }
     }
 
-    private fun cargarDibujos() {
+    private fun escucharDibujosEnTiempoReal() {
         progressBar.visibility = View.VISIBLE
 
-        // Leemos la colección donde guardamos las fotos
-        db.collection("arbola_marrazkiak")
-            .orderBy("data", com.google.firebase.firestore.Query.Direction.DESCENDING) // Los más nuevos primero
-            .get()
-            .addOnSuccessListener { result ->
+        listenerRegistro = db.collection("arbola_marrazkiak")
+            .whereEqualTo("gela", codigoClase)
+            .orderBy("data", Query.Direction.DESCENDING)
+            .addSnapshotListener { snapshots, error ->
+
                 progressBar.visibility = View.GONE
 
-                val listaDibujos = mutableListOf<Marrazkia>()
-                for (document in result) {
-                    // Convertimos el documento a nuestro objeto Marrazkia
-                    val dibujo = document.toObject(Marrazkia::class.java)
-                    listaDibujos.add(dibujo)
+                if (error != null) {
+                    Toast.makeText(this, "Errorea: ${error.message}", Toast.LENGTH_SHORT).show()
+                    return@addSnapshotListener
                 }
 
-                if (listaDibujos.isEmpty()) {
-                    Toast.makeText(this, "Ez dago marrazkirik oraindik", Toast.LENGTH_SHORT).show()
-                } else {
+                if (snapshots != null) {
+                    val listaDibujos = mutableListOf<Marrazkia>()
+
+                    for (document in snapshots) {
+                        val dibujo = document.toObject(Marrazkia::class.java)
+                        listaDibujos.add(dibujo)
+                    }
+
                     rvLista.adapter = MarrazkiakAdapter(listaDibujos)
                 }
             }
-            .addOnFailureListener {
-                progressBar.visibility = View.GONE
-                Toast.makeText(this, "Errorea kargatzean", Toast.LENGTH_SHORT).show()
-            }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        listenerRegistro?.remove()
     }
 }

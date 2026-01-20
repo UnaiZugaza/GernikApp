@@ -2,48 +2,102 @@ package com.unairubenigor.gernikapp.irakasle
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
-import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.firestore.FirebaseFirestore
+import com.unairubenigor.gernikapp.Actividades_Geltokiak.AndraMariAdminActivity
+import com.unairubenigor.gernikapp.Actividades_Geltokiak.ArbolaAdminActivity
+import com.unairubenigor.gernikapp.Actividades_Geltokiak.AstraAdminActivity
 import com.unairubenigor.gernikapp.R
+import java.util.Calendar
 
 class IrakasleActivity : AppCompatActivity() {
 
+    private lateinit var tvCodigo: TextView
+    private lateinit var btnGenerar: Button
+    private lateinit var btnAstra: Button
+    private lateinit var btnArbola: Button
+    private lateinit var btnAndraMari: Button
+
+    private var codigoClase: String = ""
+    private val db = FirebaseFirestore.getInstance()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Usamos el diseño del Login que creamos (activity_irakasle.xml)
         setContentView(R.layout.activity_irakasle)
 
-        val etUsuario = findViewById<EditText>(R.id.etUsuarioProfesor)
-        val etPassword = findViewById<EditText>(R.id.etPasswordProfesor)
-        val btnEntrar = findViewById<Button>(R.id.btnLoginProfesor)
-        val btnVolver = findViewById<Button>(R.id.btnVolverLogin)
+        // Header Titulo
+        val headerView = findViewById<View>(R.id.include_header)
+        val title = headerView.findViewById<TextView>(R.id.textViewHeaderTitle)
+        title.text = "IRAKASLE GUNEA"
 
-        // Botón Entrar: Verifica usuario y contraseña
-        btnEntrar.setOnClickListener {
-            val usuario = etUsuario.text.toString().trim()
-            val password = etPassword.text.toString().trim()
+        // Footer Config
+        val footerView = findViewById<View>(R.id.include_footer)
+        val btnBack = footerView.findViewById<ImageButton>(R.id.buttonBack)
+        val btnNext = footerView.findViewById<ImageButton>(R.id.buttonContinue)
+        btnBack.visibility = View.VISIBLE
+        btnNext.visibility = View.GONE
+        btnBack.setOnClickListener { finish() }
 
-            // 1. Comprobamos las credenciales
-            if (usuario == "profesores" && password == "gernikapp") {
-                Toast.makeText(this, "Acceso concedido", Toast.LENGTH_SHORT).show()
+        // Referencias UI
+        tvCodigo = findViewById(R.id.tvCodigoGenerado)
+        btnGenerar = findViewById(R.id.btnGenerarCodigo)
+        btnAstra = findViewById(R.id.btnAdminAstra)
+        btnArbola = findViewById(R.id.btnAdminArbola)
+        btnAndraMari = findViewById(R.id.btnAdminAndraMari)
 
-                // 2. CAMBIO IMPORTANTE: Abrimos el MENÚ DE SELECCIÓN (donde están los 3 botones)
-                val intent = Intent(this, IrakasleMenuActivity::class.java)
-                startActivity(intent)
-
-                // 3. Cerramos la pantalla de login para que no puedan volver atrás
-                finish()
-            } else {
-                Toast.makeText(this, "Datos incorrectos", Toast.LENGTH_SHORT).show()
-                etPassword.text.clear() // Limpiamos la contraseña para reintentar
-            }
+        // 1. Botón para generar código
+        btnGenerar.setOnClickListener {
+            generarNuevaSala()
         }
 
-        // Botón Volver: Por si entraste aquí por error
-        btnVolver.setOnClickListener {
-            finish()
+        // 2. Botones de navegación (solo funcionan si hay código)
+        btnAstra.setOnClickListener { irAAdmin(AstraAdminActivity::class.java) }
+        btnArbola.setOnClickListener { irAAdmin(ArbolaAdminActivity::class.java) }
+        btnAndraMari.setOnClickListener { irAAdmin(AndraMariAdminActivity::class.java) }
+    }
+
+    private fun generarNuevaSala() {
+        val numeroRandom = (100000..999999).random()
+        codigoClase = numeroRandom.toString()
+        tvCodigo.text = codigoClase
+
+        // Caducidad 2 días (TTL)
+        val calendario = Calendar.getInstance()
+        calendario.add(Calendar.DAY_OF_YEAR, 2)
+        val fechaMuerte = calendario.time
+
+        // Creamos la sala en Firebase
+        val datosSala = hashMapOf(
+            "estado" to "ESPERANDO",
+            "asesino" to "",
+            "fechaExpiracion" to fechaMuerte
+        )
+
+        db.collection("partidas").document(codigoClase)
+            .set(datosSala)
+            .addOnSuccessListener {
+                Toast.makeText(this, "Gela sortu da: $codigoClase", Toast.LENGTH_SHORT).show()
+
+                // Habilitamos los botones para gestionar las actividades
+                btnAstra.isEnabled = true
+                btnArbola.isEnabled = true
+                btnAndraMari.isEnabled = true
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Errorea gela sortzean", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun irAAdmin(claseDestino: Class<*>) {
+        if (codigoClase.isNotEmpty()) {
+            val intent = Intent(this, claseDestino)
+            intent.putExtra("CLASS_CODE", codigoClase) // Pasamos el código
+            startActivity(intent)
         }
     }
 }

@@ -31,6 +31,7 @@ class GernikakoArbolaMarrazkiarenArgazkiaActivity : AppCompatActivity() {
     private lateinit var btnBidali: Button
 
     private var nombreUsuario: String = "Ezezaguna"
+    private var codigoClase: String = ""
     private val db = FirebaseFirestore.getInstance()
 
     private val getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
@@ -48,6 +49,7 @@ class GernikakoArbolaMarrazkiarenArgazkiaActivity : AppCompatActivity() {
         setContentView(R.layout.activity_arbola_igo)
 
         nombreUsuario = intent.getStringExtra("USER_NAME") ?: "Ezezaguna"
+        codigoClase = intent.getStringExtra("CLASS_CODE") ?: ""
 
         val headerTitle = findViewById<TextView>(R.id.textViewHeaderTitle)
         headerTitle.text = "GERNIKAKO ARBOLA"
@@ -59,13 +61,18 @@ class GernikakoArbolaMarrazkiarenArgazkiaActivity : AppCompatActivity() {
 
         val btnBack = findViewById<ImageButton>(R.id.buttonBack)
         val btnNext = findViewById<ImageButton>(R.id.buttonContinue)
+
+        // --- CONFIGURACIÓN DE BOTONES ---
         btnBack.visibility = View.VISIBLE
-        btnNext.visibility = View.VISIBLE
+        btnNext.visibility = View.GONE // <--- OCULTO (Antes era VISIBLE)
 
         cardSeleccionar.setOnClickListener { getContent.launch("image/*") }
 
         btnBidali.setOnClickListener {
             if (imagenUri != null) {
+                if (codigoClase.isEmpty()) {
+                    Toast.makeText(this, "Errorea: Gela kodea falta da", Toast.LENGTH_SHORT).show()
+                }
                 procesarYSubirImagen()
             } else {
                 Toast.makeText(this, "Mesedez, aukeratu irudi bat lehenengo", Toast.LENGTH_SHORT).show()
@@ -73,10 +80,8 @@ class GernikakoArbolaMarrazkiarenArgazkiaActivity : AppCompatActivity() {
         }
 
         btnBack.setOnClickListener { finish() }
-        btnNext.setOnClickListener {
-            val intent = Intent(this, IkasleMenuActivity::class.java)
-            startActivity(intent)
-        }
+
+        // btnNext ya no hace nada porque está oculto
     }
 
     private fun procesarYSubirImagen() {
@@ -86,19 +91,15 @@ class GernikakoArbolaMarrazkiarenArgazkiaActivity : AppCompatActivity() {
             val imageStream: InputStream? = contentResolver.openInputStream(imagenUri!!)
             val originalBitmap = BitmapFactory.decodeStream(imageStream)
 
-            // 1. Reducir tamaño (Max 600px)
+            // Redimensionar a 600px (puedes subir a 800 si quieres más calidad)
             val bitmapReducido = redimensionarBitmap(originalBitmap, 600)
 
-            // 2. Comprimir
             val streamSalida = ByteArrayOutputStream()
-            // Bajamos calidad a 50 para asegurar que quepa en Firestore
+            // Calidad 50%
             bitmapReducido.compress(Bitmap.CompressFormat.JPEG, 50, streamSalida)
             val byteArray = streamSalida.toByteArray()
-
-            // 3. Convertir a Base64 LIMPIO (Sin saltos de línea -> NO_WRAP)
             val imagenBase64 = Base64.encodeToString(byteArray, Base64.NO_WRAP)
 
-            // Verificación de seguridad: Firestore soporta max 1MB (aprox 1.048.576 bytes)
             if (byteArray.size > 1000000) {
                 mostrarCarga(false)
                 Toast.makeText(this, "Irudia handiegia da. Saiatu beste batekin.", Toast.LENGTH_LONG).show()
@@ -130,6 +131,7 @@ class GernikakoArbolaMarrazkiarenArgazkiaActivity : AppCompatActivity() {
     private fun guardarEnBaseDeDatos(base64String: String) {
         val datosDibujo = hashMapOf(
             "izena" to nombreUsuario,
+            "gela" to codigoClase,
             "base64" to base64String,
             "data" to System.currentTimeMillis()
         )
