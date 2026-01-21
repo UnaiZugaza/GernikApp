@@ -409,6 +409,7 @@ class AstraActivity : AppCompatActivity() {
 
     private fun terminarPartida(ganador: String) {
         db.collection("partidas").document(codigoClase).update("estado", "TERMINADO_$ganador")
+        //TODO Sistema puntos: Si gana Asesinos 2pt asesinos. Si gana Pueblo 1pt pueblo y policias.
     }
 
     private fun mostrarPantallaFin(ganador: String) {
