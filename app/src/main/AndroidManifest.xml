@@ -39,7 +39,11 @@
             android:screenOrientation="landscape" />
 
         <activity android:name=".Actividades_Geltokiak.GernikakoMuralaOngiEtorriActivity" />
+        <activity android:name=".Actividades_Geltokiak.MuralaVideoActivity" />
+        <activity android:name=".Actividades_Geltokiak.MuralaEndActivity" />
+        
         <activity android:name=".Actividades_Geltokiak.AstraActivity" />
+        <activity android:name=".Actividades_Geltokiak.ArbolaActivity" />
         <activity android:name=".Actividades_Geltokiak.GernikakoArbolaOngiEtorriActivity" />
         <activity android:name=".Actividades_Geltokiak.GernikakoArbolaExplica1Activity" />
         <activity android:name=".Actividades_Geltokiak.GernikakoArbolaExplica2Activity" />
