@@ -11,6 +11,7 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.unairubenigor.gernikapp.R
@@ -149,7 +150,6 @@ class AstraActivity : AppCompatActivity() {
         btnMatar.setOnClickListener { matarJugadorSeleccionado() }
     }
 
-    // --- NUEVO: FUNCIÓN PARA CAMBIAR AVATAR ---
     private fun cambiarAvatar(idAvatar: String) {
         // 1. Actualizar UI visualmente (Opacidad)
         ivSelectAvatar1.alpha = if (idAvatar == "1") 1.0f else 0.5f
@@ -180,12 +180,13 @@ class AstraActivity : AppCompatActivity() {
             if (document.exists()) {
                 escucharJuego()
             } else {
-                // Por defecto entramos con avatar "1"
+                // Por defecto entramos con avatar "1" y 0 PUNTOS
                 val datos = hashMapOf(
                     "rol" to "PUEBLO",
                     "vivo" to true,
                     "ultimoAtaque" to 0L,
-                    "avatar" to "1"
+                    "avatar" to "1",
+                    "puntuacion" to 0  // <--- ¡NUEVO! Inicializamos a cero
                 )
                 jugadorRef.set(datos).addOnSuccessListener { escucharJuego() }
             }
@@ -409,16 +410,18 @@ class AstraActivity : AppCompatActivity() {
 
     private fun terminarPartida(ganador: String) {
         db.collection("partidas").document(codigoClase).update("estado", "TERMINADO_$ganador")
-        //TODO Sistema puntos: Si gana Asesinos 2pt asesinos. Si gana Pueblo 1pt pueblo y policias.
     }
 
     private fun mostrarPantallaFin(ganador: String) {
+        // Ocultar paneles anteriores
         layoutCarga.visibility = View.GONE
         layoutEspera.visibility = View.GONE
         layoutPueblo.visibility = View.GONE
         layoutPolicia.visibility = View.GONE
         layoutAsesino.visibility = View.GONE
         layoutMuerto.visibility = View.GONE
+
+        // Mostrar panel final
         layoutFinJuego.visibility = View.VISIBLE
 
         val ganadorTraducido = when (ganador) {
@@ -429,17 +432,33 @@ class AstraActivity : AppCompatActivity() {
 
         val ganadorEsPueblo = ganador.contains("PUEBLO", ignoreCase = true) || ganador.contains("POLICIA", ignoreCase = true)
         val ganadorEsAsesino = ganador.contains("ASESINO", ignoreCase = true)
-
         val soyPueblo = miRol == "PUEBLO" || miRol == "POLICIA"
         val soyAsesino = miRol == "ASESINO"
 
         var heGanado = false
-        if (ganadorEsPueblo && soyPueblo) heGanado = true
-        if (ganadorEsAsesino && soyAsesino) heGanado = true
+        var puntosASumar = 0L // Long para Firebase
+
+        if (ganadorEsPueblo && soyPueblo) {
+            heGanado = true
+            puntosASumar = 1
+        } else if (ganadorEsAsesino && soyAsesino) {
+            heGanado = true
+            puntosASumar = 2
+        }
+
+        // --- GUARDADO ONLINE GRATUITO ---
+        if (puntosASumar > 0) {
+            db.collection("partidas").document(codigoClase)
+                .collection("jugadores").document(nombreUsuario)
+                .update("puntuacion", FieldValue.increment(puntosASumar))
+                .addOnSuccessListener {
+                    Toast.makeText(this, "+$puntosASumar puntu ranking-era!", Toast.LENGTH_SHORT).show()
+                }
+        }
 
         if (heGanado) {
             cardFinJuego.setCardBackgroundColor(Color.parseColor("#4CAF50"))
-            tvGanador.text = "ZORIONAK!\n\nIRABAZLEAK:\n$ganadorTraducido"
+            tvGanador.text = "ZORIONAK!\n\nIRABAZLEAK:\n$ganadorTraducido\n(+$puntosASumar puntu)"
             tvGanador.setTextColor(Color.WHITE)
         } else {
             cardFinJuego.setCardBackgroundColor(Color.parseColor("#D32F2F"))
