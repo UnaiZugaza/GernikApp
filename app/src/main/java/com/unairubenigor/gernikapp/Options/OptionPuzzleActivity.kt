@@ -8,6 +8,7 @@ import android.view.ScaleGestureDetector
 import android.view.View
 import android.widget.GridLayout
 import android.widget.HorizontalScrollView
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.SeekBar
@@ -42,6 +43,12 @@ class OptionPuzzleActivity : AppCompatActivity() {
         val headerView = findViewById<View>(R.id.header_layout)
         val headerTitle = headerView.findViewById<TextView>(R.id.textViewHeaderTitle)
         headerTitle.text = "PUZZLE"
+
+        // Configurar Footer (Solo Atrás)
+        val btnBack = findViewById<ImageButton>(R.id.buttonBack)
+        btnBack.setOnClickListener {
+            finish()
+        }
 
         setupZoom()
         setupPuzzlePieces()
@@ -108,6 +115,18 @@ class OptionPuzzleActivity : AppCompatActivity() {
                             width = cellWidth
                             height = cellHeight
                         }
+                        
+                        // Añadimos padding para que el borde (hueco) sea visible alrededor de la guía
+                        setPadding(4, 4, 4, 4)
+                        
+                        // Imagen transparente como guía
+                        val resId = resources.getIdentifier("row${i}column${j}", "drawable", packageName)
+                        if (resId != 0) {
+                            setImageResource(resId)
+                            alpha = 0.25f // Un poco más transparente para que se note que está vacío
+                            scaleType = ImageView.ScaleType.FIT_XY
+                        }
+                        
                         setBackgroundResource(R.drawable.rounded_border)
                         tag = "row${i}column${j}"
                         setOnDragListener(PuzzleDragListener())
@@ -152,7 +171,9 @@ class OptionPuzzleActivity : AppCompatActivity() {
                         val originalPiece = pieceViews.find { it.tag == draggedPieceTag }
                         targetSlot.setImageDrawable(originalPiece?.drawable)
                         
-                        // --- MEJORA: Estirar para que no haya huecos ---
+                        // Quitamos el padding y restauramos opacidad para que encaje perfecto
+                        targetSlot.setPadding(0, 0, 0, 0)
+                        targetSlot.alpha = 1.0f
                         targetSlot.scaleType = ImageView.ScaleType.FIT_XY
                         
                         targetSlot.setBackground(null)

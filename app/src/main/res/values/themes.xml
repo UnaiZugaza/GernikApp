@@ -12,8 +12,9 @@
 
     <style name="Base.Theme.GernikApp" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:textViewStyle">@style/App.Widget.TextView</item>
-
         <item name="materialButtonStyle">@style/App.Widget.Button</item>
+        <!-- Quitar la barra de estado (batería, hora, etc.) -->
+        <item name="android:windowFullscreen">true</item>
     </style>
 
     <style name="Theme.GernikApp" parent="Base.Theme.GernikApp" />

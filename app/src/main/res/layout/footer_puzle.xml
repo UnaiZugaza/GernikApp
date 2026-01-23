@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="55dp">
+
+    <!-- Fondo superior -->
+    <View
+        android:id="@+id/background_top"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#e0f2fe"
+        app:layout_constraintBottom_toTopOf="@+id/bar_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Barra azul inferior -->
+    <View
+        android:id="@+id/bar_blue"
+        android:layout_width="0dp"
+        android:layout_height="10dp"
+        android:background="#3b82f6"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Botón Atrás (Aumentado) -->
+    <ImageButton
+        android:id="@+id/buttonBack"
+        android:layout_width="117dp"
+        android:layout_height="58dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="Atzera"
+        android:scaleType="fitCenter"
+        android:src="@drawable/flechaatzera"
+        app:layout_constraintBottom_toTopOf="@+id/bar_blue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Logo (Aumentado) -->
+    <ImageView
+        android:id="@+id/imageViewLogo"
+        android:layout_width="104dp"
+        android:layout_height="60dp"
+        android:contentDescription="Logo GernikApp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/logogernikapp"
+        app:layout_constraintBottom_toTopOf="@+id/bar_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

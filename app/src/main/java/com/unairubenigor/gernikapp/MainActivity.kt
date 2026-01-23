@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.unairubenigor.gernikapp.ikasle.IkasleActivity
@@ -18,6 +19,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.inicio) // Usamos TU diseño original
+
+        // Configurar Header - Cambiar título a "LOGIN"
+        val headerTitle = findViewById<TextView>(R.id.textViewHeaderTitle)
+        headerTitle.text = "LOGIN"
 
         etNombre = findViewById(R.id.editTextNombre)
         btnIrakasle = findViewById(R.id.buttonIrakasle)

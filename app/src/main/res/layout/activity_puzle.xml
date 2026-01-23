@@ -17,11 +17,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- 2. BANDA DE PIEZAS (ABAJO) -->
+    <!-- 2. FOOTER (Aumentado a 55dp) -->
+    <include
+        android:id="@+id/footer_layout"
+        layout="@layout/footer_puzle"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- 3. BANDA DE PIEZAS (Reducida a 60dp para compensar el footer) -->
     <HorizontalScrollView
         android:id="@+id/pieces_container_scrollview"
         android:layout_width="0dp"
-        android:layout_height="100dp"
+        android:layout_height="60dp"
         android:background="#81d4fa"
         android:scrollbars="none"
         app:layout_constraintBottom_toTopOf="@+id/pieces_scrollbar"
@@ -34,7 +44,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="8dp" />
+            android:padding="2dp" />
     </HorizontalScrollView>
 
     <SeekBar
@@ -43,16 +53,16 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="2dp"
         android:progressDrawable="@drawable/seekbar_progress"
         android:thumb="@drawable/seekbar_thumb"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:paddingTop="1dp"
+        android:paddingBottom="1dp"
+        app:layout_constraintBottom_toTopOf="@id/footer_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- 3. TABLERO DEL PUZZLE (CENTRO) -->
+    <!-- 4. TABLERO DEL PUZZLE (CENTRO) -->
     <FrameLayout
         android:id="@+id/puzzle_board_container"
         android:layout_width="0dp"
