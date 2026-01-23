@@ -77,13 +77,11 @@ class AndraMari7Activity : AppCompatActivity() {
         }
 
         btnNext.setOnClickListener {
-            // TODO: ¿Qué hacer al finalizar? ¿Ir al menú principal? 
-            Toast.makeText(this, "Zorionak! Ibilbidea amaitu duzu!", Toast.LENGTH_LONG).show()
-            // Ejemplo: Volver al menú de Geltokiak
-            // val intent = Intent(this, GeltokiakActivity::class.java)
-            // intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-            // startActivity(intent)
+            // CORREGIDO: Navega a la pantalla final de felicitación
+            val intent = Intent(this, AndraMari8Activity::class.java)
+            startActivity(intent)
         }
+
     }
 
     private fun uploadVideoToFirebase() {

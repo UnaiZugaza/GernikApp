@@ -64,12 +64,16 @@
                 app:cardBackgroundColor="#4EBFFF"
                 app:cardElevation="4dp">
 
-                <VideoView
-                    android:id="@+id/video_view_kopla"
+                <ImageButton
+                    android:id="@+id/button_play_youtube"
                     android:layout_width="match_parent"
                     android:layout_height="220dp"
-                    android:layout_gravity="center"
-                    android:padding="8dp"/>
+                    android:src="@android:drawable/ic_media_play"
+                    android:scaleType="fitCenter"
+                    android:padding="40dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:contentDescription="Reproducir video de YouTube" />
+
             </androidx.cardview.widget.CardView>
 
             <!-- Tarjeta 3: Rellenar Huecos -->
@@ -103,7 +107,7 @@
 
                     <!-- Línea 3 -->
                     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginTop="8dp">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Coro: &quot;Kontentuaren amiz, guztioz pozkaitian," style="@style/KoplaTextStyle"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Koro: &quot;Kontentuaren amiz, guztioz pozkaitian," style="@style/KoplaTextStyle"/>
                         <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
                             <EditText android:id="@+id/kopla_answer_3" style="@style/KoplaEditTextStyle"/>
                             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=", " style="@style/KoplaTextStyle"/>
@@ -117,20 +121,20 @@
                     </LinearLayout>
 
                     <!-- Línea 4 -->
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Solista: &quot;Noretan nor bizi da?&quot;" style="@style/KoplaTextStyle"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Solista: &quot;Nor eta nor bizi da?&quot;" style="@style/KoplaTextStyle"/>
 
                     <!-- Línea 5 -->
                     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Solista: &quot;" style="@style/KoplaTextStyle"/>
                         <EditText android:id="@+id/kopla_answer_7" style="@style/KoplaEditTextStyle"/>
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=" tsunar horretan&quot;" style="@style/KoplaTextStyle"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=" zahar horretan&quot;" style="@style/KoplaTextStyle"/>
                     </LinearLayout>
 
                     <!-- Línea 6 -->
                     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginTop="8dp">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Coro: &quot;" style="@style/KoplaTextStyle"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Koro: &quot;" style="@style/KoplaTextStyle"/>
                         <EditText android:id="@+id/kopla_answer_8" style="@style/KoplaEditTextStyle"/>
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=" zer gura " style="@style/KoplaTextStyle"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=" eta zer gura " style="@style/KoplaTextStyle"/>
                         <EditText android:id="@+id/kopla_answer_9" style="@style/KoplaEditTextStyle"/>
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="...&quot;" style="@style/KoplaTextStyle"/>
                     </LinearLayout>
