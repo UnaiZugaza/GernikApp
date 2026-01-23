@@ -28,8 +28,9 @@ class AndraMari6Activity : AppCompatActivity() {
     )
 
     private var currentImageSelection = 0
+    private var nombreUsuario: String? = null
+    private var codigoClase: String? = null
 
-    // El nuevo lanzador de actividad para seleccionar imágenes
     private val selectImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let {
             imageUris[currentImageSelection] = it
@@ -45,11 +46,12 @@ class AndraMari6Activity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_andramari6)
 
-        // 1. Configuración del Header
+        nombreUsuario = intent.getStringExtra("USER_NAME")
+        codigoClase = intent.getStringExtra("CLASS_CODE")
+
         val headerTitle = findViewById<TextView>(R.id.textViewHeaderTitle)
         headerTitle.text = "ANDRA MARI - 3. GELTOKIA"
 
-        // 2. Configuración de vistas de la actividad
         imageUpload1 = findViewById(R.id.image_upload_1)
         imageUpload2 = findViewById(R.id.image_upload_2)
         imageUpload3 = findViewById(R.id.image_upload_3)
@@ -61,7 +63,6 @@ class AndraMari6Activity : AppCompatActivity() {
 
         uploadButton.setOnClickListener { uploadImagesToFirebase() }
 
-        // 3. Configuración del Footer
         setupFooter()
     }
 
@@ -72,19 +73,19 @@ class AndraMari6Activity : AppCompatActivity() {
         btnBack.visibility = View.VISIBLE
         btnNext.visibility = View.VISIBLE
 
-        btnBack.setOnClickListener {
-            finish() // Vuelve a la actividad anterior
-        }
+        btnBack.setOnClickListener { finish() }
 
         btnNext.setOnClickListener {
-            val intent = Intent(this, AndraMari7Activity::class.java)
+            val intent = Intent(this, AndraMari7Activity::class.java).apply {
+                putExtra("USER_NAME", nombreUsuario)
+                putExtra("CLASS_CODE", codigoClase)
+            }
             startActivity(intent)
         }
     }
 
     private fun selectImage(imageNumber: Int) {
         currentImageSelection = imageNumber
-        // Usamos el nuevo lanzador para abrir la galería
         selectImageLauncher.launch("image/*")
     }
 
@@ -95,30 +96,33 @@ class AndraMari6Activity : AppCompatActivity() {
             return
         }
 
-        uploadButton.isEnabled = false
-        val storage = Firebase.storage
-        val storageRef = storage.reference
+        setLoading(true)
+        val storageRef = Firebase.storage.reference
         var uploadedCount = 0
+        val totalImages = urisToUpload.size
 
         urisToUpload.forEach { uri ->
-            // --- LÍNEA CORREGIDA ---
-            // Ahora guarda las imágenes en la subcarpeta 'andra_mari'
-            val fileName = "images/andra_mari/${UUID.randomUUID()}.jpg"
-            val imageRef = storageRef.child(fileName)
+            // --- PRUEBA DE FUEGO: Usamos la ruta que sabemos que funciona ---
+            val imagePath = "images/arbol_marrazkia/${UUID.randomUUID()}.jpg"
+            val imageRef = storageRef.child(imagePath)
 
             imageRef.putFile(uri)
                 .addOnSuccessListener {
                     uploadedCount++
-                    if (uploadedCount == urisToUpload.size) {
+                    if (uploadedCount == totalImages) {
                         Toast.makeText(this, "Irudiak ondo igo dira!", Toast.LENGTH_LONG).show()
-                        uploadButton.isEnabled = true
+                        setLoading(false)
                     }
                 }
                 .addOnFailureListener { e ->
                     Toast.makeText(this, "Errorea irudia igotzean: ${e.message}", Toast.LENGTH_SHORT).show()
-                    uploadButton.isEnabled = true
+                    setLoading(false)
                 }
         }
+    }
 
+    private fun setLoading(isLoading: Boolean) {
+        uploadButton.isEnabled = !isLoading
+        uploadButton.text = if (isLoading) "Igotzen..." else "ARGAZKIAK IGO"
     }
 }
