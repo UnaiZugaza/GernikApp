@@ -7,16 +7,13 @@ import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
-import android.widget.MediaController
 import android.widget.TextView
 import android.widget.Toast
-import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
 import com.unairubenigor.gernikapp.R
 
 class AndraMari5Activity : AppCompatActivity() {
 
-    // Mapa para asociar cada EditText con su respuesta correcta (ignorando mayúsculas)
     private val correctAnswers = mapOf(
         R.id.kopla_answer_1 to "Santu",
         R.id.kopla_answer_2 to "Kristoren",
@@ -24,9 +21,9 @@ class AndraMari5Activity : AppCompatActivity() {
         R.id.kopla_answer_4 to "Jose",
         R.id.kopla_answer_5 to "Jesus",
         R.id.kopla_answer_6 to "Maria",
-        R.id.kopla_answer_7 to "Etxe",
-        R.id.kopla_answer_8 to "Noretan",
-        R.id.kopla_answer_9 to "zeuke"
+        R.id.kopla_answer_7 to "Etxetxu",
+        R.id.kopla_answer_8 to "Nor",
+        R.id.kopla_answer_9 to "zeunke"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,26 +34,16 @@ class AndraMari5Activity : AppCompatActivity() {
         val headerTitle = findViewById<TextView>(R.id.textViewHeaderTitle)
         headerTitle.text = "ANDRA MARI - 2. GELTOKIA"
 
-        // 2. Configuración del Video
-        setupVideo()
+        // 2. Configuración del Botón de Video (como en MuralaVideoActivity)
+        val buttonPlayVideo = findViewById<ImageButton>(R.id.button_play_youtube)
+        buttonPlayVideo.setOnClickListener {
+            // Este Intent abre la app de YouTube o el navegador
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://youtu.be/W36FCEdqc04"))
+            startActivity(intent)
+        }
 
         // 3. Configuración del Footer y la validación
         setupFooter()
-    }
-
-    private fun setupVideo() {
-        val videoView = findViewById<VideoView>(R.id.video_view_kopla)
-        val videoPath = "android.resource://" + packageName + "/" + R.raw.video_andramari2
-        val uri = Uri.parse(videoPath)
-        videoView.setVideoURI(uri)
-
-        val mediaController = MediaController(this)
-        videoView.setMediaController(mediaController)
-        mediaController.setAnchorView(videoView)
-
-        videoView.setOnPreparedListener {
-            it.start()
-        }
     }
 
     private fun setupFooter() {
@@ -67,13 +54,11 @@ class AndraMari5Activity : AppCompatActivity() {
         btnNext.visibility = View.VISIBLE
 
         btnBack.setOnClickListener {
-            finish() // Vuelve a AndraMari4Activity
+            finish()
         }
 
         btnNext.setOnClickListener {
-            // ALDI BATERAKO ALDAKETA: Balidazioa kendu eta zuzenean hurrengo jarduerara joan
-            val intent = Intent(this, AndraMari6Activity::class.java)
-            startActivity(intent)
+            validateAnswers()
         }
     }
 
@@ -83,20 +68,16 @@ class AndraMari5Activity : AppCompatActivity() {
             val editText = findViewById<EditText>(editTextId)
             val userAnswer = editText.text.toString().trim()
 
-            // Comparamos ignorando mayúsculas/minúsculas
             if (userAnswer.equals(correctAnswer, ignoreCase = true)) {
-                // Respuesta correcta: fondo verde
-                editText.setBackgroundColor(Color.parseColor("#A5D6A7")) // Verde claro
+                editText.setBackgroundColor(Color.parseColor("#A5D6A7")) // Verde
             } else {
-                // Respuesta incorrecta: fondo rojo
-                editText.setBackgroundColor(Color.parseColor("#EF9A9A")) // Rojo claro
+                editText.setBackgroundColor(Color.parseColor("#EF9A9A")) // Rojo
                 allCorrect = false
             }
         }
 
         if (allCorrect) {
             Toast.makeText(this, "Zorionak! Dena ondo dago!", Toast.LENGTH_LONG).show()
-
             val intent = Intent(this, AndraMari6Activity::class.java)
             startActivity(intent)
         } else {

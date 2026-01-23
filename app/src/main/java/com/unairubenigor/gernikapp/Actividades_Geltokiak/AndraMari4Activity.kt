@@ -5,9 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
-import android.widget.MediaController
 import android.widget.TextView
-import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
 import com.unairubenigor.gernikapp.R
 
@@ -18,23 +16,14 @@ class AndraMari4Activity : AppCompatActivity() {
 
         // 1. CONFIGURACIÓN DEL HEADER
         val headerTitle = findViewById<TextView>(R.id.textViewHeaderTitle)
-        headerTitle.text = "ANDRA MARI - 1. GELTOKIA" // O el título que prefieras
+        headerTitle.text = "ANDRA MARI - 1. GELTOKIA"
 
-        // 2. CONFIGURACIÓN DEL VIDEO
-        val videoView = findViewById<VideoView>(R.id.video_view)
-        // Construye la ruta al video en la carpeta res/raw
-        val videoPath = "android.resource://" + packageName + "/" + R.raw.video_andramari // Asegúrate que el nombre del archivo es correcto
-        val uri = Uri.parse(videoPath)
-        videoView.setVideoURI(uri)
-
-        // Añade los controles de reproducción (play, pausa, barra de progreso)
-        val mediaController = MediaController(this)
-        videoView.setMediaController(mediaController)
-        mediaController.setAnchorView(videoView)
-
-        // Inicia el video automáticamente al entrar en la pantalla
-        videoView.setOnPreparedListener {
-            it.start()
+        // 2. CONFIGURACIÓN DEL BOTÓN DE VIDEO
+        val buttonPlayVideo = findViewById<ImageButton>(R.id.button_play_youtube_4)
+        buttonPlayVideo.setOnClickListener {
+            // Este Intent abre la app de YouTube o el navegador con el nuevo video
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://youtu.be/SuXIYJuH7z0"))
+            startActivity(intent)
         }
 
         // 3. CONFIGURACIÓN DEL FOOTER
@@ -50,6 +39,7 @@ class AndraMari4Activity : AppCompatActivity() {
         }
 
         btnNext.setOnClickListener {
+            // Navega a la siguiente pantalla
             val intent = Intent(this, AndraMari5Activity::class.java)
             startActivity(intent)
         }
