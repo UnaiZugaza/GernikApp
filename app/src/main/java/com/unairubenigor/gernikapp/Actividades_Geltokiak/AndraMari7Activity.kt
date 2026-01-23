@@ -76,12 +76,10 @@ class AndraMari7Activity : AppCompatActivity() {
             finish() // Vuelve a AndraMari6Activity
         }
 
+        // El botón de continuar ahora solo da una pista al usuario
         btnNext.setOnClickListener {
-            // CORREGIDO: Navega a la pantalla final de felicitación
-            val intent = Intent(this, AndraMari8Activity::class.java)
-            startActivity(intent)
+            Toast.makeText(this, "Lehenengo bideoa igo behar duzu jarraitzeko", Toast.LENGTH_SHORT).show()
         }
-
     }
 
     private fun uploadVideoToFirebase() {
@@ -92,26 +90,38 @@ class AndraMari7Activity : AppCompatActivity() {
 
         uploadVideoButton.isEnabled = false
         selectVideoButton.isEnabled = false
+        uploadVideoButton.text = "IGOTZEN..." // Feedback para el usuario
 
         val storage = Firebase.storage
-        val fileName = "videos/${UUID.randomUUID()}.mp4"
+        // --- RUTA CORREGIDA ---
+        // Ahora guarda el video en la carpeta que el admin puede ver.
+        val fileName = "videos/andra_mari/${UUID.randomUUID()}.mp4"
         val videoRef = storage.reference.child(fileName)
 
         videoRef.putFile(videoUri!!)
-            .addOnSuccessListener { 
+            .addOnSuccessListener {
                 Toast.makeText(this, "Bideoa ondo igo da!", Toast.LENGTH_LONG).show()
+
+                // --- NAVEGACIÓN CORREGIDA ---
+                // Una vez subido el video con éxito, navega a la pantalla final.
+                val intent = Intent(this, AndraMari8Activity::class.java)
+                startActivity(intent)
+
+                // Reseteamos los botones por si el usuario vuelve atrás
                 uploadVideoButton.isEnabled = true
                 selectVideoButton.isEnabled = true
+                uploadVideoButton.text = "BIDEOA IGO"
             }
             .addOnFailureListener { e ->
                 Toast.makeText(this, "Errorea bideoa igotzean: ${e.message}", Toast.LENGTH_SHORT).show()
                 uploadVideoButton.isEnabled = true
                 selectVideoButton.isEnabled = true
+                uploadVideoButton.text = "BIDEOA IGO"
             }
             .addOnProgressListener { snapshot ->
                 val progress = (100.0 * snapshot.bytesTransferred) / snapshot.totalByteCount
-                // Aquí podrías mostrar el progreso en un TextView o ProgressBar
-                // Ejemplo: progressText.text = "Igotzen: ${progress.toInt()}%"
+                // Actualizamos el texto del botón para mostrar el progreso
+                uploadVideoButton.text = "IGOTZEN: ${progress.toInt()}%"
             }
     }
 }

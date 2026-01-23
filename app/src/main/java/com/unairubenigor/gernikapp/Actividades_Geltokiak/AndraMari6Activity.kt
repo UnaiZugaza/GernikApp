@@ -101,11 +101,13 @@ class AndraMari6Activity : AppCompatActivity() {
         var uploadedCount = 0
 
         urisToUpload.forEach { uri ->
-            val fileName = "images/${UUID.randomUUID()}.jpg"
+            // --- LÍNEA CORREGIDA ---
+            // Ahora guarda las imágenes en la subcarpeta 'andra_mari'
+            val fileName = "images/andra_mari/${UUID.randomUUID()}.jpg"
             val imageRef = storageRef.child(fileName)
 
             imageRef.putFile(uri)
-                .addOnSuccessListener { 
+                .addOnSuccessListener {
                     uploadedCount++
                     if (uploadedCount == urisToUpload.size) {
                         Toast.makeText(this, "Irudiak ondo igo dira!", Toast.LENGTH_LONG).show()
@@ -117,5 +119,6 @@ class AndraMari6Activity : AppCompatActivity() {
                     uploadButton.isEnabled = true
                 }
         }
+
     }
 }

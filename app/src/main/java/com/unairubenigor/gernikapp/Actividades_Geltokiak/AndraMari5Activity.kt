@@ -72,7 +72,7 @@ class AndraMari5Activity : AppCompatActivity() {
                 editText.setBackgroundColor(Color.parseColor("#A5D6A7")) // Verde
             } else {
                 editText.setBackgroundColor(Color.parseColor("#EF9A9A")) // Rojo
-                allCorrect = false
+                // allCorrect = false // <-- RESTRICCIÓN COMENTADA
             }
         }
 
@@ -84,4 +84,5 @@ class AndraMari5Activity : AppCompatActivity() {
             Toast.makeText(this, "Erantzun batzuk ez dira zuzenak. Saiatu berriro!", Toast.LENGTH_SHORT).show()
         }
     }
+
 }
