@@ -15,6 +15,8 @@ import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
 import com.unairubenigor.gernikapp.R
 import java.util.Collections
 
@@ -30,9 +32,18 @@ class OptionPuzzleActivity : AppCompatActivity() {
     private var scaleFactor = 1.0f
     private lateinit var scaleGestureDetector: ScaleGestureDetector
 
+    // Firebase
+    private val db = FirebaseFirestore.getInstance()
+    private var nombreUsuario: String = ""
+    private var codigoClase: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_puzle)
+
+        // Recuperar datos del usuario
+        nombreUsuario = intent.getStringExtra("USER_NAME") ?: ""
+        codigoClase = intent.getStringExtra("CLASS_CODE") ?: ""
 
         piecesContainer = findViewById(R.id.pieces_container)
         puzzleBoard = findViewById(R.id.puzzle_board)
@@ -116,14 +127,12 @@ class OptionPuzzleActivity : AppCompatActivity() {
                             height = cellHeight
                         }
                         
-                        // Añadimos padding para que el borde (hueco) sea visible alrededor de la guía
                         setPadding(4, 4, 4, 4)
                         
-                        // Imagen transparente como guía
                         val resId = resources.getIdentifier("row${i}column${j}", "drawable", packageName)
                         if (resId != 0) {
                             setImageResource(resId)
-                            alpha = 0.25f // Un poco más transparente para que se note que está vacío
+                            alpha = 0.25f
                             scaleType = ImageView.ScaleType.FIT_XY
                         }
                         
@@ -171,7 +180,6 @@ class OptionPuzzleActivity : AppCompatActivity() {
                         val originalPiece = pieceViews.find { it.tag == draggedPieceTag }
                         targetSlot.setImageDrawable(originalPiece?.drawable)
                         
-                        // Quitamos el padding y restauramos opacidad para que encaje perfecto
                         targetSlot.setPadding(0, 0, 0, 0)
                         targetSlot.alpha = 1.0f
                         targetSlot.scaleType = ImageView.ScaleType.FIT_XY
@@ -199,7 +207,34 @@ class OptionPuzzleActivity : AppCompatActivity() {
 
     private fun checkCompletion() {
         if (piecesPlaced == 30) {
-            Toast.makeText(this, "¡Felicidades! ¡Has completado el puzzle!", Toast.LENGTH_LONG).show()
+            // Lógica para que solo el primero gane el punto
+            val partidaRef = db.collection("partidas").document(codigoClase)
+            
+            db.runTransaction { transaction ->
+                val snapshot = transaction.get(partidaRef)
+                val puzzleCompletado = snapshot.getBoolean("puzzleCompletado") ?: false
+                
+                if (!puzzleCompletado) {
+                    // Soy el primero en completarlo
+                    transaction.update(partidaRef, "puzzleCompletado", true)
+                    
+                    // Sumar el punto al usuario
+                    val jugadorRef = partidaRef.collection("jugadores").document(nombreUsuario)
+                    transaction.update(jugadorRef, "puntuacion", FieldValue.increment(1))
+                    
+                    true // Indica que fui el primero
+                } else {
+                    false // Ya lo completó alguien antes
+                }
+            }.addOnSuccessListener { soyElPrimero ->
+                if (soyElPrimero) {
+                    Toast.makeText(this, "¡Felicidades! ¡Has sido el primero en completar el puzzle y ganas 1 punto!", Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(this, "¡Puzzle completado! (Alguien llegó antes, ¡suerte a la próxima!)", Toast.LENGTH_LONG).show()
+                }
+            }.addOnFailureListener { e ->
+                Toast.makeText(this, "Errorea puntuak gordetzean: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

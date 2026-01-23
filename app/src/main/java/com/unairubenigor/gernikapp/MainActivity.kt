@@ -2,8 +2,10 @@ package com.unairubenigor.gernikapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +25,13 @@ class MainActivity : AppCompatActivity() {
         // Configurar Header - Cambiar título a "LOGIN"
         val headerTitle = findViewById<TextView>(R.id.textViewHeaderTitle)
         headerTitle.text = "LOGIN"
+
+        // Configurar Footer - Ocultar botón Atrás (No hay nada antes del Login)
+        val btnBack = findViewById<ImageButton>(R.id.buttonBack)
+        val btnNext = findViewById<ImageButton>(R.id.buttonContinue)
+        
+        btnBack.visibility = View.INVISIBLE
+        btnNext.visibility = View.INVISIBLE // Solo se avanza pulsando los botones centrales (Ikasle/Irakasle)
 
         etNombre = findViewById(R.id.editTextNombre)
         btnIrakasle = findViewById(R.id.buttonIrakasle)

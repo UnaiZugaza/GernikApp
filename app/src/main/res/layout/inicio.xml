@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#e0f2fe"
+    android:background="@color/fondo_general"
     tools:context=".MainActivity">
 
     <!-- 1. HEADER (Menú de arriba) -->
@@ -29,7 +29,7 @@
             android:text="NOR ZARA?"
             android:textSize="32sp"
             android:textStyle="bold"
-            android:textColor="#3b82f6"
+            android:textColor="@android:color/black"
             android:layout_marginBottom="24dp"/>
 
         <!-- NUEVO: Campo para escribir el nombre -->
@@ -46,28 +46,28 @@
             android:layout_marginBottom="32dp" />
 
         <!-- Botón IRAKASLE -->
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/buttonIrakasle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="IRAKASLE"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:backgroundTint="#81d4fa"
-            android:textColor="#0f172a"
+            android:background="@color/azul_acento"
+            android:textColor="@android:color/black"
             android:paddingVertical="16dp"
             android:layout_marginBottom="24dp"/>
 
         <!-- Botón IKASLE -->
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/buttonIkasle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="IKASLE"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:backgroundTint="#81d4fa"
-            android:textColor="#0f172a"
+            android:background="@color/azul_acento"
+            android:textColor="@android:color/black"
             android:paddingVertical="16dp"/>
 
     </LinearLayout>
