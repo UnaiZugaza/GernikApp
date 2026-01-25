@@ -9,25 +9,34 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.google.firebase.firestore.FirebaseFirestore
 import com.unairubenigor.gernikapp.R
 
 data class Marrazkia(
+    var id: String = "",
     val izena: String = "",
-    val base64: String = ""
+    val base64: String = "",
+    var puntuazioa: Int = 0
 )
 
 class MarrazkiakAdapter(private val lista: List<Marrazkia>) :
     RecyclerView.Adapter<MarrazkiakAdapter.MarrazkiaViewHolder>() {
 
+    // 1. ViewHolder actualizado con los nuevos elementos
     class MarrazkiaViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvNombre: TextView = view.findViewById(R.id.tvNombreAlumno)
         val ivImagen: ImageView = view.findViewById(R.id.ivDibujoAlumno)
+        val etPuntuacion: EditText = view.findViewById(R.id.etPuntuacion)
+        val btnGuardarNota: Button = view.findViewById(R.id.btnGuardarNota)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MarrazkiaViewHolder {
@@ -40,46 +49,72 @@ class MarrazkiakAdapter(private val lista: List<Marrazkia>) :
         val item = lista[position]
         holder.tvNombre.text = item.izena
 
+        // 2. Mostrar la puntuación actual si existe
+        if (item.puntuazioa > 0) {
+            holder.etPuntuacion.setText(item.puntuazioa.toString())
+        } else {
+            holder.etPuntuacion.setText("")
+        }
+
+        // Lógica de la imagen (sin cambios)
         if (item.base64.isNotEmpty()) {
             try {
-                // 1. Decodificar para la miniatura
                 val imageBytes = Base64.decode(item.base64, Base64.DEFAULT)
-
-                Glide.with(holder.itemView.context)
-                    .asBitmap()
-                    .load(imageBytes)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .placeholder(android.R.drawable.ic_menu_gallery)
-                    .error(android.R.drawable.stat_notify_error)
+                Glide.with(holder.itemView.context).asBitmap().load(imageBytes)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
                     .into(holder.ivImagen)
-
-                // 2. EVENTO CLICK: Al tocar la imagen, abrirla en grande
                 holder.ivImagen.setOnClickListener {
                     mostrarImagenGrande(holder.itemView.context, imageBytes, item.izena)
                 }
-
             } catch (e: Exception) {
                 holder.ivImagen.setImageResource(android.R.drawable.stat_notify_error)
             }
         } else {
             holder.ivImagen.setImageResource(android.R.drawable.ic_menu_gallery)
-            holder.ivImagen.setOnClickListener(null)
         }
+
+        // 3. Lógica para el botón de GUARDAR
+        holder.btnGuardarNota.setOnClickListener {
+            val notaStr = holder.etPuntuacion.text.toString()
+            if (notaStr.isEmpty()) {
+                Toast.makeText(holder.itemView.context, "Idatzi nota bat", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val nota = notaStr.toIntOrNull()
+            if (nota == null || nota < 0 || nota > 10) {
+                Toast.makeText(holder.itemView.context, "Nota 0 eta 10 artean egon behar da", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // Guardar en Firebase
+            guardarPuntuacionEnFirebase(item.id, nota, holder.itemView.context)
+        }
+    }
+
+    private fun guardarPuntuacionEnFirebase(documentId: String, nota: Int, context: Context) {
+        if (documentId.isEmpty()) {
+            Toast.makeText(context, "Errorea: Marrazkiaren IDa ez da aurkitu", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val db = FirebaseFirestore.getInstance()
+        db.collection("arbola_marrazkiak").document(documentId)
+            .update("puntuazioa", nota)
+            .addOnSuccessListener {
+                Toast.makeText(context, "Nota ondo gorde da", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(context, "Errorea nota gordetzean: ${e.message}", Toast.LENGTH_LONG).show()
+            }
     }
 
     override fun getItemCount() = lista.size
 
-    // --- FUNCIÓN PARA EL POPUP DE PANTALLA COMPLETA ---
     private fun mostrarImagenGrande(context: Context, imageBytes: ByteArray, nombre: String) {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-
-        // Creamos un diseño simple por código para no crear otro XML
         dialog.setContentView(R.layout.layout_popup_imagen)
-        // OJO: Necesitamos crear este XML pequeño (paso 2 abajo)
-
-        // Configurar fondo transparente para que se vea moderno
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
 
@@ -88,12 +123,7 @@ class MarrazkiakAdapter(private val lista: List<Marrazkia>) :
         val tvTitulo = dialog.findViewById<TextView>(R.id.tvPopupNombre)
 
         tvTitulo.text = nombre
-
-        // Cargar imagen en grande usando FIT_CENTER (para verla entera)
-        Glide.with(context)
-            .load(imageBytes)
-            .into(ivGrande)
-
+        Glide.with(context).load(imageBytes).into(ivGrande)
         btnCerrar.setOnClickListener { dialog.dismiss() }
 
         dialog.show()

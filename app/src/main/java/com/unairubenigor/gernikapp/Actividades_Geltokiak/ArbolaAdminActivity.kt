@@ -2,6 +2,7 @@ package com.unairubenigor.gernikapp.Actividades_Geltokiak
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -18,6 +19,7 @@ class ArbolaAdminActivity : AppCompatActivity() {
 
     private lateinit var rvLista: RecyclerView
     private lateinit var progressBar: ProgressBar
+    private lateinit var btnBidaliEmaitzak: Button
 
     private var codigoClase: String = ""
     private val db = FirebaseFirestore.getInstance()
@@ -34,6 +36,7 @@ class ArbolaAdminActivity : AppCompatActivity() {
 
         rvLista = findViewById(R.id.rvMarrazkiak)
         progressBar = findViewById(R.id.progressBarAdmin)
+        btnBidaliEmaitzak = findViewById(R.id.btnBidaliEmaitzak)
         rvLista.layoutManager = LinearLayoutManager(this)
 
         // Configuración de Footer
@@ -41,15 +44,35 @@ class ArbolaAdminActivity : AppCompatActivity() {
         val btnNext = findViewById<ImageButton>(R.id.buttonContinue)
 
         btnBack.visibility = View.VISIBLE
-        btnNext.visibility = View.GONE // <--- OCULTO EXPLICITAMENTE
+        btnNext.visibility = View.GONE
 
         btnBack.setOnClickListener { finish() }
+
+        btnBidaliEmaitzak.setOnClickListener { bidaliEmaitzakIkasleei() }
 
         if (codigoClase.isNotEmpty()) {
             escucharDibujosEnTiempoReal()
         } else {
             Toast.makeText(this, "Errorea: Kodea falta da", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun bidaliEmaitzakIkasleei() {
+        if (codigoClase.isEmpty()) {
+            Toast.makeText(this, "Ezin dira emaitzak bidali, gelaren kodea falta da", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val gelaRef = db.collection("gelak").document(codigoClase)
+        val data = hashMapOf("emaitzak_prest" to true)
+
+        gelaRef.set(data) // Usamos set para crear o sobrescribir
+            .addOnSuccessListener {
+                Toast.makeText(this, "Emaitzak ikasleei bidali zaizkie!", Toast.LENGTH_LONG).show()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Errorea emaitzak bidaltzean: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 
     private fun escucharDibujosEnTiempoReal() {
@@ -72,6 +95,7 @@ class ArbolaAdminActivity : AppCompatActivity() {
 
                     for (document in snapshots) {
                         val dibujo = document.toObject(Marrazkia::class.java)
+                        dibujo.id = document.id
                         listaDibujos.add(dibujo)
                     }
 

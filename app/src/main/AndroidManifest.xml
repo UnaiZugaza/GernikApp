@@ -41,7 +41,7 @@
         <activity android:name=".Actividades_Geltokiak.GernikakoMuralaOngiEtorriActivity" />
         <activity android:name=".Actividades_Geltokiak.MuralaVideoActivity" />
         <activity android:name=".Actividades_Geltokiak.MuralaEndActivity" />
-        
+
         <activity android:name=".Actividades_Geltokiak.AstraActivity" />
         <activity android:name=".Actividades_Geltokiak.ArbolaActivity" />
         <activity android:name=".Actividades_Geltokiak.GernikakoArbolaOngiEtorriActivity" />
@@ -53,7 +53,7 @@
         <activity android:name=".Actividades_Geltokiak.GernikakoArbolaMarrazkiarenArgazkiaActivity" />
         <activity android:name=".Actividades_Geltokiak.PasilekuActivity" />
         <activity android:name=".Actividades_Geltokiak.PasilekuEndActivity" />
-        
+
         <activity android:name=".Actividades_Geltokiak.AndraMari1Activity" />
         <activity android:name=".Actividades_Geltokiak.AndraMari2Activity" />
         <activity android:name=".Actividades_Geltokiak.AndraMari3Activity" />
@@ -66,6 +66,7 @@
         <activity android:name=".irakasle.IrakasleMenuActivity" />
         <activity android:name=".Actividades_Geltokiak.AndraMariAdminActivity" />
         <activity android:name=".Actividades_Geltokiak.ArbolaAdminActivity" />
+        <activity android:name=".Actividades_Geltokiak.ArbolaIrabazleActivity" />
 
     </application>
 

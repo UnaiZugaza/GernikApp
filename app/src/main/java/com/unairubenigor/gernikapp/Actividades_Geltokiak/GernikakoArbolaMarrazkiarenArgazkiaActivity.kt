@@ -3,6 +3,7 @@ package com.unairubenigor.gernikapp.Actividades_Geltokiak
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.util.Base64
@@ -17,8 +18,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import com.unairubenigor.gernikapp.R
-import com.unairubenigor.gernikapp.ikasle.IkasleMenuActivity
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 
@@ -33,6 +34,9 @@ class GernikakoArbolaMarrazkiarenArgazkiaActivity : AppCompatActivity() {
     private var nombreUsuario: String = "Ezezaguna"
     private var codigoClase: String = ""
     private val db = FirebaseFirestore.getInstance()
+
+    // Listener para esperar los resultados del profesor
+    private var listenerResultados: ListenerRegistration? = null
 
     private val getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         if (uri != null) {
@@ -62,9 +66,8 @@ class GernikakoArbolaMarrazkiarenArgazkiaActivity : AppCompatActivity() {
         val btnBack = findViewById<ImageButton>(R.id.buttonBack)
         val btnNext = findViewById<ImageButton>(R.id.buttonContinue)
 
-        // --- CONFIGURACIÓN DE BOTONES ---
         btnBack.visibility = View.VISIBLE
-        btnNext.visibility = View.GONE // <--- OCULTO (Antes era VISIBLE)
+        btnNext.visibility = View.GONE
 
         cardSeleccionar.setOnClickListener { getContent.launch("image/*") }
 
@@ -72,6 +75,7 @@ class GernikakoArbolaMarrazkiarenArgazkiaActivity : AppCompatActivity() {
             if (imagenUri != null) {
                 if (codigoClase.isEmpty()) {
                     Toast.makeText(this, "Errorea: Gela kodea falta da", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
                 }
                 procesarYSubirImagen()
             } else {
@@ -80,37 +84,82 @@ class GernikakoArbolaMarrazkiarenArgazkiaActivity : AppCompatActivity() {
         }
 
         btnBack.setOnClickListener { finish() }
-
-        // btnNext ya no hace nada porque está oculto
     }
 
     private fun procesarYSubirImagen() {
         mostrarCarga(true)
-
         try {
             val imageStream: InputStream? = contentResolver.openInputStream(imagenUri!!)
             val originalBitmap = BitmapFactory.decodeStream(imageStream)
-
-            // Redimensionar a 600px (puedes subir a 800 si quieres más calidad)
             val bitmapReducido = redimensionarBitmap(originalBitmap, 600)
-
             val streamSalida = ByteArrayOutputStream()
-            // Calidad 50%
             bitmapReducido.compress(Bitmap.CompressFormat.JPEG, 50, streamSalida)
             val byteArray = streamSalida.toByteArray()
             val imagenBase64 = Base64.encodeToString(byteArray, Base64.NO_WRAP)
 
-            if (byteArray.size > 1000000) {
+            if (byteArray.size > 1000000) { // Límite de 1MB para Firestore
                 mostrarCarga(false)
                 Toast.makeText(this, "Irudia handiegia da. Saiatu beste batekin.", Toast.LENGTH_LONG).show()
                 return
             }
-
             guardarEnBaseDeDatos(imagenBase64)
-
         } catch (e: Exception) {
             mostrarCarga(false)
-            Toast.makeText(this, "Errorea: ${e.message}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Errorea irudia prozesatzean: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun guardarEnBaseDeDatos(base64String: String) {
+        val datosDibujo = hashMapOf(
+            "izena" to nombreUsuario,
+            "gela" to codigoClase,
+            "base64" to base64String,
+            "data" to System.currentTimeMillis(),
+            "puntuazioa" to 0 // Inicializamos la puntuación a 0
+        )
+
+        db.collection("arbola_marrazkiak").add(datosDibujo)
+            .addOnSuccessListener {
+                // --- CAMBIO DE LÓGICA ---
+                progressBar.visibility = View.GONE
+                btnBidali.text = "BIDALITA. EMAITZEN ZAIN..."
+                cardSeleccionar.isEnabled = false
+                btnBidali.isEnabled = false
+
+                Toast.makeText(this, "Marrazkia ondo igo da! Emaitzen zain...", Toast.LENGTH_LONG).show()
+                escucharResultados()
+            }
+            .addOnFailureListener {
+                mostrarCarga(false)
+                Toast.makeText(this, "Errorea datu-basean gordetzean: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun escucharResultados() {
+        if (codigoClase.isEmpty()) return
+
+        val gelaRef = db.collection("gelak").document(codigoClase)
+        listenerResultados = gelaRef.addSnapshotListener { snapshot, e ->
+            if (e != null) return@addSnapshotListener
+
+            if (snapshot != null && snapshot.exists()) {
+                if (snapshot.getBoolean("emaitzak_prest") == true) {
+                    listenerResultados?.remove() // Dejamos de escuchar
+                    gelaRef.update("emaitzak_prest", false) // Reseteamos la bandera
+
+                    try {
+                        val mediaPlayer = MediaPlayer.create(this, R.raw.jardueraburututa)
+                        mediaPlayer?.setOnCompletionListener { it.release() }
+                        mediaPlayer?.start()
+                    } catch (ex: Exception) { /* Ignorar error de audio */ }
+
+                    val intent = Intent(this, ArbolaIrabazleActivity::class.java)
+                    intent.putExtra("GELA_CODE", codigoClase)
+                    intent.putExtra("USER_NAME", nombreUsuario)
+                    startActivity(intent)
+                    finish()
+                }
+            }
         }
     }
 
@@ -128,29 +177,6 @@ class GernikakoArbolaMarrazkiarenArgazkiaActivity : AppCompatActivity() {
         return Bitmap.createScaledBitmap(image, width, height, true)
     }
 
-    private fun guardarEnBaseDeDatos(base64String: String) {
-        val datosDibujo = hashMapOf(
-            "izena" to nombreUsuario,
-            "gela" to codigoClase,
-            "base64" to base64String,
-            "data" to System.currentTimeMillis()
-        )
-
-        db.collection("arbola_marrazkiak")
-            .add(datosDibujo)
-            .addOnSuccessListener {
-                mostrarCarga(false)
-                Toast.makeText(this, "Marrazkia ondo igo da!", Toast.LENGTH_LONG).show()
-                val intent = Intent(this, IkasleMenuActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
-            .addOnFailureListener {
-                mostrarCarga(false)
-                Toast.makeText(this, "Errorea datuetan: ${it.message}", Toast.LENGTH_SHORT).show()
-            }
-    }
-
     private fun mostrarCarga(cargando: Boolean) {
         if (cargando) {
             progressBar.visibility = View.VISIBLE
@@ -161,5 +187,11 @@ class GernikakoArbolaMarrazkiarenArgazkiaActivity : AppCompatActivity() {
             btnBidali.isEnabled = true
             btnBidali.text = "BIDALI"
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // MUY IMPORTANTE: Nos aseguramos de quitar el listener si la actividad se destruye
+        listenerResultados?.remove()
     }
 }
