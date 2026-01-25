@@ -204,36 +204,31 @@ class OptionPuzzleActivity : AppCompatActivity() {
             }
         }
     }
-
     private fun checkCompletion() {
         if (piecesPlaced == 30) {
-            // Lógica para que solo el primero gane el punto
+            // Referencia a la partida para comprobar si alguien ya terminó
             val partidaRef = db.collection("partidas").document(codigoClase)
-            
-            db.runTransaction { transaction ->
-                val snapshot = transaction.get(partidaRef)
-                val puzzleCompletado = snapshot.getBoolean("puzzleCompletado") ?: false
-                
-                if (!puzzleCompletado) {
-                    // Soy el primero en completarlo
-                    transaction.update(partidaRef, "puzzleCompletado", true)
-                    
-                    // Sumar el punto al usuario
-                    val jugadorRef = partidaRef.collection("jugadores").document(nombreUsuario)
-                    transaction.update(jugadorRef, "puntuacion", FieldValue.increment(1))
-                    
-                    true // Indica que fui el primero
+
+            partidaRef.get().addOnSuccessListener { snapshot ->
+                val yaHayGanador = snapshot.getBoolean("puzzleCompletado") ?: false
+
+                if (!yaHayGanador) {
+                    // 1. Marcar el puzzle como completado para que nadie más gane el punto
+                    partidaRef.update("puzzleCompletado", true)
+
+                    // 2. Sumar el punto al usuario (Igual que en mostrarPantallaFin)
+                    db.collection("partidas").document(codigoClase)
+                        .collection("jugadores").document(nombreUsuario)
+                        .update("puntuacion", FieldValue.increment(1))
+                        .addOnSuccessListener {
+                            Toast.makeText(this, "ZORIONAK! Lehena izan zara! (+1 puntu)", Toast.LENGTH_LONG).show()
+                        }
                 } else {
-                    false // Ya lo completó alguien antes
-                }
-            }.addOnSuccessListener { soyElPrimero ->
-                if (soyElPrimero) {
-                    Toast.makeText(this, "¡Felicidades! ¡Has sido el primero en completar el puzzle y ganas 1 punto!", Toast.LENGTH_LONG).show()
-                } else {
-                    Toast.makeText(this, "¡Puzzle completado! (Alguien llegó antes, ¡suerte a la próxima!)", Toast.LENGTH_LONG).show()
+                    // Alguien ya lo completó antes
+                    Toast.makeText(this, "Puzzlea osatuta! (Beste bat lehenago iritsi da)", Toast.LENGTH_SHORT).show()
                 }
             }.addOnFailureListener { e ->
-                Toast.makeText(this, "Errorea puntuak gordetzean: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Errorea: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         }
     }
