@@ -15,6 +15,11 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.unairubenigor.gernikapp.R
 import java.util.UUID
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.Base64
+import com.google.firebase.firestore.FirebaseFirestore
+import java.io.ByteArrayOutputStream
 
 class AndraMari6Activity : AppCompatActivity() {
 
@@ -89,38 +94,86 @@ class AndraMari6Activity : AppCompatActivity() {
         selectImageLauncher.launch("image/*")
     }
 
+    private val db = FirebaseFirestore.getInstance()
+
     private fun uploadImagesToFirebase() {
         val urisToUpload = imageUris.values.filterNotNull()
+        // Comprobamos que las 3 imágenes estén seleccionadas
         if (urisToUpload.size < 3) {
             Toast.makeText(this, "Hiru irudiak aukeratu behar dituzu", Toast.LENGTH_SHORT).show()
             return
         }
 
         setLoading(true)
-        val storageRef = Firebase.storage.reference
-        var uploadedCount = 0
-        val totalImages = urisToUpload.size
+        val base64List = mutableListOf<String>()
 
-        urisToUpload.forEach { uri ->
-            // --- PRUEBA DE FUEGO: Usamos la ruta que sabemos que funciona ---
-            val imagePath = "images/arbol_marrazkia/${UUID.randomUUID()}.jpg"
-            val imageRef = storageRef.child(imagePath)
+        try {
+            // Procesamos cada imagen como hacías en GernikakoArbola
+            urisToUpload.forEach { uri ->
+                val base64 = procesarImagenABase64(uri)
+                if (base64 != null) base64List.add(base64)
+            }
 
-            imageRef.putFile(uri)
-                .addOnSuccessListener {
-                    uploadedCount++
-                    if (uploadedCount == totalImages) {
-                        Toast.makeText(this, "Irudiak ondo igo dira!", Toast.LENGTH_LONG).show()
-                        setLoading(false)
-                    }
-                }
-                .addOnFailureListener { e ->
-                    Toast.makeText(this, "Errorea irudia igotzean: ${e.message}", Toast.LENGTH_SHORT).show()
-                    setLoading(false)
-                }
+            if (base64List.size == 3) {
+                guardarEnFirestore(base64List)
+            } else {
+                setLoading(false)
+                Toast.makeText(this, "Errorea irudiak prozesatzean", Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: Exception) {
+            setLoading(false)
+            Toast.makeText(this, "Errorea: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
 
+    private fun procesarImagenABase64(uri: Uri): String? {
+        val imageStream = contentResolver.openInputStream(uri)
+        val originalBitmap = BitmapFactory.decodeStream(imageStream)
+
+        // Redimensionamos a 400px para que las 3 fotos quepan en un solo documento de Firestore
+        val bitmapReducido = redimensionarBitmap(originalBitmap, 400)
+
+        val streamSalida = ByteArrayOutputStream()
+        // Comprimimos al 40% para no superar el límite de 1MB de Firestore
+        bitmapReducido.compress(Bitmap.CompressFormat.JPEG, 40, streamSalida)
+        val byteArray = streamSalida.toByteArray()
+        return Base64.encodeToString(byteArray, Base64.NO_WRAP)
+    }
+
+    private fun redimensionarBitmap(image: Bitmap, maxSize: Int): Bitmap {
+        var width = image.width
+        var height = image.height
+        val ratio = width.toFloat() / height.toFloat()
+        if (ratio > 1) {
+            width = maxSize
+            height = (width / ratio).toInt()
+        } else {
+            height = maxSize
+            width = (height * ratio).toInt()
+        }
+        return Bitmap.createScaledBitmap(image, width, height, true)
+    }
+
+    private fun guardarEnFirestore(imagenes: List<String>) {
+        val datos = hashMapOf(
+            "izena" to (nombreUsuario ?: "Ezezaguna"),
+            "gela" to (codigoClase ?: ""),
+            "argazkiak" to imagenes,
+            "data" to System.currentTimeMillis()
+        )
+
+        // Guardamos en una colección nueva para Andra Mari
+        db.collection("andramari_argazkiak")
+            .add(datos)
+            .addOnSuccessListener {
+                setLoading(false)
+                Toast.makeText(this, "Irudiak ondo igo dira!", Toast.LENGTH_LONG).show()
+            }
+            .addOnFailureListener {
+                setLoading(false)
+                Toast.makeText(this, "Errorea: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
     private fun setLoading(isLoading: Boolean) {
         uploadButton.isEnabled = !isLoading
         uploadButton.text = if (isLoading) "Igotzen..." else "ARGAZKIAK IGO"
