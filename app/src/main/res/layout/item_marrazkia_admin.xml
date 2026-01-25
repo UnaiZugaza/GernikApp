@@ -32,8 +32,9 @@
             android:background="#EEEEEE"
             android:src="@android:drawable/ic_menu_gallery"/>
 
-        <!-- Elementos nuevos para puntuar -->
+        <!-- Elementos para puntuar -->
         <LinearLayout
+            android:id="@+id/puntuazioa_layout" 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"

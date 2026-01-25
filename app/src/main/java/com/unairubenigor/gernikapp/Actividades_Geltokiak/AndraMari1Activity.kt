@@ -10,42 +10,41 @@ import androidx.appcompat.app.AppCompatActivity
 import com.unairubenigor.gernikapp.R
 
 class AndraMari1Activity : AppCompatActivity() {
+
+    private var nombreUsuario: String? = null
+    private var codigoClase: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_andramari)
 
-        // 1. CONFIGURACIÓN DEL HEADER
+        // --- CORRECCIÓN CLAVE 1: Recoger la "mochila" de datos ---
+        nombreUsuario = intent.getStringExtra("USER_NAME")
+        codigoClase = intent.getStringExtra("CLASS_CODE")
+
         val headerTitle = findViewById<TextView>(R.id.textViewHeaderTitle)
         headerTitle.text = "ANDRA MARI ELIZA"
 
-        // 2. REFERENCIAS A LOS BOTONES
         val btnBack = findViewById<ImageButton>(R.id.buttonBack)
         val btnNext = findViewById<ImageButton>(R.id.buttonContinue)
         val buttonPrest = findViewById<Button>(R.id.button_prest)
 
-        // 3. CONFIGURACIÓN DE VISIBILIDAD DEL FOOTER
         btnBack.visibility = View.VISIBLE
         btnNext.visibility = View.VISIBLE
-
-        // 4. CONFIGURACIÓN DE LOS CLICKS
 
         btnBack.setOnClickListener {
             finish()
         }
 
-        // Función para navegar a la siguiente pantalla
+        // --- CORRECCIÓN CLAVE 2: Pasar la "mochila" a la siguiente actividad ---
         val navigateToNext = {
-            // Navega a AndraMari2Activity
             val intent = Intent(this, AndraMari2Activity::class.java)
+            intent.putExtra("USER_NAME", nombreUsuario)
+            intent.putExtra("CLASS_CODE", codigoClase)
             startActivity(intent)
         }
 
-        // Los dos botones hacen lo mismo
-        btnNext.setOnClickListener {
-            navigateToNext()
-        }
-        buttonPrest.setOnClickListener {
-            navigateToNext()
-        }
+        btnNext.setOnClickListener { navigateToNext() }
+        buttonPrest.setOnClickListener { navigateToNext() }
     }
 }

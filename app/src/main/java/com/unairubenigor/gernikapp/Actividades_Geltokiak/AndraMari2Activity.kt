@@ -9,48 +9,42 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.unairubenigor.gernikapp.R
 
-// Asumimos que la siguiente pantalla es Geltoki1Activity, cámbiala si es otra.
-// import com.unairubenigor.gernikapp.Geltoki1Activity
-
 class AndraMari2Activity : AppCompatActivity() {
+
+    private var nombreUsuario: String? = null
+    private var codigoClase: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_andramari2)
 
-        // 1. CONFIGURACIÓN DEL HEADER
+        // --- CORRECCIÓN CLAVE 1: Recoger la "mochila" de datos ---
+        nombreUsuario = intent.getStringExtra("USER_NAME")
+        codigoClase = intent.getStringExtra("CLASS_CODE")
+
         val headerTitle = findViewById<TextView>(R.id.textViewHeaderTitle)
         headerTitle.text = "ANDRA MARI ELIZA"
 
-        // 2. REFERENCIAS A LOS BOTONES
         val btnBack = findViewById<ImageButton>(R.id.buttonBack)
         val btnNext = findViewById<ImageButton>(R.id.buttonContinue)
         val buttonGoazen = findViewById<Button>(R.id.button_goazen)
 
-        // 3. CONFIGURACIÓN DE VISIBILIDAD DEL FOOTER
         btnBack.visibility = View.VISIBLE
-        // Decide si la flecha de continuar debe ser visible. Si es la última pantalla,
-        // podrías poner View.GONE
         btnNext.visibility = View.VISIBLE
 
-        // 4. CONFIGURACIÓN DE LOS CLICKS
-
-        // Botón para ir hacia atrás (vuelve a AndraMariActivity)
         btnBack.setOnClickListener {
             finish()
         }
 
-        // Función para navegar a la siguiente pantalla (por ejemplo, el primer Geltoki)
+        // --- CORRECCIÓN CLAVE 2: Pasar la "mochila" a la siguiente actividad ---
         val navigateToNext = {
             val intent = Intent(this, AndraMari3Activity::class.java)
+            intent.putExtra("USER_NAME", nombreUsuario)
+            intent.putExtra("CLASS_CODE", codigoClase)
             startActivity(intent)
         }
 
-        // Asignamos la función a ambos botones de "continuar"
-        btnNext.setOnClickListener {
-            navigateToNext()
-        }
-        buttonGoazen.setOnClickListener {
-            navigateToNext()
-        }
+        btnNext.setOnClickListener { navigateToNext() }
+        buttonGoazen.setOnClickListener { navigateToNext() }
     }
 }

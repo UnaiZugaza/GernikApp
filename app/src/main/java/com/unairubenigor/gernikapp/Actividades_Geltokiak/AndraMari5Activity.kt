@@ -14,6 +14,9 @@ import com.unairubenigor.gernikapp.R
 
 class AndraMari5Activity : AppCompatActivity() {
 
+    private var nombreUsuario: String? = null
+    private var codigoClase: String? = null
+
     private val correctAnswers = mapOf(
         R.id.kopla_answer_1 to "Santu",
         R.id.kopla_answer_2 to "Kristoren",
@@ -30,19 +33,19 @@ class AndraMari5Activity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_andramari5)
 
-        // 1. Configuración del Header
+        // --- CORRECCIÓN CLAVE 1: Recoger la "mochila" de datos ---
+        nombreUsuario = intent.getStringExtra("USER_NAME")
+        codigoClase = intent.getStringExtra("CLASS_CODE")
+
         val headerTitle = findViewById<TextView>(R.id.textViewHeaderTitle)
         headerTitle.text = "ANDRA MARI - 2. GELTOKIA"
 
-        // 2. Configuración del Botón de Video (como en MuralaVideoActivity)
         val buttonPlayVideo = findViewById<ImageButton>(R.id.button_play_youtube)
         buttonPlayVideo.setOnClickListener {
-            // Este Intent abre la app de YouTube o el navegador
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://youtu.be/W36FCEdqc04"))
             startActivity(intent)
         }
 
-        // 3. Configuración del Footer y la validación
         setupFooter()
     }
 
@@ -53,9 +56,7 @@ class AndraMari5Activity : AppCompatActivity() {
         btnBack.visibility = View.VISIBLE
         btnNext.visibility = View.VISIBLE
 
-        btnBack.setOnClickListener {
-            finish()
-        }
+        btnBack.setOnClickListener { finish() }
 
         btnNext.setOnClickListener {
             validateAnswers()
@@ -69,20 +70,23 @@ class AndraMari5Activity : AppCompatActivity() {
             val userAnswer = editText.text.toString().trim()
 
             if (userAnswer.equals(correctAnswer, ignoreCase = true)) {
-                editText.setBackgroundColor(Color.parseColor("#A5D6A7")) // Verde
+                editText.setBackgroundColor(Color.parseColor("#A5D6A7"))
             } else {
-                editText.setBackgroundColor(Color.parseColor("#EF9A9A")) // Rojo
-                // allCorrect = false // <-- RESTRICCIÓN COMENTADA
+                editText.setBackgroundColor(Color.parseColor("#EF9A9A"))
+                // allCorrect = false // Restricción comentada
             }
         }
 
         if (allCorrect) {
             Toast.makeText(this, "Zorionak! Dena ondo dago!", Toast.LENGTH_LONG).show()
+            
+            // --- CORRECCIÓN CLAVE 2: Pasar la "mochila" a la siguiente actividad ---
             val intent = Intent(this, AndraMari6Activity::class.java)
+            intent.putExtra("USER_NAME", nombreUsuario)
+            intent.putExtra("CLASS_CODE", codigoClase)
             startActivity(intent)
         } else {
             Toast.makeText(this, "Erantzun batzuk ez dira zuzenak. Saiatu berriro!", Toast.LENGTH_SHORT).show()
         }
     }
-
 }

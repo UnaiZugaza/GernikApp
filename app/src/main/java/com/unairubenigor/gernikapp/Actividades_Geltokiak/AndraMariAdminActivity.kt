@@ -1,12 +1,11 @@
 package com.unairubenigor.gernikapp.Actividades_Geltokiak
 
-import android.content.Intent
-import android.graphics.Color
-import android.net.Uri
+import android.content.Context
 import android.os.Bundle
-import android.view.Gravity
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
+import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -20,18 +19,44 @@ import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.ktx.toObject
 import com.unairubenigor.gernikapp.R
+
+// --- DATA CLASSES ---
+data class AndraMari4Answer(
+    val izena: String = "",
+    val gela: String = "",
+    val erantzuna1: String = "",
+    val erantzuna2: String = "",
+    val data: Long = 0L
+)
+
+data class AndraMari6Image(
+    val izena: String = "",
+    val gela: String = "",
+    val imageUrl: String = "",
+    val data: Long = 0L
+)
+
+data class AndraMari7Opinion(
+    val izena: String = "",
+    val gela: String = "",
+    val iritzia: String = "",
+    val data: Long = 0L
+)
 
 class AndraMariAdminActivity : AppCompatActivity() {
 
-    private lateinit var rvImages: RecyclerView
-    private lateinit var rvVideos: RecyclerView
+    private lateinit var containerKopla5: LinearLayout
+    private lateinit var containerAnswers4: LinearLayout
+    private lateinit var rvImages6: RecyclerView
+    private lateinit var containerOpinions7: LinearLayout
     private lateinit var progressBar: ProgressBar
 
     private var codigoClase: String = ""
     private val db = FirebaseFirestore.getInstance()
-    private var imagesListener: ListenerRegistration? = null
-    private var videosListener: ListenerRegistration? = null
+
+    private var listeners: MutableList<ListenerRegistration> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,69 +67,145 @@ class AndraMariAdminActivity : AppCompatActivity() {
         val headerTitle = findViewById<TextView>(R.id.textViewHeaderTitle)
         headerTitle.text = "ADMIN: ANDRA MARI ($codigoClase)"
 
-        rvImages = findViewById(R.id.images_container) // Asumiendo que ahora son RecyclerViews
-        rvVideos = findViewById(R.id.videos_container)
-        progressBar = findViewById(R.id.progressBarAdmin) // Asumiendo que tienes un ProgressBar
+        containerKopla5 = findViewById(R.id.andramari5_kopla_solutions_container)
+        containerAnswers4 = findViewById(R.id.andramari4_answers_container)
+        rvImages6 = findViewById(R.id.andramari6_images_container)
+        containerOpinions7 = findViewById(R.id.andramari7_opinions_container)
+        progressBar = findViewById(R.id.progressBarAdmin)
 
-        rvImages.layoutManager = LinearLayoutManager(this)
-        rvVideos.layoutManager = LinearLayoutManager(this)
-
-        val btnBack = findViewById<ImageButton>(R.id.buttonBack)
-        btnBack.visibility = View.VISIBLE
-        btnBack.setOnClickListener { finish() }
+        setupFooter()
 
         if (codigoClase.isNotEmpty()) {
-            loadKoplaSolutions()
-            listenForImages()
-            listenForVideos()
+            progressBar.visibility = View.VISIBLE
+            setupRecyclerViews()
+            showKoplaSolutions()
+            listenForAllDynamicData()
         } else {
-            Toast.makeText(this, "Errorea: Kodea falta da", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Errorea: Gelaren kodea falta da", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun loadKoplaSolutions() {
-        // ... (código de la kopla se mantiene igual) ...
+    private fun setupFooter() {
+        findViewById<ImageButton>(R.id.buttonBack).setOnClickListener { finish() }
+        findViewById<ImageButton>(R.id.buttonBack).visibility = View.VISIBLE
+        findViewById<ImageButton>(R.id.buttonContinue).visibility = View.GONE
     }
 
-    private fun listenForImages() {
-        progressBar.visibility = View.VISIBLE
-        imagesListener = db.collection("andra_mari_argazkiak") // Suposición del nombre de la colección
-            .whereEqualTo("gela", codigoClase)
-            .orderBy("data", Query.Direction.DESCENDING)
-            .addSnapshotListener { snapshots, error ->
-                progressBar.visibility = View.GONE
-                if (error != null) {
-                    Toast.makeText(this, "Errorea irudiak kargatzean: ${error.message}", Toast.LENGTH_SHORT).show()
-                    return@addSnapshotListener
-                }
-
-                if (snapshots != null) {
-                    // Lógica para procesar y mostrar las imágenes en rvImages
-                    // ... (necesitaríamos un Adapter)
-                }
-            }
+    private fun setupRecyclerViews() {
+        rvImages6.layoutManager = LinearLayoutManager(this)
     }
 
-    private fun listenForVideos() {
-        videosListener = db.collection("andra_mari_bideoak")
-            .whereEqualTo("gela", codigoClase)
-            .orderBy("data", Query.Direction.DESCENDING)
+    private fun showKoplaSolutions() {
+        val correctAnswers = listOf(
+            "Santu", "Kristoren", "Maria", "Jose", "Jesus", "Maria", "Etxetxu", "Nor", "zeunke"
+        )
+        containerKopla5.removeAllViews()
+        val tv = TextView(this).apply {
+            text = correctAnswers.joinToString(separator = ", ")
+            textSize = 16f
+        }
+        containerKopla5.addView(tv)
+    }
+
+    private fun listenForAllDynamicData() {
+        listenForAndraMari4Answers()
+        listenForAndraMari6Images()
+        listenForAndraMari7Opinions()
+        progressBar.postDelayed({ progressBar.visibility = View.GONE }, 2500)
+    }
+
+    // --- CORRECCIÓN: AHORA SE CAPTURAN LOS ERRORES DE LECTURA ---
+
+    private fun listenForAndraMari4Answers() {
+        val listener = db.collection("andra_mari_4_erantzunak")
+            .whereEqualTo("gela", codigoClase).orderBy("data", Query.Direction.DESCENDING)
             .addSnapshotListener { snapshots, error ->
                 if (error != null) {
-                    Toast.makeText(this, "Errorea bideoak kargatzean: ${error.message}", Toast.LENGTH_SHORT).show()
+                    Log.e("Firestore Error", "Error en AndraMari4: ", error)
+                    Toast.makeText(this, "Errorea 4. erantzunak irakurtzean", Toast.LENGTH_LONG).show()
                     return@addSnapshotListener
                 }
-
-                if (snapshots != null) {
-                    // Lógica para procesar y mostrar los vídeos en rvVideos
-                    // ... (necesitaríamos un Adapter)
+                containerAnswers4.removeAllViews()
+                snapshots?.forEach { doc ->
+                    val answer = doc.toObject<AndraMari4Answer>()
+                    val tv = TextView(this).apply {
+                        text = "👤 ${answer.izena}:\n\t- ${answer.erantzuna1}\n\t- ${answer.erantzuna2}"
+                        setPadding(0, 10, 0, 10)
+                    }
+                    containerAnswers4.addView(tv)
                 }
             }
+        listeners.add(listener)
+    }
+
+    private fun listenForAndraMari6Images() {
+        val listener = db.collection("andra_mari_argazkiak")
+            .whereEqualTo("gela", codigoClase).orderBy("data", Query.Direction.DESCENDING)
+            .addSnapshotListener { snapshots, error ->
+                if (error != null) {
+                    Log.e("Firestore Error", "Error en AndraMari6: ", error)
+                    Toast.makeText(this, "Errorea 6. irudiak irakurtzean", Toast.LENGTH_LONG).show()
+                    return@addSnapshotListener
+                }
+                val imageList = snapshots?.toObjects(AndraMari6Image::class.java) ?: emptyList()
+                rvImages6.adapter = AndraMari6ImageAdapter(this, imageList)
+            }
+        listeners.add(listener)
+    }
+
+    private fun listenForAndraMari7Opinions() {
+        val listener = db.collection("andra_mari_iritziak")
+            .whereEqualTo("gela", codigoClase).orderBy("data", Query.Direction.DESCENDING)
+            .addSnapshotListener { snapshots, error ->
+                if (error != null) {
+                    Log.e("Firestore Error", "Error en AndraMari7: ", error)
+                    Toast.makeText(this, "Errorea 7. iritziak irakurtzean", Toast.LENGTH_LONG).show()
+                    return@addSnapshotListener
+                }
+                containerOpinions7.removeAllViews()
+                snapshots?.forEach { doc ->
+                    val opinion = doc.toObject<AndraMari7Opinion>()
+                    val tv = TextView(this).apply {
+                        text = "👤 ${opinion.izena}:\n\t- ${opinion.iritzia}"
+                        setPadding(0, 10, 0, 10)
+                    }
+                    containerOpinions7.addView(tv)
+                }
+            }
+        listeners.add(listener)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        imagesListener?.remove()
-        videosListener?.remove()
+        listeners.forEach { it.remove() } // Limpiamos todos los listeners
     }
+}
+
+class AndraMari6ImageAdapter(private val context: Context, private val items: List<AndraMari6Image>) : 
+    RecyclerView.Adapter<AndraMari6ImageAdapter.ViewHolder>() {
+
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val tvNombre: TextView = view.findViewById(R.id.tvNombreAlumno)
+        val ivImagen: ImageView = view.findViewById(R.id.ivDibujoAlumno)
+        val puntuazioaLayout: View = view.findViewById(R.id.puntuazioa_layout)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(context).inflate(R.layout.item_marrazkia_admin, parent, false)
+        return ViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val item = items[position]
+        holder.tvNombre.text = item.izena
+        holder.puntuazioaLayout.visibility = View.GONE 
+
+        Glide.with(context)
+            .load(item.imageUrl)
+            .placeholder(android.R.drawable.ic_menu_gallery)
+            .error(android.R.drawable.stat_notify_error)
+            .into(holder.ivImagen)
+    }
+
+    override fun getItemCount() = items.size
 }

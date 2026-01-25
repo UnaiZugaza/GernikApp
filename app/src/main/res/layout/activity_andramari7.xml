@@ -55,7 +55,7 @@
                     android:gravity="center" />
             </androidx.cardview.widget.CardView>
 
-            <!-- Tarjeta 2: Funcionalidad de video -->
+            <!-- Tarjeta 2: Funcionalidad de opinión -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -70,27 +70,23 @@
                     android:gravity="center"
                     android:padding="16dp">
 
-                    <VideoView
-                        android:id="@+id/video_preview"
+                    <EditText
+                        android:id="@+id/et_opinion"
                         android:layout_width="match_parent"
-                        android:layout_height="250dp"
-                        android:layout_marginBottom="16dp"/>
+                        android:layout_height="150dp"
+                        android:hint="Idatzi hemen zure iritzia..."
+                        android:gravity="top"
+                        android:background="@android:color/white"
+                        android:padding="12dp"
+                        android:layout_marginBottom="16dp"
+                        android:inputType="textMultiLine" />
 
                     <Button
-                        android:id="@+id/button_select_video"
+                        android:id="@+id/button_send_opinion"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Aukeratu Bideoa"
+                        android:text="Iritzia Bidali"
                         android:backgroundTint="#FF9800"
-                        android:textColor="@android:color/white"
-                        android:layout_marginBottom="8dp"/>
-                        
-                    <Button
-                        android:id="@+id/button_upload_video"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Bideoa Igo"
-                        android:backgroundTint="#FFC107"
                         android:textColor="@android:color/white"/>
 
                 </LinearLayout>

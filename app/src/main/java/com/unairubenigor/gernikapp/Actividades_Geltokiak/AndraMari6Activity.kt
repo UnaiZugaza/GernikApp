@@ -11,15 +11,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.unairubenigor.gernikapp.R
 import java.util.UUID
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.util.Base64
-import com.google.firebase.firestore.FirebaseFirestore
-import java.io.ByteArrayOutputStream
 
 class AndraMari6Activity : AppCompatActivity() {
 
@@ -28,13 +24,15 @@ class AndraMari6Activity : AppCompatActivity() {
     private lateinit var imageUpload3: ImageView
     private lateinit var uploadButton: Button
 
+    private var nombreUsuario: String = ""
+    private var codigoClase: String = ""
+    private val db = FirebaseFirestore.getInstance()
+
     private val imageUris = mutableMapOf<Int, Uri?>(
         1 to null, 2 to null, 3 to null
     )
 
     private var currentImageSelection = 0
-    private var nombreUsuario: String? = null
-    private var codigoClase: String? = null
 
     private val selectImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let {
@@ -51,8 +49,9 @@ class AndraMari6Activity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_andramari6)
 
-        nombreUsuario = intent.getStringExtra("USER_NAME")
-        codigoClase = intent.getStringExtra("CLASS_CODE")
+        // --- CORRECCIÓN CLAVE 1: Recoger SIEMPRE los datos ---
+        nombreUsuario = intent.getStringExtra("USER_NAME") ?: "Ezezaguna"
+        codigoClase = intent.getStringExtra("CLASS_CODE") ?: ""
 
         val headerTitle = findViewById<TextView>(R.id.textViewHeaderTitle)
         headerTitle.text = "ANDRA MARI - 3. GELTOKIA"
@@ -66,7 +65,13 @@ class AndraMari6Activity : AppCompatActivity() {
         imageUpload2.setOnClickListener { selectImage(2) }
         imageUpload3.setOnClickListener { selectImage(3) }
 
-        uploadButton.setOnClickListener { uploadImagesToFirebase() }
+        uploadButton.setOnClickListener { 
+            if (codigoClase.isEmpty()){
+                Toast.makeText(this, "Errorea: Gelaren kodea falta da.", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+            uploadImagesToFirebase() 
+        }
 
         setupFooter()
     }
@@ -80,11 +85,11 @@ class AndraMari6Activity : AppCompatActivity() {
 
         btnBack.setOnClickListener { finish() }
 
+        // --- CORRECCIÓN CLAVE 2: Pasar la "mochila" a la siguiente actividad ---
         btnNext.setOnClickListener {
-            val intent = Intent(this, AndraMari7Activity::class.java).apply {
-                putExtra("USER_NAME", nombreUsuario)
-                putExtra("CLASS_CODE", codigoClase)
-            }
+            val intent = Intent(this, AndraMari7Activity::class.java)
+            intent.putExtra("USER_NAME", nombreUsuario)
+            intent.putExtra("CLASS_CODE", codigoClase)
             startActivity(intent)
         }
     }
@@ -94,88 +99,54 @@ class AndraMari6Activity : AppCompatActivity() {
         selectImageLauncher.launch("image/*")
     }
 
-    private val db = FirebaseFirestore.getInstance()
-
     private fun uploadImagesToFirebase() {
         val urisToUpload = imageUris.values.filterNotNull()
-        // Comprobamos que las 3 imágenes estén seleccionadas
         if (urisToUpload.size < 3) {
             Toast.makeText(this, "Hiru irudiak aukeratu behar dituzu", Toast.LENGTH_SHORT).show()
             return
         }
 
-        setLoading(true)
-        val base64List = mutableListOf<String>()
+        uploadButton.isEnabled = false
+        uploadButton.text = "IGOTZEN..."
 
-        try {
-            // Procesamos cada imagen como hacías en GernikakoArbola
-            urisToUpload.forEach { uri ->
-                val base64 = procesarImagenABase64(uri)
-                if (base64 != null) base64List.add(base64)
-            }
+        val storage = Firebase.storage
+        var successCount = 0
+        var completedCount = 0
 
-            if (base64List.size == 3) {
-                guardarEnFirestore(base64List)
-            } else {
-                setLoading(false)
-                Toast.makeText(this, "Errorea irudiak prozesatzean", Toast.LENGTH_SHORT).show()
-            }
-        } catch (e: Exception) {
-            setLoading(false)
-            Toast.makeText(this, "Errorea: ${e.message}", Toast.LENGTH_SHORT).show()
+        urisToUpload.forEach { uri ->
+            val fileName = "images/${UUID.randomUUID()}.jpg"
+            val imageRef = storage.reference.child(fileName)
+
+            imageRef.putFile(uri)
+                .continueWithTask { task ->
+                    if (!task.isSuccessful) task.exception?.let { throw it }
+                    imageRef.downloadUrl
+                }
+                .addOnCompleteListener { task ->
+                    completedCount++
+                    if (task.isSuccessful) {
+                        val downloadUri = task.result
+                        saveImageUrlToFirestore(downloadUri.toString()) { success ->
+                            if (success) successCount++
+                        }
+                    }
+                    if (completedCount == urisToUpload.size) {
+                        Toast.makeText(this, "$successCount/${urisToUpload.size} argazki ondo gorde dira.", Toast.LENGTH_LONG).show()
+                        uploadButton.text = "BIDALITA"
+                    }
+                }
         }
     }
 
-    private fun procesarImagenABase64(uri: Uri): String? {
-        val imageStream = contentResolver.openInputStream(uri)
-        val originalBitmap = BitmapFactory.decodeStream(imageStream)
-
-        // Redimensionamos a 400px para que las 3 fotos quepan en un solo documento de Firestore
-        val bitmapReducido = redimensionarBitmap(originalBitmap, 400)
-
-        val streamSalida = ByteArrayOutputStream()
-        // Comprimimos al 40% para no superar el límite de 1MB de Firestore
-        bitmapReducido.compress(Bitmap.CompressFormat.JPEG, 40, streamSalida)
-        val byteArray = streamSalida.toByteArray()
-        return Base64.encodeToString(byteArray, Base64.NO_WRAP)
-    }
-
-    private fun redimensionarBitmap(image: Bitmap, maxSize: Int): Bitmap {
-        var width = image.width
-        var height = image.height
-        val ratio = width.toFloat() / height.toFloat()
-        if (ratio > 1) {
-            width = maxSize
-            height = (width / ratio).toInt()
-        } else {
-            height = maxSize
-            width = (height * ratio).toInt()
-        }
-        return Bitmap.createScaledBitmap(image, width, height, true)
-    }
-
-    private fun guardarEnFirestore(imagenes: List<String>) {
-        val datos = hashMapOf(
-            "izena" to (nombreUsuario ?: "Ezezaguna"),
-            "gela" to (codigoClase ?: ""),
-            "argazkiak" to imagenes,
+    private fun saveImageUrlToFirestore(imageUrl: String, onResult: (Boolean) -> Unit) {
+        val imageData = hashMapOf(
+            "izena" to nombreUsuario,
+            "gela" to codigoClase,
+            "imageUrl" to imageUrl,
             "data" to System.currentTimeMillis()
         )
-
-        // Guardamos en una colección nueva para Andra Mari
-        db.collection("andramari_argazkiak")
-            .add(datos)
-            .addOnSuccessListener {
-                setLoading(false)
-                Toast.makeText(this, "Irudiak ondo igo dira!", Toast.LENGTH_LONG).show()
-            }
-            .addOnFailureListener {
-                setLoading(false)
-                Toast.makeText(this, "Errorea: ${it.message}", Toast.LENGTH_SHORT).show()
-            }
-    }
-    private fun setLoading(isLoading: Boolean) {
-        uploadButton.isEnabled = !isLoading
-        uploadButton.text = if (isLoading) "Igotzen..." else "ARGAZKIAK IGO"
+        db.collection("andra_mari_argazkiak").add(imageData)
+            .addOnSuccessListener { onResult(true) }
+            .addOnFailureListener { onResult(false) }
     }
 }

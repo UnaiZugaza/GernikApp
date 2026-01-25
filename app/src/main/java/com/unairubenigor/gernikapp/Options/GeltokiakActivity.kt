@@ -7,12 +7,11 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.unairubenigor.gernikapp.Actividades_Geltokiak.* // Importamos todas las actividades de golpe
+import com.unairubenigor.gernikapp.Actividades_Geltokiak.*
 import com.unairubenigor.gernikapp.R
 
 class GeltokiakActivity : AppCompatActivity() {
 
-    // Variables para guardar los datos temporalmente
     private var nombreUsuario: String? = ""
     private var codigoClase: String? = ""
 
@@ -38,36 +37,26 @@ class GeltokiakActivity : AppCompatActivity() {
         btnBack.setOnClickListener { finish() }
         btnContinue.visibility = View.INVISIBLE
 
-        // --- BOTONES CON PASO DE DATOS OBLIGATORIO ---
-
-        // 1. Astra
+        // --- BOTONES CON PASO DE DATOS ---
         findViewById<Button>(R.id.btnAstra).setOnClickListener {
             abrirActividad(AstraActivity::class.java)
         }
-
-        // 2. Gernikako Arbola
         findViewById<Button>(R.id.btnArbola).setOnClickListener {
-            // CORRECCIÓN: Abrir la nueva pantalla de bienvenida del Arbola
             abrirActividad(GernikakoArbolaOngiEtorriActivity::class.java)
         }
-
-        // 3. Pasileku
         findViewById<Button>(R.id.btnPasileku).setOnClickListener {
             abrirActividad(PasilekuActivity::class.java)
         }
-
-        // 4. Andra Mari
         findViewById<Button>(R.id.btnAndraMari).setOnClickListener {
             abrirActividad(AndraMari1Activity::class.java)
         }
-
-        // 5. GERNIKAKO MURALA
         findViewById<Button>(R.id.btnMurala).setOnClickListener {
             abrirActividad(GernikakoMuralaOngiEtorriActivity::class.java)
         }
     }
 
-    // Función auxiliar para no repetir código y PASAR SIEMPRE LOS DATOS
+    // ¡¡¡AQUÍ ESTÁ LA SOLUCIÓN!!!
+    // Ahora esta función SIEMPRE pasa los datos del alumno a la siguiente pantalla.
     private fun abrirActividad(clase: Class<*>) {
         val intent = Intent(this, clase)
         intent.putExtra("USER_NAME", nombreUsuario)

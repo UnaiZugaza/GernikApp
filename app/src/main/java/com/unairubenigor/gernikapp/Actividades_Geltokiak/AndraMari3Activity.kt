@@ -9,31 +9,36 @@ import androidx.appcompat.app.AppCompatActivity
 import com.unairubenigor.gernikapp.R
 
 class AndraMari3Activity : AppCompatActivity() {
+
+    private var nombreUsuario: String? = null
+    private var codigoClase: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_andramari3)
 
-        // 1. CONFIGURACIÓN DEL HEADER
+        // --- CORRECCIÓN CLAVE 1: Recoger la "mochila" de datos ---
+        nombreUsuario = intent.getStringExtra("USER_NAME")
+        codigoClase = intent.getStringExtra("CLASS_CODE")
+
         val headerTitle = findViewById<TextView>(R.id.textViewHeaderTitle)
         headerTitle.text = "ANDRA MARI ELIZA"
 
-        // 2. REFERENCIAS A LOS BOTONES DEL FOOTER
         val btnBack = findViewById<ImageButton>(R.id.buttonBack)
         val btnNext = findViewById<ImageButton>(R.id.buttonContinue)
 
-        // 3. CONFIGURACIÓN DE VISIBILIDAD DEL FOOTER
         btnBack.visibility = View.VISIBLE
-        // Decide si la flecha de continuar debe ser visible.
         btnNext.visibility = View.VISIBLE
 
-        // 4. CONFIGURACIÓN DE LOS CLICKS
         btnBack.setOnClickListener {
-            // Vuelve a AndraMari2Activity
             finish()
         }
 
+        // --- CORRECCIÓN CLAVE 2: Pasar la "mochila" a la siguiente actividad ---
         btnNext.setOnClickListener {
             val intent = Intent(this, AndraMari4Activity::class.java)
+            intent.putExtra("USER_NAME", nombreUsuario)
+            intent.putExtra("CLASS_CODE", codigoClase)
             startActivity(intent)
         }
     }
