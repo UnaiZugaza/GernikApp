@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/fondo_general">
 
+    <!-- Header -->
     <include
         android:id="@+id/include_header"
         layout="@layout/menu_arriba"
@@ -12,12 +13,13 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- ScrollView solo para el texto -->
     <ScrollView
+        android:id="@+id/scrollViewTextExplica"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:fillViewport="true"
         app:layout_constraintTop_toBottomOf="@+id/include_header"
-        app:layout_constraintBottom_toTopOf="@+id/include_footer">
+        app:layout_constraintBottom_toTopOf="@+id/iv_arbol_gif_explica1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,6 +48,19 @@
         </LinearLayout>
     </ScrollView>
 
+    <!-- GIF del Árbol (FUERA DEL SCROLL, FIJO ABAJO) -->
+    <ImageView
+        android:id="@+id/iv_arbol_gif_explica1"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginBottom="8dp"
+        android:scaleType="centerInside"
+        android:contentDescription="Arbola animated gif"
+        app:layout_constraintBottom_toTopOf="@+id/include_footer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Footer -->
     <include
         android:id="@+id/include_footer"
         layout="@layout/footer"

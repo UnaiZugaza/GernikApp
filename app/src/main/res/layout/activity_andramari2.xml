@@ -7,7 +7,7 @@
     android:background="@color/fondo_general"
     tools:context=".Actividades_Geltokiak.AndraMari2Activity">
 
-    <!-- 1. Header (El título se pondrá desde el código Kotlin) -->
+    <!-- 1. Header -->
     <include
         android:id="@+id/include_header"
         layout="@layout/menu_arriba"
@@ -34,11 +34,11 @@
             android:padding="16dp"
             android:gravity="center">
 
-            <!-- Tarjeta 1: "Gaur marijesi bat izango zara!" -->
+            <!-- Tarjeta 1: Título -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
+                android:layout_marginBottom="24dp"
                 app:cardCornerRadius="25dp"
                 app:cardBackgroundColor="@color/azul_acento"
                 app:cardElevation="4dp">
@@ -56,11 +56,11 @@
 
             </androidx.cardview.widget.CardView>
 
-            <!-- Tarjeta 2: Descripción de la actividad -->
+            <!-- Tarjeta 2: Descripción -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
+                android:layout_marginBottom="24dp"
                 app:cardCornerRadius="25dp"
                 app:cardBackgroundColor="@color/azul_acento"
                 app:cardElevation="4dp">
@@ -70,7 +70,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="20dp"
-                    android:text="Mugikorrarekin, Andra Mari inguruan 5 geldialdi egingo dituzu. Geldialdi bakoitzean, bideo bat ikusi, galdera bati erantzun edo argazki bat atera beharko duzu.\n\nAmaieran, domina digital bat jasoko duzu: &quot;Gernikako Marijesi txikia&quot;.\n\nPrest al zaude tradizio hau ezagutzeko eta gure kulturaren zati bihurtzeko?"
+                    android:text="Mugikorrarekin, Andra Mari inguruan 5 geldialdi egingo dituzu. Geldialdi bakoitzean, bideo bat ikusi, galdera bati erantzun edo argazki bat atera beharko duzu.\n\nAmaieran, domina digital bat jasoko duzu: &quot;Gernikako Marijesi txikia&quot;."
                     android:textColor="@android:color/black"
                     android:textSize="18sp"
                     android:gravity="center"
@@ -82,6 +82,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
                 app:cardCornerRadius="25dp"
                 app:cardBackgroundColor="@color/azul_acento"
                 app:cardElevation="4dp">
@@ -99,10 +100,19 @@
                     android:textStyle="bold"/>
 
             </androidx.cardview.widget.CardView>
+
+            <!-- GIF del Árbol (Fuera de tarjeta, al final) -->
+            <ImageView
+                android:id="@+id/iv_arbol_gif_2"
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:scaleType="centerInside"
+                android:contentDescription="Arbola animated gif" />
+
         </LinearLayout>
     </ScrollView>
 
-    <!-- 3. Footer (mostrará las flechas) -->
+    <!-- 3. Footer -->
     <include
         android:id="@+id/include_footer"
         layout="@layout/footer"

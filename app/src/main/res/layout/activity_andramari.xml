@@ -7,7 +7,7 @@
     android:background="@color/fondo_general"
     tools:context=".Actividades_Geltokiak.AndraMari1Activity">
 
-    <!-- 1. Header (El título "ANDRA MARI ELIZA" se pondrá desde el código) -->
+    <!-- 1. Header -->
     <include
         android:id="@+id/include_header"
         layout="@layout/menu_arriba"
@@ -34,11 +34,11 @@
             android:padding="16dp"
             android:gravity="center">
 
-            <!-- Tarjeta 1: Bienvenida (con más separación) -->
+            <!-- Tarjeta 1: Bienvenida -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
+                android:layout_marginBottom="24dp"
                 app:cardCornerRadius="25dp"
                 app:cardBackgroundColor="@color/azul_acento"
                 app:cardElevation="4dp">
@@ -48,61 +48,40 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="20dp"
-                    android:text="Kaixo, lagun!\nOngi etorri Gernikako Marijesien\nibilbide digitalera..."
+                    android:text="Kaixo, lagun!\nOngi etorri Gernikako Marijesien ibilbidera"
                     android:textColor="@android:color/black"
-                    android:textSize="20sp"
+                    android:textSize="22sp"
                     android:textStyle="bold"
                     android:gravity="center" />
 
             </androidx.cardview.widget.CardView>
 
-            <!-- Tarjeta 2: Descripción y debajo la Imagen (con más separación) -->
+            <!-- Tarjeta 2: Descripción -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
+                android:layout_marginBottom="24dp"
                 app:cardCornerRadius="25dp"
                 app:cardBackgroundColor="@color/azul_acento"
                 app:cardElevation="4dp">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/text_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:padding="16dp">
+                    android:padding="20dp"
+                    android:text="Urtero, abenduan, Gernikako Andra Mari Elizatik abiatzen dira talde batzuk goiz-goizetik kantatzera. Marijesiak deitzen zaie, eta Jesus jaio aurreko bederatzi gauetan ibiltzen dira kalez kale."
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    android:gravity="center" />
 
-                    <TextView
-                        android:id="@+id/text_description"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:text="Urtero, abenduan, Gernikako Andra Mari Elizatik abiatzen dira talde batzuk goiz-goizetik kantatzera. Marijesiak deitzen zaie, eta Jesus jaio aurreko bederatzi gauetan ibiltzen dira kalez kale."
-                        android:textColor="@android:color/black"
-                        android:textSize="18sp"
-                        android:gravity="center" />
-
-                    <!-- Contenedor de la imagen (más grande) -->
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="300dp"
-                        android:layout_height="180dp"
-                        app:cardCornerRadius="20dp">
-
-                        <ImageView
-                            android:id="@+id/image_marijesiak"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/marijesiak" />
-
-                    </androidx.cardview.widget.CardView>
-                </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Tarjeta 3: Botón "Prest Zaudete" -->
+            <!-- Tarjeta 3: Botón -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
                 app:cardCornerRadius="25dp"
                 app:cardBackgroundColor="@color/azul_acento"
                 app:cardElevation="4dp">
@@ -112,19 +91,27 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="16dp"
-                    android:text="Prest zaudete Marijesien\nmunduan barneratzeko?"
+                    android:padding="16dp"
+                    android:text="Prest zaudete barneratzeko?"
                     android:textAllCaps="false"
                     android:textColor="@android:color/black"
                     android:textSize="18sp"
                     android:textStyle="bold"/>
 
             </androidx.cardview.widget.CardView>
+
+            <!-- GIF del Árbol (Fuera de tarjeta, al final) -->
+            <ImageView
+                android:id="@+id/iv_arbol_gif_1"
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:scaleType="centerInside"
+                android:contentDescription="Arbola animated gif" />
+
         </LinearLayout>
     </ScrollView>
 
-    <!-- 3. Footer (ocupa todo el ancho y mostrará las flechas) -->
+    <!-- 3. Footer -->
     <include
         android:id="@+id/include_footer"
         layout="@layout/footer"

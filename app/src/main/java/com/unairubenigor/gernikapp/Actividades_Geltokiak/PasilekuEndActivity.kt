@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.unairubenigor.gernikapp.R
 import com.unairubenigor.gernikapp.ikasle.IkasleMenuActivity
 
@@ -27,6 +29,10 @@ class PasilekuEndActivity : AppCompatActivity() {
         val headerTitle = findViewById<TextView>(R.id.textViewHeaderTitle)
         headerTitle.text = "PASILEKU PLAZA"
 
+        // --- Cargar GIF del árbol ---
+        val ivArbolGif = findViewById<ImageView>(R.id.iv_arbol_gif_pasileku_end)
+        Glide.with(this).asGif().load(R.raw.arbolgif).into(ivArbolGif)
+
         // Configurar Footer
         val btnBack = findViewById<ImageButton>(R.id.buttonBack)
         val btnNext = findViewById<ImageButton>(R.id.buttonContinue)
@@ -42,11 +48,8 @@ class PasilekuEndActivity : AppCompatActivity() {
         val btnVolverMenu = findViewById<Button>(R.id.btn_volver_menu)
         btnVolverMenu.setOnClickListener {
             val intent = Intent(this, IkasleMenuActivity::class.java)
-            // Pasamos los datos de vuelta para que el menú sepa quién es el usuario
             intent.putExtra("USER_NAME", nombreUsuario)
             intent.putExtra("CLASS_CODE", codigoClase)
-            
-            // FLAG_ACTIVITY_CLEAR_TOP cierra todas las actividades que hay por encima de IkasleMenuActivity
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             startActivity(intent)
             finish()

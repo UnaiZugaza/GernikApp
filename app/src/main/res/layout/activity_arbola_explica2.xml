@@ -45,6 +45,15 @@
                 android:textStyle="bold"
                 android:gravity="center" />
 
+            <!-- GIF del Árbol -->
+            <ImageView
+                android:id="@+id/iv_arbol_gif_explica2"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="24dp"
+                android:scaleType="centerInside"
+                android:contentDescription="Arbola animated gif" />
+
         </LinearLayout>
     </ScrollView>
 

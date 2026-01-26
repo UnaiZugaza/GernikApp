@@ -23,13 +23,12 @@
         android:padding="32dp">
 
         <!-- Zona de texto desplazable (Título y Explicación) -->
-        <!-- Se ancla arriba y termina justo encima del texto de abajo -->
         <ScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="16dp"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/textViewJarraitu"
+            app:layout_constraintBottom_toTopOf="@+id/iv_arbol_gif"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
@@ -63,7 +62,18 @@
             </LinearLayout>
         </ScrollView>
 
-        <!-- Texto final (Anclado abajo del todo) -->
+        <!-- GIF del árbol (Ajustado a 200dp) -->
+        <ImageView
+            android:id="@+id/iv_arbol_gif"
+            android:layout_width="193dp"
+            android:layout_height="144dp"
+            android:layout_marginBottom="12dp"
+            android:contentDescription="Arbola animated gif"
+            app:layout_constraintBottom_toTopOf="@+id/textViewJarraitu"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- Texto final -->
         <TextView
             android:id="@+id/textViewJarraitu"
             android:layout_width="wrap_content"
