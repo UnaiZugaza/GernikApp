@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D1ECFF"
+    android:background="@color/fondo_general"
     tools:context=".Actividades_Geltokiak.AndraMari2Activity">
 
     <!-- 1. Header (El título se pondrá desde el código Kotlin) -->
@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp"
                 app:cardCornerRadius="25dp"
-                app:cardBackgroundColor="#4EBFFF"
+                app:cardBackgroundColor="@color/azul_acento"
                 app:cardElevation="4dp">
 
                 <TextView
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp"
                 app:cardCornerRadius="25dp"
-                app:cardBackgroundColor="#4EBFFF"
+                app:cardBackgroundColor="@color/azul_acento"
                 app:cardElevation="4dp">
 
                 <TextView
@@ -83,10 +83,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="25dp"
-                app:cardBackgroundColor="#4EBFFF"
+                app:cardBackgroundColor="@color/azul_acento"
                 app:cardElevation="4dp">
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/button_goazen"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

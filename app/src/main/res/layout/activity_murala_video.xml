@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D1ECFF">
+    android:background="@color/fondo_general">
 
     <!-- Header -->
     <include
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
             app:cardCornerRadius="25dp"
-            app:cardBackgroundColor="#4EBFFF"
+            app:cardBackgroundColor="@color/azul_acento"
             app:cardElevation="4dp">
 
             <TextView
@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="25dp"
-            app:cardBackgroundColor="#4EBFFF"
+            app:cardBackgroundColor="@color/azul_acento"
             app:cardElevation="4dp">
 
             <ImageButton
