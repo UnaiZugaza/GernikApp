@@ -8,8 +8,8 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 import com.unairubenigor.gernikapp.R
 import com.unairubenigor.gernikapp.ikasle.IkasleMenuActivity
 
@@ -22,36 +22,42 @@ class ArbolaIrabazleActivity : AppCompatActivity() {
 
     private val db = FirebaseFirestore.getInstance()
 
+    private var gela: String = ""
+    private var ikasleIzena: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_arbola_irabazle)
 
-        // 1. Configurar vistas
         tvIrabazleIzena = findViewById(R.id.tvIrabazleIzena)
         tvZurePuntuazioa = findViewById(R.id.tvZurePuntuazioa)
         btnItzuliMenura = findViewById(R.id.btnItzuliMenura)
         progressBar = findViewById(R.id.progressBarIrabazle)
 
-        // 2. Configurar Header
         val headerTitle = findViewById<TextView>(R.id.textViewHeaderTitle)
         headerTitle.text = "EMAITZAK"
 
-        // 3. Configurar botón de volver
+        // --- ¡CORRECCIÓN DEFINITIVA! Aceptamos cualquiera de las dos claves ---
+        val gelaCode = intent.getStringExtra("CLASS_CODE")
+        val gelaCodeAlternativo = intent.getStringExtra("GELA_CODE")
+        gela = gelaCode ?: gelaCodeAlternativo ?: ""
+        ikasleIzena = intent.getStringExtra("USER_NAME") ?: ""
+
         btnItzuliMenura.setOnClickListener {
             val intent = Intent(this, IkasleMenuActivity::class.java)
+            intent.putExtra("USER_NAME", ikasleIzena)
+            intent.putExtra("CLASS_CODE", gela) // Usamos la clave estándar para devolverlo
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
             finish()
         }
 
-        // 4. Obtener datos y calcular resultados
-        val gela = intent.getStringExtra("GELA_CODE") ?: ""
-        val ikasleIzena = intent.getStringExtra("USER_NAME") ?: ""
-
         if (gela.isNotEmpty() && ikasleIzena.isNotEmpty()) {
             kalkulatuEmaitzak(gela, ikasleIzena)
         } else {
             Toast.makeText(this, "Ezin izan dira emaitzak lortu (kodea edo izena falta da)", Toast.LENGTH_LONG).show()
+            tvIrabazleIzena.text = "Errorea"
+            tvZurePuntuazioa.text = "Ez da gelarik aurkitu"
         }
     }
 
@@ -68,29 +74,43 @@ class ArbolaIrabazleActivity : AppCompatActivity() {
                     return@addOnSuccessListener
                 }
 
-                var irabazleIzena = ""
-                var puntuazioMaximoa = -1
-                var zurePuntuazioa = -1
+                val puntuazioak = documents.mapNotNull { document ->
+                    val izena = document.getString("izena")
+                    val puntuazioa = document.getLong("puntuazioa")?.toInt()
+                    if (izena != null && puntuazioa != null) Pair(izena, puntuazioa) else null
+                }
 
-                for (document in documents) {
-                    val izena = document.getString("izena") ?: ""
-                    val puntuazioa = document.getLong("puntuazioa")?.toInt() ?: 0
+                val topScores = puntuazioak.map { it.second }.distinct().sortedDescending().take(3)
+                val scoreToPoints = mapOf(
+                    (topScores.getOrNull(0) ?: -1) to 3,
+                    (topScores.getOrNull(1) ?: -1) to 2,
+                    (topScores.getOrNull(2) ?: -1) to 1
+                )
 
-                    // Kalkulatu irabazlea
-                    if (puntuazioa > puntuazioMaximoa) {
-                        puntuazioMaximoa = puntuazioa
-                        irabazleIzena = izena
-                    }
-
-                    // Lortu zure puntuazioa
-                    if (izena.equals(ikasleIzena, ignoreCase = true)) {
-                        zurePuntuazioa = puntuazioa
+                val winners = mutableListOf<String>()
+                puntuazioak.forEach { (izena, puntuazioa) ->
+                    val pointsToAdd = scoreToPoints[puntuazioa]
+                    if (pointsToAdd != null && pointsToAdd > 0) {
+                        if (!winners.any { it.startsWith(izena) }) {
+                            winners.add("$izena ($puntuazioa p.)")
+                        }
+                        
+                        val rankingRef = db.collection("ranking").document(gela).collection("ikasleak").document(izena)
+                        rankingRef.update("puntuazioa", FieldValue.increment(pointsToAdd.toLong()))
+                            .addOnFailureListener {
+                                rankingRef.set(mapOf("puntuazioa" to pointsToAdd, "izena" to izena))
+                            }
                     }
                 }
 
-                // Erakutsi emaitzak
-                tvIrabazleIzena.text = irabazleIzena
-                if (zurePuntuazioa != -1) {
+                if (winners.isNotEmpty()) {
+                    tvIrabazleIzena.text = "Irabazleak: ${winners.joinToString(", ")}"
+                } else {
+                    tvIrabazleIzena.text = "Ez dago irabazlerik"
+                }
+
+                val zurePuntuazioa = puntuazioak.find { it.first.equals(ikasleIzena, ignoreCase = true) }?.second
+                if (zurePuntuazioa != null) {
                     tvZurePuntuazioa.text = "$zurePuntuazioa / 10"
                 } else {
                     tvZurePuntuazioa.text = "Ez da zure nota aurkitu"
