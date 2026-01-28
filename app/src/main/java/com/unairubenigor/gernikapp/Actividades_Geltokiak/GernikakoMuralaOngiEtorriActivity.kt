@@ -4,8 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.unairubenigor.gernikapp.R
 
 class GernikakoMuralaOngiEtorriActivity : AppCompatActivity() {
@@ -25,6 +27,10 @@ class GernikakoMuralaOngiEtorriActivity : AppCompatActivity() {
         val headerView = findViewById<View>(R.id.header_layout)
         val headerTitle = headerView.findViewById<TextView>(R.id.textViewHeaderTitle)
         headerTitle.text = "MURALA"
+
+        // --- Cargar GIF del árbol ---
+        val ivArbolGif = findViewById<ImageView>(R.id.iv_arbol_gif)
+        Glide.with(this).asGif().load(R.raw.arbolgif).into(ivArbolGif)
 
         // --- Footer ---
         val footerView = findViewById<View>(R.id.footer_layout)

@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.unairubenigor.gernikapp.R
 import com.unairubenigor.gernikapp.ikasle.IkasleMenuActivity
 
@@ -27,6 +29,10 @@ class MuralaEndActivity : AppCompatActivity() {
         val headerView = findViewById<View>(R.id.header_layout)
         val headerTitle = headerView.findViewById<TextView>(R.id.textViewHeaderTitle)
         headerTitle.text = "GERNIKAKO MURALA"
+
+        // --- Cargar GIF del árbol ---
+        val ivArbolGif = findViewById<ImageView>(R.id.iv_arbol_gif_murala_end)
+        Glide.with(this).asGif().load(R.raw.arbolgif).into(ivArbolGif)
 
         // --- Footer ---
         val footerView = findViewById<View>(R.id.footer_layout)

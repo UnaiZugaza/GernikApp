@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e0f2fe">
+    android:background="@color/fondo_general">
 
     <include
         android:id="@+id/include_header"
@@ -40,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="25dp"
-                app:cardBackgroundColor="#3b82f6"
+                app:cardBackgroundColor="@color/azul_acento"
                 app:cardElevation="4dp">
 
                 <TextView
@@ -48,11 +48,20 @@
                     android:layout_height="wrap_content"
                     android:padding="24dp"
                     android:text="Gogoratu: garrantzitsuena ez da irabaztea, elkarrekin sortzea eta gure historiaren lekua ezagutzea baizik."
-                    android:textColor="@android:color/white"
+                    android:textColor="@android:color/black"
                     android:textSize="24sp"
                     android:textStyle="bold"
                     android:gravity="center" />
             </androidx.cardview.widget.CardView>
+
+            <!-- GIF del Árbol -->
+            <ImageView
+                android:id="@+id/iv_arbol_gif_explica3"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="24dp"
+                android:scaleType="centerInside"
+                android:contentDescription="Arbola animated gif" />
 
         </LinearLayout>
     </ScrollView>

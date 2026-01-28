@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e0f2fe"
+    android:background="@color/fondo_general"
     tools:context=".ikasle.IkasleActivity">
 
     <!-- 1. HEADER (Menú Común) -->

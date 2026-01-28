@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D1ECFF"
+    android:background="@color/fondo_general"
     tools:context=".Actividades_Geltokiak.AndraMari4Activity">
 
     <!-- 1. Header -->
@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
                 app:cardCornerRadius="25dp"
-                app:cardBackgroundColor="#4EBFFF"
+                app:cardBackgroundColor="@color/azul_acento"
                 app:cardElevation="4dp">
 
                 <TextView
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
                 app:cardCornerRadius="25dp"
-                app:cardBackgroundColor="#4EBFFF"
+                app:cardBackgroundColor="@color/azul_acento"
                 app:cardElevation="4dp">
 
                 <ImageButton
@@ -80,7 +80,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="25dp"
-                app:cardBackgroundColor="#4EBFFF"
+                app:cardBackgroundColor="@color/azul_acento"
                 app:cardElevation="4dp">
 
                 <LinearLayout
@@ -129,15 +129,15 @@
                         android:padding="10dp"
                         android:textColor="@android:color/black"/>
 
-                    <Button
+                    <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/button_send_answers"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="20dp"
-                        android:backgroundTint="#FF9800"
+                        android:background="@color/azul_acento"
                         android:text="BIDALI ERANTZUNAK"
-                        android:textColor="@android:color/white"
+                        android:textColor="@android:color/black"
                         android:textStyle="bold" />
 
                 </LinearLayout>

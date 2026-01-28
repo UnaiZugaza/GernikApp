@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D1ECFF"
+    android:background="@color/fondo_general"
     tools:context=".Actividades_Geltokiak.GernikakoArbolaMarrazkiarenArgazkiaActivity">
 
     <include
@@ -39,7 +39,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@android:drawable/arrow_down_float"
-            app:tint="#38A5E0"
+            app:tint="@color/azul_acento"
             android:layout_marginBottom="16dp"/>
 
         <androidx.cardview.widget.CardView
@@ -58,7 +58,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@android:drawable/ic_menu_camera"
-                app:tint="#38A5E0"
+                app:tint="@color/azul_acento"
                 android:background="#FFFFFF"
                 android:scaleType="fitCenter"
                 android:padding="50dp"
@@ -69,24 +69,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Ukitu karratua argazkia aukeratzeko"
-            android:textColor="#38A5E0"
+            android:textColor="@color/azul_acento"
             android:textSize="14sp"
             android:textStyle="bold"
             android:layout_marginBottom="24dp"/>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnBidali"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="BIDALI"
-            android:backgroundTint="#38A5E0"
-            android:textColor="@android:color/white"/>
+            android:background="@color/azul_acento"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"/>
 
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:indeterminateTint="#38A5E0"
+            android:indeterminateTint="@color/azul_acento"
             android:layout_marginTop="20dp"
             android:visibility="gone"/>
 

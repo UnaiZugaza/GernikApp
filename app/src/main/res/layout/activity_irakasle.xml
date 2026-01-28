@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D1ECFF"
+    android:background="@color/fondo_general"
     tools:context=".irakasle.IrakasleActivity">
 
     <include
@@ -53,7 +53,7 @@
                         android:text="GELA KODEA (CÓDIGO SALA)"
                         android:textSize="18sp"
                         android:textStyle="bold"
-                        android:textColor="#3b82f6"
+                        android:textColor="@color/azul_acento"
                         android:layout_marginBottom="10dp"/>
 
                     <TextView
@@ -67,13 +67,14 @@
                         android:letterSpacing="0.1"
                         android:layout_marginBottom="20dp"/>
 
-                    <Button
+                    <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btnGenerarCodigo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="SORTU KODE BERRIA (GENERAR)"
-                        android:backgroundTint="#3b82f6"
-                        android:textColor="#FFFFFF"/>
+                        android:background="@color/azul_acento"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -86,30 +87,38 @@
                 android:textColor="#37474F"
                 android:layout_marginBottom="15dp"/>
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnAdminAstra"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:text="KUDEATU ASTRA (ASTRA KUDEATU)"
-                android:backgroundTint="#D32F2F"
+                android:background="@color/azul_acento"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
                 android:textSize="16sp"
                 android:layout_marginBottom="15dp"
-                android:enabled="false"/> <Button
-            android:id="@+id/btnAdminArbola"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="KUDEATU ARBOLA (ARBOLA KUDEATU)"
-            android:backgroundTint="#388E3C"
-            android:textSize="16sp"
-            android:layout_marginBottom="15dp"
-            android:enabled="false"/>
+                android:enabled="false"/>
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnAdminArbola"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="KUDEATU ARBOLA (ARBOLA KUDEATU)"
+                android:background="@color/azul_acento"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="15dp"
+                android:enabled="false"/>
+
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnAdminAndraMari"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:text="KUDEATU ANDRA MARI"
-                android:backgroundTint="#1976D2"
+                android:background="@color/azul_acento"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
                 android:textSize="16sp"
                 android:enabled="false"/>
 

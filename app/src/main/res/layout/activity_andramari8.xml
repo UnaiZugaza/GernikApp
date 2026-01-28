@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D1ECFF"
+    android:background="@color/fondo_general"
     tools:context=".Actividades_Geltokiak.AndraMari8Activity">
 
     <!-- 1. Header -->
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
                 app:cardCornerRadius="25dp"
-                app:cardBackgroundColor="#4EBFFF"
+                app:cardBackgroundColor="@color/azul_acento"
                 app:cardElevation="4dp">
 
                 <ImageView
@@ -75,7 +75,7 @@
             </androidx.cardview.widget.CardView>
 
             <!-- Botón para ir al Menú Principal -->
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_to_menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -85,7 +85,8 @@
                 android:paddingEnd="32dp"
                 android:paddingTop="12dp"
                 android:paddingBottom="12dp"
-                app:cornerRadius="20dp"/>
+                android:background="@color/azul_acento"
+                android:textColor="@android:color/black" />
 
         </LinearLayout>
     </ScrollView>

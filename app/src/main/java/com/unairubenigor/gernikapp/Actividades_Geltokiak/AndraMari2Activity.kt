@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.unairubenigor.gernikapp.R
 
 class AndraMari2Activity : AppCompatActivity() {
@@ -18,12 +20,15 @@ class AndraMari2Activity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_andramari2)
 
-        // --- CORRECCIÓN CLAVE 1: Recoger la "mochila" de datos ---
         nombreUsuario = intent.getStringExtra("USER_NAME")
         codigoClase = intent.getStringExtra("CLASS_CODE")
 
         val headerTitle = findViewById<TextView>(R.id.textViewHeaderTitle)
         headerTitle.text = "ANDRA MARI ELIZA"
+
+        // --- Cargar GIF del árbol ---
+        val ivArbolGif = findViewById<ImageView>(R.id.iv_arbol_gif_2)
+        Glide.with(this).asGif().load(R.raw.arbolgif).into(ivArbolGif)
 
         val btnBack = findViewById<ImageButton>(R.id.buttonBack)
         val btnNext = findViewById<ImageButton>(R.id.buttonContinue)
@@ -36,7 +41,6 @@ class AndraMari2Activity : AppCompatActivity() {
             finish()
         }
 
-        // --- CORRECCIÓN CLAVE 2: Pasar la "mochila" a la siguiente actividad ---
         val navigateToNext = {
             val intent = Intent(this, AndraMari3Activity::class.java)
             intent.putExtra("USER_NAME", nombreUsuario)

@@ -4,8 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.unairubenigor.gernikapp.R
 
 class GernikakoArbolaExplica2Activity : AppCompatActivity() {
@@ -22,6 +24,10 @@ class GernikakoArbolaExplica2Activity : AppCompatActivity() {
 
         val headerTitle = findViewById<TextView>(R.id.textViewHeaderTitle)
         headerTitle.text = "GERNIKAKO ARBOLA"
+
+        // --- Cargar GIF del árbol ---
+        val ivArbolGif = findViewById<ImageView>(R.id.iv_arbol_gif_explica2)
+        Glide.with(this).asGif().load(R.raw.arbolgif).into(ivArbolGif)
 
         val btnBack = findViewById<ImageButton>(R.id.buttonBack)
         val btnNext = findViewById<ImageButton>(R.id.buttonContinue)
