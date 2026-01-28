@@ -6,10 +6,9 @@ import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import com.unairubenigor.gernikapp.R
 import com.unairubenigor.gernikapp.ikasle.IkasleMenuActivity
 
@@ -21,6 +20,7 @@ class ArbolaIrabazleActivity : AppCompatActivity() {
     private lateinit var progressBar: ProgressBar
 
     private val db = FirebaseFirestore.getInstance()
+    private var listener: ListenerRegistration? = null
 
     private var gela: String = ""
     private var ikasleIzena: String = ""
@@ -37,50 +37,69 @@ class ArbolaIrabazleActivity : AppCompatActivity() {
         val headerTitle = findViewById<TextView>(R.id.textViewHeaderTitle)
         headerTitle.text = "EMAITZAK"
 
-        // --- ¡CORRECCIÓN DEFINITIVA! Aceptamos cualquiera de las dos claves ---
+        // Botón visible por defecto para que no desaparezca nunca
+        btnItzuliMenura.visibility = View.VISIBLE
+        tvZurePuntuazioa.text = "Zuzentzen..."
+        tvIrabazleIzena.text = "Emaitzen zain..."
+
         val gelaCode = intent.getStringExtra("CLASS_CODE")
         val gelaCodeAlternativo = intent.getStringExtra("GELA_CODE")
         gela = gelaCode ?: gelaCodeAlternativo ?: ""
+
         ikasleIzena = intent.getStringExtra("USER_NAME") ?: ""
 
+        // Botón SALIR
         btnItzuliMenura.setOnClickListener {
             val intent = Intent(this, IkasleMenuActivity::class.java)
             intent.putExtra("USER_NAME", ikasleIzena)
-            intent.putExtra("CLASS_CODE", gela) // Usamos la clave estándar para devolverlo
+            intent.putExtra("CLASS_CODE", gela)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
             finish()
         }
 
-        if (gela.isNotEmpty() && ikasleIzena.isNotEmpty()) {
-            kalkulatuEmaitzak(gela, ikasleIzena)
+        if (gela.isNotEmpty()) {
+            escucharEmaitzak(gela, ikasleIzena)
         } else {
-            Toast.makeText(this, "Ezin izan dira emaitzak lortu (kodea edo izena falta da)", Toast.LENGTH_LONG).show()
-            tvIrabazleIzena.text = "Errorea"
-            tvZurePuntuazioa.text = "Ez da gelarik aurkitu"
+            tvIrabazleIzena.text = "Errorea: Kodea falta da"
         }
     }
 
-    private fun kalkulatuEmaitzak(gela: String, ikasleIzena: String) {
+    private fun escucharEmaitzak(gela: String, ikasleIzena: String) {
         progressBar.visibility = View.VISIBLE
 
-        db.collection("arbola_marrazkiak")
+        listener = db.collection("arbola_marrazkiak")
             .whereEqualTo("gela", gela)
-            .get()
-            .addOnSuccessListener { documents ->
-                if (documents.isEmpty) {
-                    Toast.makeText(this, "Oraindik ez daude notak jarrita.", Toast.LENGTH_SHORT).show()
-                    progressBar.visibility = View.GONE
-                    return@addOnSuccessListener
+            .addSnapshotListener { documents, e ->
+
+                progressBar.visibility = View.GONE
+
+                if (e != null) return@addSnapshotListener
+                if (documents == null || documents.isEmpty) {
+                    tvIrabazleIzena.text = "Marrazkiak bidaltzen..."
+                    return@addSnapshotListener
                 }
 
-                val puntuazioak = documents.mapNotNull { document ->
+                // 1. Procesar datos (igual que en el Admin)
+                val entradasRaw = documents.mapNotNull { document ->
                     val izena = document.getString("izena")
                     val puntuazioa = document.getLong("puntuazioa")?.toInt()
-                    if (izena != null && puntuazioa != null) Pair(izena, puntuazioa) else null
+                    if (izena != null && puntuazioa != null && puntuazioa > 0) Pair(izena, puntuazioa) else null
                 }
 
-                val topScores = puntuazioak.map { it.second }.distinct().sortedDescending().take(3)
+                if (entradasRaw.isEmpty()) {
+                    tvIrabazleIzena.text = "Irakaslea zuzentzen..."
+                    tvZurePuntuazioa.text = "Zuzentzen..."
+                    return@addSnapshotListener
+                }
+
+                // 2. Agrupar
+                val puntuazioakUnicas = entradasRaw
+                    .groupBy { it.first }
+                    .map { entry -> Pair(entry.key, entry.value.maxOf { it.second }) }
+
+                // 3. Ganadores
+                val topScores = puntuazioakUnicas.map { it.second }.distinct().sortedDescending().take(3)
                 val scoreToPoints = mapOf(
                     (topScores.getOrNull(0) ?: -1) to 3,
                     (topScores.getOrNull(1) ?: -1) to 2,
@@ -88,39 +107,37 @@ class ArbolaIrabazleActivity : AppCompatActivity() {
                 )
 
                 val winners = mutableListOf<String>()
-                puntuazioak.forEach { (izena, puntuazioa) ->
-                    val pointsToAdd = scoreToPoints[puntuazioa]
+                puntuazioakUnicas.forEach { (izena, notaDibujo) ->
+                    val pointsToAdd = scoreToPoints[notaDibujo]
                     if (pointsToAdd != null && pointsToAdd > 0) {
-                        if (!winners.any { it.startsWith(izena) }) {
-                            winners.add("$izena ($puntuazioa p.)")
-                        }
-                        
-                        val rankingRef = db.collection("ranking").document(gela).collection("ikasleak").document(izena)
-                        rankingRef.update("puntuazioa", FieldValue.increment(pointsToAdd.toLong()))
-                            .addOnFailureListener {
-                                rankingRef.set(mapOf("puntuazioa" to pointsToAdd, "izena" to izena))
-                            }
+                        winners.add("$izena ($notaDibujo/10)")
                     }
                 }
 
+                // 4. Mostrar Ganadores
                 if (winners.isNotEmpty()) {
-                    tvIrabazleIzena.text = "Irabazleak: ${winners.joinToString(", ")}"
+                    // Ordenamos para mostrar primero al que más nota tiene
+                    val winnersSorted = winners.sortedByDescending {
+                        it.substringAfter("(").substringBefore("/").toIntOrNull() ?: 0
+                    }
+                    tvIrabazleIzena.text = "${winnersSorted.joinToString("\n")}"
                 } else {
-                    tvIrabazleIzena.text = "Ez dago irabazlerik"
+                    tvIrabazleIzena.text = "Emaitzak prozesatzen..."
                 }
 
-                val zurePuntuazioa = puntuazioak.find { it.first.equals(ikasleIzena, ignoreCase = true) }?.second
+                // 5. Mostrar Tu Nota
+                val zurePuntuazioa = puntuazioakUnicas.find { it.first.equals(ikasleIzena, ignoreCase = true) }?.second
+
                 if (zurePuntuazioa != null) {
                     tvZurePuntuazioa.text = "$zurePuntuazioa / 10"
                 } else {
-                    tvZurePuntuazioa.text = "Ez da zure nota aurkitu"
+                    tvZurePuntuazioa.text = "Zuzentzen..."
                 }
+            }
+    }
 
-                progressBar.visibility = View.GONE
-            }
-            .addOnFailureListener { e ->
-                progressBar.visibility = View.GONE
-                Toast.makeText(this, "Errorea emaitzak lortzean: ${e.message}", Toast.LENGTH_SHORT).show()
-            }
+    override fun onDestroy() {
+        super.onDestroy()
+        listener?.remove()
     }
 }
