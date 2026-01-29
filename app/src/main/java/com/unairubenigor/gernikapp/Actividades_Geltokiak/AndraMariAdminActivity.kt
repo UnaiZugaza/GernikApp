@@ -1,7 +1,9 @@
 package com.unairubenigor.gernikapp.Actividades_Geltokiak
 
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,14 +17,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.ktx.toObject
 import com.unairubenigor.gernikapp.R
 
-// --- DATA CLASSES ---
+// --- DATA CLASSES ACTUALIZADAS ---
 data class AndraMari4Answer(
     val izena: String = "",
     val gela: String = "",
@@ -34,7 +34,7 @@ data class AndraMari4Answer(
 data class AndraMari6Image(
     val izena: String = "",
     val gela: String = "",
-    val imageUrl: String = "",
+    val base64: String = "", // CAMBIADO: Antes era imageUrl
     val data: Long = 0L
 )
 
@@ -55,7 +55,6 @@ class AndraMariAdminActivity : AppCompatActivity() {
 
     private var codigoClase: String = ""
     private val db = FirebaseFirestore.getInstance()
-
     private var listeners: MutableList<ListenerRegistration> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,7 +75,6 @@ class AndraMariAdminActivity : AppCompatActivity() {
         setupFooter()
 
         if (codigoClase.isNotEmpty()) {
-            progressBar.visibility = View.VISIBLE
             setupRecyclerViews()
             showKoplaSolutions()
             listenForAllDynamicData()
@@ -96,9 +94,7 @@ class AndraMariAdminActivity : AppCompatActivity() {
     }
 
     private fun showKoplaSolutions() {
-        val correctAnswers = listOf(
-            "Santu", "Kristoren", "Maria", "Jose", "Jesus", "Maria", "Etxetxu", "Nor", "zeunke"
-        )
+        val correctAnswers = listOf("Santu", "Kristoren", "Maria", "Jose", "Jesus", "Maria", "Etxetxu", "Nor", "zeunke")
         containerKopla5.removeAllViews()
         val tv = TextView(this).apply {
             text = correctAnswers.joinToString(separator = ", ")
@@ -108,29 +104,27 @@ class AndraMariAdminActivity : AppCompatActivity() {
     }
 
     private fun listenForAllDynamicData() {
+        progressBar.visibility = View.VISIBLE
         listenForAndraMari4Answers()
         listenForAndraMari6Images()
         listenForAndraMari7Opinions()
-        progressBar.postDelayed({ progressBar.visibility = View.GONE }, 2500)
     }
 
-    // --- CORRECCIÓN: AHORA SE CAPTURAN LOS ERRORES DE LECTURA ---
-
     private fun listenForAndraMari4Answers() {
+        // Quitamos el .orderBy("data") temporalmente para descartar errores de índice en Firebase
         val listener = db.collection("andra_mari_4_erantzunak")
-            .whereEqualTo("gela", codigoClase).orderBy("data", Query.Direction.DESCENDING)
+            .whereEqualTo("gela", codigoClase)
             .addSnapshotListener { snapshots, error ->
-                if (error != null) {
-                    Log.e("Firestore Error", "Error en AndraMari4: ", error)
-                    Toast.makeText(this, "Errorea 4. erantzunak irakurtzean", Toast.LENGTH_LONG).show()
-                    return@addSnapshotListener
-                }
+                progressBar.visibility = View.GONE
+                if (error != null) return@addSnapshotListener
+
                 containerAnswers4.removeAllViews()
                 snapshots?.forEach { doc ->
-                    val answer = doc.toObject<AndraMari4Answer>()
+                    val answer = doc.toObject(AndraMari4Answer::class.java)
                     val tv = TextView(this).apply {
-                        text = "👤 ${answer.izena}:\n\t- ${answer.erantzuna1}\n\t- ${answer.erantzuna2}"
+                        text = "👤 ${answer.izena}:\n   1: ${answer.erantzuna1}\n   2: ${answer.erantzuna2}"
                         setPadding(0, 10, 0, 10)
+                        setTextColor(resources.getColor(android.R.color.black))
                     }
                     containerAnswers4.addView(tv)
                 }
@@ -140,13 +134,9 @@ class AndraMariAdminActivity : AppCompatActivity() {
 
     private fun listenForAndraMari6Images() {
         val listener = db.collection("andra_mari_argazkiak")
-            .whereEqualTo("gela", codigoClase).orderBy("data", Query.Direction.DESCENDING)
+            .whereEqualTo("gela", codigoClase)
             .addSnapshotListener { snapshots, error ->
-                if (error != null) {
-                    Log.e("Firestore Error", "Error en AndraMari6: ", error)
-                    Toast.makeText(this, "Errorea 6. irudiak irakurtzean", Toast.LENGTH_LONG).show()
-                    return@addSnapshotListener
-                }
+                if (error != null) return@addSnapshotListener
                 val imageList = snapshots?.toObjects(AndraMari6Image::class.java) ?: emptyList()
                 rvImages6.adapter = AndraMari6ImageAdapter(this, imageList)
             }
@@ -155,19 +145,16 @@ class AndraMariAdminActivity : AppCompatActivity() {
 
     private fun listenForAndraMari7Opinions() {
         val listener = db.collection("andra_mari_iritziak")
-            .whereEqualTo("gela", codigoClase).orderBy("data", Query.Direction.DESCENDING)
+            .whereEqualTo("gela", codigoClase)
             .addSnapshotListener { snapshots, error ->
-                if (error != null) {
-                    Log.e("Firestore Error", "Error en AndraMari7: ", error)
-                    Toast.makeText(this, "Errorea 7. iritziak irakurtzean", Toast.LENGTH_LONG).show()
-                    return@addSnapshotListener
-                }
+                if (error != null) return@addSnapshotListener
                 containerOpinions7.removeAllViews()
                 snapshots?.forEach { doc ->
-                    val opinion = doc.toObject<AndraMari7Opinion>()
+                    val opinion = doc.toObject(AndraMari7Opinion::class.java)
                     val tv = TextView(this).apply {
-                        text = "👤 ${opinion.izena}:\n\t- ${opinion.iritzia}"
+                        text = "👤 ${opinion.izena}:\n   - ${opinion.iritzia}"
                         setPadding(0, 10, 0, 10)
+                        setTextColor(resources.getColor(android.R.color.black))
                     }
                     containerOpinions7.addView(tv)
                 }
@@ -177,11 +164,12 @@ class AndraMariAdminActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        listeners.forEach { it.remove() } // Limpiamos todos los listeners
+        listeners.forEach { it.remove() }
     }
 }
 
-class AndraMari6ImageAdapter(private val context: Context, private val items: List<AndraMari6Image>) : 
+// --- ADAPTER CORREGIDO PARA BASE64 (IGUAL QUE ARBOLA) ---
+class AndraMari6ImageAdapter(private val context: Context, private val items: List<AndraMari6Image>) :
     RecyclerView.Adapter<AndraMari6ImageAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -198,13 +186,17 @@ class AndraMari6ImageAdapter(private val context: Context, private val items: Li
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
         holder.tvNombre.text = item.izena
-        holder.puntuazioaLayout.visibility = View.GONE 
+        holder.puntuazioaLayout.visibility = View.GONE
 
-        Glide.with(context)
-            .load(item.imageUrl)
-            .placeholder(android.R.drawable.ic_menu_gallery)
-            .error(android.R.drawable.stat_notify_error)
-            .into(holder.ivImagen)
+        if (item.base64.isNotEmpty()) {
+            try {
+                val decodedString = Base64.decode(item.base64, Base64.DEFAULT)
+                val decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
+                holder.ivImagen.setImageBitmap(decodedByte)
+            } catch (e: Exception) {
+                holder.ivImagen.setImageResource(android.R.drawable.stat_notify_error)
+            }
+        }
     }
 
     override fun getItemCount() = items.size

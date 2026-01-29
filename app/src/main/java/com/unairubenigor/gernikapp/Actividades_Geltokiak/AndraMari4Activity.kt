@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -50,7 +51,7 @@ class AndraMari4Activity : AppCompatActivity() {
 
             if (r1.isNotEmpty() && r2.isNotEmpty()) {
                 if (codigoClase.isEmpty()){
-                    Toast.makeText(this, "Errorea: Gelaren kodea falta da. Berrabiarazi aplikazioa.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Errorea: Gelaren kodea falta da.", Toast.LENGTH_LONG).show()
                     return@setOnClickListener
                 }
                 validateAndSendAnswers(r1, r2)
@@ -63,7 +64,7 @@ class AndraMari4Activity : AppCompatActivity() {
     }
 
     private fun validateAndSendAnswers(r1: String, r2: String) {
-        // Validación simple por palabras clave
+        // Validación visual (No bloquea el envío)
         val isR1Correct = r1.contains("koplak", ignoreCase = true) || r1.contains("abestu", ignoreCase = true) || r1.contains("jaiotza", ignoreCase = true)
         val isR2Correct = r2.contains("goizean", ignoreCase = true) || r2.contains("goizaldean", ignoreCase = true) || r2.contains("4", ignoreCase = true)
 
@@ -71,12 +72,11 @@ class AndraMari4Activity : AppCompatActivity() {
         etAnswer2.setBackgroundColor(if (isR2Correct) Color.parseColor("#A5D6A7") else Color.parseColor("#EF9A9A"))
 
         if (isR1Correct && isR2Correct) {
-            Toast.makeText(this, "Zuzen! Erantzunak bidaltzen...", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Zuzen! Bidaltzen...", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(this, "Erantzun batzuk ez dirudi zuzenak direnik. Dena den, bidaliko ditugu.", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Erantzun batzuk ez dira zuzenak, baina bidali egingo ditugu.", Toast.LENGTH_SHORT).show()
         }
 
-        // Las respuestas se envían independientemente de si son correctas
         enviarRespuestas(r1, r2)
     }
 
@@ -90,30 +90,32 @@ class AndraMari4Activity : AppCompatActivity() {
         )
 
         btnSend.isEnabled = false
+        btnSend.text = "BIDALTZEN..."
 
-        db.collection("andra_mari_4_erantzunak").add(data)
-            .addOnSuccessListener {
+        // Intentamos guardar en la colección
+        db.collection("andra_mari_4_erantzunak")
+            .add(data)
+            .addOnSuccessListener { documentReference ->
+                Log.d("Firestore", "Documento añadido con ID: ${documentReference.id}")
                 Toast.makeText(this, "Ondo bidali da!", Toast.LENGTH_SHORT).show()
                 btnSend.text = "BIDALITA ✅"
             }
-            .addOnFailureListener {
+            .addOnFailureListener { e ->
+                // ESTO ES CLAVE: Ver el error real en el Logcat
+                Log.e("Firestore Error", "Error al añadir respuestas", e)
+                Toast.makeText(this, "Errorea: ${e.message}", Toast.LENGTH_LONG).show()
                 btnSend.isEnabled = true
-                Toast.makeText(this, "Errorea bidaltzerakoan", Toast.LENGTH_SHORT).show()
+                btnSend.text = "BIDALI"
             }
     }
 
     private fun setupFooter() {
-        val btnBack = findViewById<ImageButton>(R.id.buttonBack)
-        val btnNext = findViewById<ImageButton>(R.id.buttonContinue)
-        btnBack.visibility = View.VISIBLE
-        btnNext.visibility = View.VISIBLE
-
-        btnBack.setOnClickListener { finish() }
-
-        btnNext.setOnClickListener {
-            val intent = Intent(this, AndraMari5Activity::class.java)
-            intent.putExtra("USER_NAME", nombreUsuario)
-            intent.putExtra("CLASS_CODE", codigoClase)
+        findViewById<ImageButton>(R.id.buttonBack).setOnClickListener { finish() }
+        findViewById<ImageButton>(R.id.buttonContinue).setOnClickListener {
+            val intent = Intent(this, AndraMari5Activity::class.java).apply {
+                putExtra("USER_NAME", nombreUsuario)
+                putExtra("CLASS_CODE", codigoClase)
+            }
             startActivity(intent)
         }
     }
