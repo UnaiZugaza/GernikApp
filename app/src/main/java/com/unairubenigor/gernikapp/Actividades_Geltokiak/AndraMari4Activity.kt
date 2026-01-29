@@ -64,19 +64,9 @@ class AndraMari4Activity : AppCompatActivity() {
     }
 
     private fun validateAndSendAnswers(r1: String, r2: String) {
-        // Validación visual (No bloquea el envío)
-        val isR1Correct = r1.contains("koplak", ignoreCase = true) || r1.contains("abestu", ignoreCase = true) || r1.contains("jaiotza", ignoreCase = true)
-        val isR2Correct = r2.contains("goizean", ignoreCase = true) || r2.contains("goizaldean", ignoreCase = true) || r2.contains("4", ignoreCase = true)
-
-        etAnswer1.setBackgroundColor(if (isR1Correct) Color.parseColor("#A5D6A7") else Color.parseColor("#EF9A9A"))
-        etAnswer2.setBackgroundColor(if (isR2Correct) Color.parseColor("#A5D6A7") else Color.parseColor("#EF9A9A"))
-
-        if (isR1Correct && isR2Correct) {
-            Toast.makeText(this, "Zuzen! Bidaltzen...", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this, "Erantzun batzuk ez dira zuzenak, baina bidali egingo ditugu.", Toast.LENGTH_SHORT).show()
-        }
-
+        // Ya no comprobamos si contiene palabras clave.
+        // Simplemente avisamos que se está enviando.
+        Toast.makeText(this, "Erantzunak bidaltzen...", Toast.LENGTH_SHORT).show()
         enviarRespuestas(r1, r2)
     }
 
@@ -92,23 +82,18 @@ class AndraMari4Activity : AppCompatActivity() {
         btnSend.isEnabled = false
         btnSend.text = "BIDALTZEN..."
 
-        // Intentamos guardar en la colección
-        db.collection("andra_mari_4_erantzunak")
-            .add(data)
-            .addOnSuccessListener { documentReference ->
-                Log.d("Firestore", "Documento añadido con ID: ${documentReference.id}")
+        db.collection("andra_mari_4_erantzunak").add(data)
+            .addOnSuccessListener {
                 Toast.makeText(this, "Ondo bidali da!", Toast.LENGTH_SHORT).show()
                 btnSend.text = "BIDALITA ✅"
+                // Opcional: Podrías saltar automáticamente a la siguiente actividad aquí
             }
             .addOnFailureListener { e ->
-                // ESTO ES CLAVE: Ver el error real en el Logcat
-                Log.e("Firestore Error", "Error al añadir respuestas", e)
-                Toast.makeText(this, "Errorea: ${e.message}", Toast.LENGTH_LONG).show()
                 btnSend.isEnabled = true
                 btnSend.text = "BIDALI"
+                Toast.makeText(this, "Errorea: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
-
     private fun setupFooter() {
         findViewById<ImageButton>(R.id.buttonBack).setOnClickListener { finish() }
         findViewById<ImageButton>(R.id.buttonContinue).setOnClickListener {

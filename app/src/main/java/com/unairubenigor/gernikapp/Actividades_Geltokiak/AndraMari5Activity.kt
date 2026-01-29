@@ -73,7 +73,7 @@ class AndraMari5Activity : AppCompatActivity() {
                 editText.setBackgroundColor(Color.parseColor("#A5D6A7"))
             } else {
                 editText.setBackgroundColor(Color.parseColor("#EF9A9A"))
-                // allCorrect = false // Restricción comentada
+                allCorrect = false //comentar para hacer pruebas
             }
         }
 

@@ -175,7 +175,7 @@ class AndraMari6ImageAdapter(private val context: Context, private val items: Li
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvNombre: TextView = view.findViewById(R.id.tvNombreAlumno)
         val ivImagen: ImageView = view.findViewById(R.id.ivDibujoAlumno)
-        val puntuazioaLayout: View = view.findViewById(R.id.puntuazioa_layout)
+        val container: View = view // Usamos la vista entera para el clic
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -186,17 +186,30 @@ class AndraMari6ImageAdapter(private val context: Context, private val items: Li
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
         holder.tvNombre.text = item.izena
-        holder.puntuazioaLayout.visibility = View.GONE
 
         if (item.base64.isNotEmpty()) {
-            try {
-                val decodedString = Base64.decode(item.base64, Base64.DEFAULT)
-                val decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
-                holder.ivImagen.setImageBitmap(decodedByte)
-            } catch (e: Exception) {
-                holder.ivImagen.setImageResource(android.R.drawable.stat_notify_error)
+            val decodedString = Base64.decode(item.base64, Base64.DEFAULT)
+            val bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
+            holder.ivImagen.setImageBitmap(bitmap)
+
+            // --- CLIC PARA AMPLIAR ---
+            holder.container.setOnClickListener {
+                mostrarImagenAmpliada(bitmap, item.izena)
             }
         }
+    }
+
+    private fun mostrarImagenAmpliada(bitmap: android.graphics.Bitmap, nombre: String) {
+        val builder = android.app.AlertDialog.Builder(context)
+        val imageView = ImageView(context)
+        imageView.setImageBitmap(bitmap)
+        imageView.setPadding(20, 20, 20, 20)
+        imageView.adjustViewBounds = true
+
+        builder.setTitle("${nombre}-(r)en argazkia")
+        builder.setView(imageView)
+        builder.setPositiveButton("Itxi") { dialog, _ -> dialog.dismiss() }
+        builder.show()
     }
 
     override fun getItemCount() = items.size
