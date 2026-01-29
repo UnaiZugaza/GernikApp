@@ -1,6 +1,7 @@
 package com.unairubenigor.gernikapp.Actividades_Geltokiak
 
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -16,10 +17,24 @@ class PasilekuEndActivity : AppCompatActivity() {
 
     private var nombreUsuario: String? = ""
     private var codigoClase: String? = ""
+    private var mediaPlayer: MediaPlayer? = null // Variable para el reproductor de sonido
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pasileku_end)
+
+        // --- CÓDIGO AÑADIDO PARA EL SONIDO ---
+        try {
+            mediaPlayer = MediaPlayer.create(this, R.raw.jardueraburututa)
+            mediaPlayer?.start() // Iniciar el sonido
+            // Liberar recursos cuando el sonido termine
+            mediaPlayer?.setOnCompletionListener {
+                it.release()
+            }
+        } catch (e: Exception) {
+            // Manejo de error por si el archivo no existe o está corrupto
+            e.printStackTrace()
+        }
 
         // Recoger datos
         nombreUsuario = intent.getStringExtra("USER_NAME")
@@ -54,5 +69,12 @@ class PasilekuEndActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // Nos aseguramos de liberar el reproductor si la actividad se destruye
+        mediaPlayer?.release()
+        mediaPlayer = null
     }
 }
