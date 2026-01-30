@@ -2,6 +2,7 @@ package com.unairubenigor.gernikapp.Options
 
 import android.content.ClipData
 import android.content.ClipDescription
+import android.content.Context // Importante para SharedPreferences
 import android.os.Bundle
 import android.view.DragEvent
 import android.view.ScaleGestureDetector
@@ -15,8 +16,6 @@ import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.FirebaseFirestore
 import com.unairubenigor.gernikapp.R
 import java.util.Collections
 
@@ -32,18 +31,16 @@ class OptionPuzzleActivity : AppCompatActivity() {
     private var scaleFactor = 1.0f
     private lateinit var scaleGestureDetector: ScaleGestureDetector
 
-    // Firebase
-    private val db = FirebaseFirestore.getInstance()
-    private var nombreUsuario: String = ""
-    private var codigoClase: String = ""
+    // Estados de desbloqueo por fila
+    private var row1Unlocked = false // Astra
+    private var row2Unlocked = false // Arbola
+    private var row3Unlocked = false // Pasileku
+    private var row4Unlocked = false // Andra Mari
+    private var row5Unlocked = false // Murala
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_puzle)
-
-        // Recuperar datos del usuario
-        nombreUsuario = intent.getStringExtra("USER_NAME") ?: ""
-        codigoClase = intent.getStringExtra("CLASS_CODE") ?: ""
 
         piecesContainer = findViewById(R.id.pieces_container)
         puzzleBoard = findViewById(R.id.puzzle_board)
@@ -52,7 +49,7 @@ class OptionPuzzleActivity : AppCompatActivity() {
         piecesScrollBar = findViewById(R.id.pieces_scrollbar)
 
         val headerView = findViewById<View>(R.id.header_layout)
-        val headerTitle = headerView.findViewById<TextView>(R.id.textViewHeaderTitle)
+        val headerTitle = findViewById<TextView>(R.id.textViewHeaderTitle)
         headerTitle.text = "PUZZLE"
 
         // Configurar Footer (Solo Atrás)
@@ -62,9 +59,28 @@ class OptionPuzzleActivity : AppCompatActivity() {
         }
 
         setupZoom()
+        checkProgressAndSetup() // Aquí leemos la memoria local
+        setupSeekBar()
+    }
+
+    private fun checkProgressAndSetup() {
+        // Accedemos a la memoria interna llamada "GernikaProgress"
+        val prefs = getSharedPreferences("GernikaProgress", Context.MODE_PRIVATE)
+
+        // Leemos si las geltokias han sido completadas (por defecto false)
+        row1Unlocked = prefs.getBoolean("astraCompletado", false)
+        row2Unlocked = prefs.getBoolean("arbolaCompletado", false)
+        row3Unlocked = prefs.getBoolean("pasilekuCompletado", false)
+        row4Unlocked = prefs.getBoolean("andraMariCompletado", false)
+        row5Unlocked = prefs.getBoolean("muralaCompletado", false)
+
         setupPuzzlePieces()
         setupPuzzleBoard()
-        setupSeekBar()
+
+        // Mensaje si no hay nada desbloqueado
+        if (!row1Unlocked && !row2Unlocked && !row3Unlocked && !row4Unlocked && !row5Unlocked) {
+            Toast.makeText(this, "Geltokiak osatu puzzleko piezak lortzeko!", Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun setupZoom() {
@@ -84,16 +100,22 @@ class OptionPuzzleActivity : AppCompatActivity() {
     }
 
     private fun setupPuzzlePieces() {
-        val pieceResources = mutableListOf<Int>().apply {
-            for (i in 1..5) {
-                for (j in 1..6) {
-                    val resourceId = resources.getIdentifier("row${i}column${j}", "drawable", packageName)
-                    if (resourceId != 0) add(resourceId)
-                }
-            }
-        }
+        piecesContainer.removeAllViews()
+        pieceViews.clear()
+
+        val pieceResources = mutableListOf<Int>()
+
+        // Cargar recursos dinámicamente según las filas desbloqueadas
+        if (row1Unlocked) for (j in 1..6) pieceResources.add(resources.getIdentifier("row1column$j", "drawable", packageName))
+        if (row2Unlocked) for (j in 1..6) pieceResources.add(resources.getIdentifier("row2column$j", "drawable", packageName))
+        if (row3Unlocked) for (j in 1..6) pieceResources.add(resources.getIdentifier("row3column$j", "drawable", packageName))
+        if (row4Unlocked) for (j in 1..6) pieceResources.add(resources.getIdentifier("row4column$j", "drawable", packageName))
+        if (row5Unlocked) for (j in 1..6) pieceResources.add(resources.getIdentifier("row5column$j", "drawable", packageName))
+
         Collections.shuffle(pieceResources)
+
         for (resId in pieceResources) {
+            if (resId == 0) continue
             val piece = ImageView(this).apply {
                 layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -116,6 +138,7 @@ class OptionPuzzleActivity : AppCompatActivity() {
     }
 
     private fun setupPuzzleBoard() {
+        puzzleBoard.removeAllViews()
         puzzleBoard.post {
             val cellWidth = puzzleBoard.width / 6
             val cellHeight = puzzleBoard.height / 5
@@ -126,16 +149,17 @@ class OptionPuzzleActivity : AppCompatActivity() {
                             width = cellWidth
                             height = cellHeight
                         }
-                        
+
                         setPadding(4, 4, 4, 4)
-                        
+
+                        // Guía transparente
                         val resId = resources.getIdentifier("row${i}column${j}", "drawable", packageName)
                         if (resId != 0) {
                             setImageResource(resId)
                             alpha = 0.25f
                             scaleType = ImageView.ScaleType.FIT_XY
                         }
-                        
+
                         setBackgroundResource(R.drawable.rounded_border)
                         tag = "row${i}column${j}"
                         setOnDragListener(PuzzleDragListener())
@@ -151,22 +175,15 @@ class OptionPuzzleActivity : AppCompatActivity() {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
                     val maxScroll = piecesContainer.width - piecesContainerScrollView.width
-                    val scrollTo = (maxScroll * progress) / 100
-                    piecesContainerScrollView.scrollTo(scrollTo, 0)
+                    if (maxScroll > 0) {
+                        val scrollTo = (maxScroll * progress) / 100
+                        piecesContainerScrollView.scrollTo(scrollTo, 0)
+                    }
                 }
             }
-
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
-
-        piecesContainerScrollView.viewTreeObserver.addOnScrollChangedListener { 
-            val maxScroll = piecesContainer.width - piecesContainerScrollView.width
-            if(maxScroll > 0){
-                 val scrollPercentage = (piecesContainerScrollView.scrollX * 100) / maxScroll
-                 piecesScrollBar.progress = scrollPercentage
-            }
-        }
     }
 
     private inner class PuzzleDragListener : View.OnDragListener {
@@ -179,11 +196,9 @@ class OptionPuzzleActivity : AppCompatActivity() {
                     if (draggedPieceTag == targetSlot.tag.toString()) {
                         val originalPiece = pieceViews.find { it.tag == draggedPieceTag }
                         targetSlot.setImageDrawable(originalPiece?.drawable)
-                        
                         targetSlot.setPadding(0, 0, 0, 0)
                         targetSlot.alpha = 1.0f
                         targetSlot.scaleType = ImageView.ScaleType.FIT_XY
-                        
                         targetSlot.setBackground(null)
                         targetSlot.setOnDragListener(null)
                         (event.localState as View).visibility = View.GONE
@@ -192,7 +207,6 @@ class OptionPuzzleActivity : AppCompatActivity() {
                         return true
                     } else {
                         (event.localState as View).visibility = View.VISIBLE
-                        Toast.makeText(this@OptionPuzzleActivity, "Pieza incorrecta", Toast.LENGTH_SHORT).show()
                         return false
                     }
                 }
@@ -204,32 +218,20 @@ class OptionPuzzleActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun checkCompletion() {
-        if (piecesPlaced == 30) {
-            // Referencia a la partida para comprobar si alguien ya terminó
-            val partidaRef = db.collection("partidas").document(codigoClase)
+        val totalPiezasDesbloqueadas = (if(row1Unlocked) 6 else 0) + (if(row2Unlocked) 6 else 0) + (if(row3Unlocked) 6 else 0) + (if(row4Unlocked) 6 else 0) + (if(row5Unlocked) 6 else 0)
 
-            partidaRef.get().addOnSuccessListener { snapshot ->
-                val yaHayGanador = snapshot.getBoolean("puzzleCompletado") ?: false
+        // Lógica de victoria puramente local
+        if (piecesPlaced == 30 && totalPiezasDesbloqueadas == 30) {
+            // Guardamos localmente que el puzzle está completo por si queremos consultarlo luego
+            val prefs = getSharedPreferences("GernikaProgress", Context.MODE_PRIVATE)
+            prefs.edit().putBoolean("puzzleCompletado", true).apply()
 
-                if (!yaHayGanador) {
-                    // 1. Marcar el puzzle como completado para que nadie más gane el punto
-                    partidaRef.update("puzzleCompletado", true)
+            Toast.makeText(this, "ZORIONAK! Puzzlea osatu duzu!", Toast.LENGTH_LONG).show()
 
-                    // 2. Sumar el punto al usuario (Igual que en mostrarPantallaFin)
-                    db.collection("partidas").document(codigoClase)
-                        .collection("jugadores").document(nombreUsuario)
-                        .update("puntuacion", FieldValue.increment(1))
-                        .addOnSuccessListener {
-                            Toast.makeText(this, "ZORIONAK! Lehena izan zara! (+1 puntu)", Toast.LENGTH_LONG).show()
-                        }
-                } else {
-                    // Alguien ya lo completó antes
-                    Toast.makeText(this, "Puzzlea osatuta! (Beste bat lehenago iritsi da)", Toast.LENGTH_SHORT).show()
-                }
-            }.addOnFailureListener { e ->
-                Toast.makeText(this, "Errorea: ${e.message}", Toast.LENGTH_SHORT).show()
-            }
+        } else if (piecesPlaced == totalPiezasDesbloqueadas && totalPiezasDesbloqueadas < 30) {
+            Toast.makeText(this, "Geltoki gehiago osatu behar dituzu!", Toast.LENGTH_SHORT).show()
         }
     }
 }

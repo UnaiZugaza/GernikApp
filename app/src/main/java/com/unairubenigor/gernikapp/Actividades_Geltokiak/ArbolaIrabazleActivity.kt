@@ -37,7 +37,6 @@ class ArbolaIrabazleActivity : AppCompatActivity() {
         val headerTitle = findViewById<TextView>(R.id.textViewHeaderTitle)
         headerTitle.text = "EMAITZAK"
 
-        // Botón visible por defecto para que no desaparezca nunca
         btnItzuliMenura.visibility = View.VISIBLE
         tvZurePuntuazioa.text = "Zuzentzen..."
         tvIrabazleIzena.text = "Emaitzen zain..."
@@ -48,7 +47,9 @@ class ArbolaIrabazleActivity : AppCompatActivity() {
 
         ikasleIzena = intent.getStringExtra("USER_NAME") ?: ""
 
-        // Botón SALIR
+        // MARCAR ARBOLA COMO COMPLETADO
+        marcarArbolaCompletado()
+
         btnItzuliMenura.setOnClickListener {
             val intent = Intent(this, IkasleMenuActivity::class.java)
             intent.putExtra("USER_NAME", ikasleIzena)
@@ -62,6 +63,14 @@ class ArbolaIrabazleActivity : AppCompatActivity() {
             escucharEmaitzak(gela, ikasleIzena)
         } else {
             tvIrabazleIzena.text = "Errorea: Kodea falta da"
+        }
+    }
+
+    private fun marcarArbolaCompletado() {
+        if (gela.isNotEmpty() && ikasleIzena.isNotEmpty()) {
+            db.collection("partidas").document(gela)
+                .collection("jugadores").document(ikasleIzena)
+                .update("arbolaCompletado", true)
         }
     }
 
@@ -80,7 +89,6 @@ class ArbolaIrabazleActivity : AppCompatActivity() {
                     return@addSnapshotListener
                 }
 
-                // 1. Procesar datos (igual que en el Admin)
                 val entradasRaw = documents.mapNotNull { document ->
                     val izena = document.getString("izena")
                     val puntuazioa = document.getLong("puntuazioa")?.toInt()
@@ -93,12 +101,10 @@ class ArbolaIrabazleActivity : AppCompatActivity() {
                     return@addSnapshotListener
                 }
 
-                // 2. Agrupar
                 val puntuazioakUnicas = entradasRaw
                     .groupBy { it.first }
                     .map { entry -> Pair(entry.key, entry.value.maxOf { it.second }) }
 
-                // 3. Ganadores
                 val topScores = puntuazioakUnicas.map { it.second }.distinct().sortedDescending().take(3)
                 val scoreToPoints = mapOf(
                     (topScores.getOrNull(0) ?: -1) to 3,
@@ -114,9 +120,7 @@ class ArbolaIrabazleActivity : AppCompatActivity() {
                     }
                 }
 
-                // 4. Mostrar Ganadores
                 if (winners.isNotEmpty()) {
-                    // Ordenamos para mostrar primero al que más nota tiene
                     val winnersSorted = winners.sortedByDescending {
                         it.substringAfter("(").substringBefore("/").toIntOrNull() ?: 0
                     }
@@ -125,7 +129,6 @@ class ArbolaIrabazleActivity : AppCompatActivity() {
                     tvIrabazleIzena.text = "Emaitzak prozesatzen..."
                 }
 
-                // 5. Mostrar Tu Nota
                 val zurePuntuazioa = puntuazioakUnicas.find { it.first.equals(ikasleIzena, ignoreCase = true) }?.second
 
                 if (zurePuntuazioa != null) {

@@ -1,5 +1,6 @@
 package com.unairubenigor.gernikapp.Actividades_Geltokiak
 
+import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
@@ -430,13 +431,16 @@ class AstraActivity : AppCompatActivity() {
             else -> ganador
         }
 
-        val ganadorEsPueblo = ganador.contains("PUEBLO", ignoreCase = true) || ganador.contains("POLICIA", ignoreCase = true)
+        val ganadorEsPueblo = ganador.contains("PUEBLO", ignoreCase = true) || ganador.contains(
+            "POLICIA",
+            ignoreCase = true
+        )
         val ganadorEsAsesino = ganador.contains("ASESINO", ignoreCase = true)
         val soyPueblo = miRol == "PUEBLO" || miRol == "POLICIA"
         val soyAsesino = miRol == "ASESINO"
 
         var heGanado = false
-        var puntosASumar = 0L // Long para Firebase
+        var puntosASumar = 0L
 
         if (ganadorEsPueblo && soyPueblo) {
             heGanado = true
@@ -446,17 +450,29 @@ class AstraActivity : AppCompatActivity() {
             puntosASumar = 2
         }
 
-        // --- GUARDADO ONLINE GRATUITO ---
+        // --- GUARDADO ONLINE (Firebase) ---
         if (puntosASumar > 0) {
             db.collection("partidas").document(codigoClase)
                 .collection("jugadores").document(nombreUsuario)
                 .update("puntuacion", FieldValue.increment(puntosASumar))
                 .addOnSuccessListener {
-                    Toast.makeText(this, "+$puntosASumar puntu ranking-era!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "+$puntosASumar puntu ranking-era!", Toast.LENGTH_SHORT)
+                        .show()
                 }
         }
 
         if (heGanado) {
+            // ---------------------------------------------------------
+            // NUEVO: DESBLOQUEAR PIEZAS DEL PUZLE (OFFLINE)
+            // ---------------------------------------------------------
+            val prefs = getSharedPreferences("GernikaProgress", Context.MODE_PRIVATE)
+            val editor = prefs.edit()
+            editor.putBoolean("astraCompletado", true) // Desbloquea la Fila 1
+            editor.apply()
+
+            Toast.makeText(this, "Puzzlearen pieza berriak lortu dituzu!", Toast.LENGTH_LONG).show()
+            // ---------------------------------------------------------
+
             cardFinJuego.setCardBackgroundColor(Color.parseColor("#4CAF50"))
             tvGanador.text = "ZORIONAK!\n\nIRABAZLEAK:\n$ganadorTraducido\n(+$puntosASumar puntu)"
             tvGanador.setTextColor(Color.WHITE)
@@ -466,7 +482,6 @@ class AstraActivity : AppCompatActivity() {
             tvGanador.setTextColor(Color.WHITE)
         }
     }
-
     override fun onDestroy() {
         super.onDestroy()
         listenerPartida?.remove()
