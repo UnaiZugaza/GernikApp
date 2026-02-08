@@ -1,40 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="100dp">
+    android:layout_height="140dp"> <View
+    android:id="@+id/background_top"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:background="@color/fondo_general"
+    app:layout_constraintBottom_toTopOf="@+id/bar_blue"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- 1. Fondo superior (Mismo que el fondo general) -->
-    <View
-        android:id="@+id/background_top"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@color/fondo_general"
-        app:layout_constraintBottom_toTopOf="@+id/bar_blue"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- 2. Barra inferior (Azul acento) -->
     <View
         android:id="@+id/bar_blue"
         android:layout_width="0dp"
-        android:layout_height="20dp"
+        android:layout_height="25dp"
         android:background="@color/azul_acento"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- 4. LOGO CENTRAL -->
     <ImageButton
         android:id="@+id/buttonBack"
-        android:layout_width="120dp"
-        android:layout_height="80dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="Atzera"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:layout_marginStart="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Atrás"
+        android:padding="10dp"
+        android:rotation="180"
         android:scaleType="fitCenter"
-        android:src="@drawable/flechaatzera"
+        android:src="@drawable/flecha"
         app:layout_constraintBottom_toTopOf="@+id/bar_blue"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -42,23 +39,25 @@
     <ImageView
         android:id="@+id/imageViewLogo"
         android:layout_width="100dp"
-        android:layout_height="90dp"
+        android:layout_height="0dp"
         android:contentDescription="Logo GernikApp"
         android:scaleType="fitCenter"
         android:src="@drawable/logogernikapp"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/bar_blue"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageButton
         android:id="@+id/buttonContinue"
-        android:layout_width="120dp"
-        android:layout_height="80dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="Jarraitu"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:layout_marginEnd="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Continuar"
+        android:padding="10dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/flechajarraitu"
+        android:src="@drawable/flecha"
         app:layout_constraintBottom_toTopOf="@+id/bar_blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
