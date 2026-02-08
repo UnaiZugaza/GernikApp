@@ -31,7 +31,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Jarduerak (Actividades)"
+            android:text="@string/jarduerak"
             android:textSize="28sp"
             android:textStyle="bold"
             android:textColor="#0369a1"

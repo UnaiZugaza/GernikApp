@@ -36,11 +36,11 @@ class ArbolaIrabazleActivity : AppCompatActivity() {
         progressBar = findViewById(R.id.progressBarIrabazle)
 
         val headerTitle = findViewById<TextView>(R.id.textViewHeaderTitle)
-        headerTitle.text = "EMAITZAK"
+        headerTitle.text = getString(R.string.emaitzak)
 
         btnItzuliMenura.visibility = View.VISIBLE
-        tvZurePuntuazioa.text = "Zuzentzen..."
-        tvIrabazleIzena.text = "Emaitzen zain..."
+        tvZurePuntuazioa.text = getString(R.string.zuzentzen)
+        tvIrabazleIzena.text = getString(R.string.emaitzen_zain)
 
         val gelaCode = intent.getStringExtra("CLASS_CODE")
         val gelaCodeAlternativo = intent.getStringExtra("GELA_CODE")
@@ -63,7 +63,7 @@ class ArbolaIrabazleActivity : AppCompatActivity() {
         if (gela.isNotEmpty()) {
             escucharEmaitzak(gela, ikasleIzena)
         } else {
-            tvIrabazleIzena.text = "Errorea: Kodea falta da"
+            tvIrabazleIzena.text = getString(R.string.errorea_kodea_falta_da)
         }
 
         // Desbloquear pieza del puzzle (Arbola)
@@ -90,7 +90,7 @@ class ArbolaIrabazleActivity : AppCompatActivity() {
 
                 if (e != null) return@addSnapshotListener
                 if (documents == null || documents.isEmpty) {
-                    tvIrabazleIzena.text = "Marrazkiak bidaltzen..."
+                    tvIrabazleIzena.text = getString(R.string.marrazkiak_bidaltzen)
                     return@addSnapshotListener
                 }
 
@@ -101,8 +101,8 @@ class ArbolaIrabazleActivity : AppCompatActivity() {
                 }
 
                 if (entradasRaw.isEmpty()) {
-                    tvIrabazleIzena.text = "Irakaslea zuzentzen..."
-                    tvZurePuntuazioa.text = "Zuzentzen..."
+                    tvIrabazleIzena.text = getString(R.string.irakaslea_zuzentzen)
+                    tvZurePuntuazioa.text = getString(R.string.zuzentzen)
                     return@addSnapshotListener
                 }
 
@@ -131,15 +131,15 @@ class ArbolaIrabazleActivity : AppCompatActivity() {
                     }
                     tvIrabazleIzena.text = "${winnersSorted.joinToString("\n")}"
                 } else {
-                    tvIrabazleIzena.text = "Emaitzak prozesatzen..."
+                    tvIrabazleIzena.text = getString(R.string.emaitzak_prozesatzen)
                 }
 
                 val zurePuntuazioa = puntuazioakUnicas.find { it.first.equals(ikasleIzena, ignoreCase = true) }?.second
 
                 if (zurePuntuazioa != null) {
-                    tvZurePuntuazioa.text = "$zurePuntuazioa / 10"
+                    tvZurePuntuazioa.text = getString(R.string._10, zurePuntuazioa)
                 } else {
-                    tvZurePuntuazioa.text = "Zuzentzen..."
+                    tvZurePuntuazioa.text = getString(R.string.zuzentzen)
                 }
             }
     }

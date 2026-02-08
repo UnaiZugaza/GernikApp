@@ -79,7 +79,8 @@ class OptionPuzzleActivity : AppCompatActivity() {
 
         // Mensaje si no hay nada desbloqueado
         if (!row1Unlocked && !row2Unlocked && !row3Unlocked && !row4Unlocked && !row5Unlocked) {
-            Toast.makeText(this, "Geltokiak osatu puzzleko piezak lortzeko!", Toast.LENGTH_LONG).show()
+            Toast.makeText(this,
+                getString(R.string.geltokiak_osatu_puzzleko_piezak_lortzeko), Toast.LENGTH_LONG).show()
         }
     }
 
@@ -228,10 +229,11 @@ class OptionPuzzleActivity : AppCompatActivity() {
             val prefs = getSharedPreferences("GernikaProgress", Context.MODE_PRIVATE)
             prefs.edit().putBoolean("puzzleCompletado", true).apply()
 
-            Toast.makeText(this, "ZORIONAK! Puzzlea osatu duzu!", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.zorionak_puzzlea_osatu_duzu), Toast.LENGTH_LONG).show()
 
         } else if (piecesPlaced == totalPiezasDesbloqueadas && totalPiezasDesbloqueadas < 30) {
-            Toast.makeText(this, "Geltoki gehiago osatu behar dituzu!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,
+                getString(R.string.geltoki_gehiago_osatu_behar_dituzu), Toast.LENGTH_SHORT).show()
         }
     }
 }

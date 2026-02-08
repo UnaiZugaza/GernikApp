@@ -101,11 +101,11 @@ class OptionMapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 intent.putExtra("USER_NAME", nombreUsuario)
                 intent.putExtra("CLASS_CODE", codigoClase)
                 startActivity(intent)
-            } else if (marker.title == "Bakearen museoa") {
+            } else if (marker.title == getString(R.string.bakearen_museoa)) {
                 AlertDialog.Builder(this)
-                    .setTitle("Bakearen museoa")
-                    .setMessage("Atala hau prestatzen ari gara. Laster erabilgarri!")
-                    .setPositiveButton("Ados", null)
+                    .setTitle(R.string.bakearen_museoa)
+                    .setMessage(getString(R.string.atala_hau_prestatzen_ari_gara_laster_erabilgarri))
+                    .setPositiveButton(getString(R.string.ados), null)
                     .show()
             }
         }

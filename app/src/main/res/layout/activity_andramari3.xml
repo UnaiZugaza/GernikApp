@@ -48,7 +48,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="20dp"
-                    android:text="HONA HEMEN ANDRA MARI ELIZAREN INGURUAN EGIN BEHAR DITUZUN 4 GELDIALDIEN MAPA:"
+                    android:text="@string/hona_hemen_andra_mari_elizaren_inguruan_egin_behar_dituzun_4_geldialdien_mapa"
                     android:textColor="@android:color/black"
                     android:textSize="20sp"
                     android:textStyle="bold"

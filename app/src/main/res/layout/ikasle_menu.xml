@@ -33,7 +33,7 @@
             android:id="@+id/textViewUserName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Kaixo, Erabiltzaile!"
+            android:text="@string/kaixo_erabiltzaile"
             android:textSize="28sp"
             android:textStyle="bold"
             android:textColor="#1e3a8a"
@@ -42,7 +42,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Aukeratu atal bat:"
+            android:text="@string/aukeratu_atal_bat"
             android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="#065f46"
@@ -80,7 +80,7 @@
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         android:src="@drawable/mapa"
-                        android:contentDescription="Opción Mapa" />
+                        android:contentDescription="@string/opci_n_mapa" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -114,12 +114,12 @@
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         android:src="@drawable/geltoki"
-                        android:contentDescription="Opción Geltokiak" />
+                        android:contentDescription="@string/opci_n_geltokiak" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="GELTOKIAK"
+                        android:text="@string/geltokiak"
                         android:textStyle="bold"
                         android:textColor="#f59e0b"
                         android:layout_marginTop="8dp"/>
@@ -148,7 +148,7 @@
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         android:src="@drawable/podio"
-                        android:contentDescription="Opción Ranking" />
+                        android:contentDescription="@string/opci_n_ranking" />
 
                     <TextView
                         android:layout_width="wrap_content"

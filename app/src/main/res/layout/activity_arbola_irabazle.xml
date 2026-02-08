@@ -48,7 +48,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="IRABAZLEA"
+                        android:text="@string/irabazlea"
                         android:textSize="22sp"
                         android:textStyle="bold"
                         android:textColor="@android:color/white"
@@ -58,7 +58,7 @@
                         android:id="@+id/tvIrabazleIzena"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Itxaroten..."
+                        android:text="@string/itxaroten"
                         android:textSize="18sp"
                         android:textColor="@android:color/white"
                         android:textAlignment="center"
@@ -83,7 +83,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="ZURE PUNTUAZIOA"
+                        android:text="@string/zure_puntuazioa"
                         android:textSize="22sp"
                         android:textStyle="bold"
                         android:textColor="@android:color/black"
@@ -93,7 +93,7 @@
                         android:id="@+id/tvZurePuntuazioa"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Itxaroten..."
+                        android:text="@string/itxaroten"
                         android:textSize="24sp"
                         android:textStyle="bold"
                         android:textColor="@android:color/black"/>

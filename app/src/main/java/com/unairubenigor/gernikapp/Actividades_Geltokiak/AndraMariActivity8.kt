@@ -22,7 +22,7 @@ class AndraMari8Activity : AppCompatActivity() {
 
         // 1. Configuración del Header
         val headerTitle = findViewById<TextView>(R.id.textViewHeaderTitle)
-        headerTitle.text = "ZORIONAK!"
+        headerTitle.text = getString(R.string.zorionak)
 
         // 2. Configuración del Footer (ocultamos las flechas)
         val btnBack = findViewById<ImageButton>(R.id.buttonBack)

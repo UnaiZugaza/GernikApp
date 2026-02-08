@@ -31,7 +31,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Duela urte asko, 1937an, Gernika herria bonbardatu egin zuten gerra batean. Etxe asko suntsitu ziren, baina Gernikako Arbola bizirik geratu zen, eta horren itxaropena eta indarra adierazten ditu gaur egun ere."
+                android:text="@string/duela_urte_asko_1937an_gernika_herria_bonbardatu_egin_zuten_gerra_batean_etxe_asko_suntsitu_ziren_baina_gernikako_arbola_bizirik_geratu_zen_eta_horren_itxaropena_eta_indarra_adierazten_ditu_gaur_egun_ere"
                 android:textColor="@android:color/black"
                 android:textSize="24sp"
                 android:gravity="center"
@@ -40,7 +40,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Orain zuen txanda da: begiratu arbola eta ingurua arretaz - zer ikusten duzue? zer kolore daude? zer sentitzen duzue leku honetan?"
+                android:text="@string/orain_zuen_txanda_da_begiratu_arbola_eta_ingurua_arretaz_zer_ikusten_duzue_zer_kolore_daude_zer_sentitzen_duzue_leku_honetan"
                 android:textColor="@android:color/black"
                 android:textSize="24sp"
                 android:gravity="center" />

@@ -31,7 +31,7 @@ class AndraMari7Activity : AppCompatActivity() {
         codigoClase = intent.getStringExtra("CLASS_CODE") ?: ""
 
         val headerTitle = findViewById<TextView>(R.id.textViewHeaderTitle)
-        headerTitle.text = "ANDRA MARI - 4. GELTOKIA"
+        headerTitle.text = "ANDRA MARI"
 
         opinionEditText = findViewById(R.id.et_opinion)
         sendButton = findViewById(R.id.button_send_opinion)
@@ -41,12 +41,14 @@ class AndraMari7Activity : AppCompatActivity() {
 
             if (textoOpinion.isNotEmpty()) {
                 if (codigoClase.isEmpty()) {
-                    Toast.makeText(this, "Errorea: Gela kodea falta da. Sartu berriro gelan.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this,
+                        getString(R.string.errorea_gela_kodea_falta_da_sartu_berriro_gelan), Toast.LENGTH_SHORT).show()
                 } else {
                     enviarOpinionAFirestore(textoOpinion)
                 }
             } else {
-                Toast.makeText(this, "Mesedez, idatzi zure iritzia bidali aurretik", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,
+                    getString(R.string.mesedez_idatzi_zure_iritzia_bidali_aurretik), Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -83,16 +85,16 @@ class AndraMari7Activity : AppCompatActivity() {
         db.collection("andra_mari_iritziak")
             .add(opinionData)
             .addOnSuccessListener { docRef ->
-                Log.d("Firestore_OK", "Iritzia gordeta ID: ${docRef.id}")
+                Log.d("Firestore_OK", getString(R.string.iritzia_gordeta_id, docRef.id))
                 setLoading(false)
-                Toast.makeText(this, "Iritzia ondo bidali da!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.iritzia_ondo_bidali_da), Toast.LENGTH_SHORT).show()
                 irASiguiente()
             }
             .addOnFailureListener { e ->
                 // ESTO TE DIRÁ EL ERROR REAL EN EL LOGCAT (Permisos, red, etc.)
-                Log.e("Firestore_ERROR", "Errorea bidaltzerakoan", e)
+                Log.e("Firestore_ERROR", getString(R.string.errorea_bidaltzerakoan), e)
                 setLoading(false)
-                Toast.makeText(this, "Errorea: ${e.message}", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.errorea), Toast.LENGTH_LONG).show()
             }
     }
 

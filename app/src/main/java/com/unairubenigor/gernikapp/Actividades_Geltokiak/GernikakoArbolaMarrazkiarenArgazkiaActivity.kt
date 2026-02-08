@@ -74,12 +74,13 @@ class GernikakoArbolaMarrazkiarenArgazkiaActivity : AppCompatActivity() {
         btnBidali.setOnClickListener {
             if (imagenUri != null) {
                 if (codigoClase.isEmpty()) {
-                    Toast.makeText(this, "Errorea: Gela kodea falta da", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.errorea_gelaren_kodea_falta_da), Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
                 procesarYSubirImagen()
             } else {
-                Toast.makeText(this, "Mesedez, aukeratu irudi bat lehenengo", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,
+                    getString(R.string.mesedez_aukeratu_irudi_bat_lehenengo), Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -99,13 +100,14 @@ class GernikakoArbolaMarrazkiarenArgazkiaActivity : AppCompatActivity() {
 
             if (byteArray.size > 1000000) { // Límite de 1MB para Firestore
                 mostrarCarga(false)
-                Toast.makeText(this, "Irudia handiegia da. Saiatu beste batekin.", Toast.LENGTH_LONG).show()
+                Toast.makeText(this,
+                    getString(R.string.irudia_handiegia_da_saiatu_beste_batekin), Toast.LENGTH_LONG).show()
                 return
             }
             guardarEnBaseDeDatos(imagenBase64)
         } catch (e: Exception) {
             mostrarCarga(false)
-            Toast.makeText(this, "Errorea irudia prozesatzean: ${e.message}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.errorea_irudia_prozesatzean), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -122,16 +124,18 @@ class GernikakoArbolaMarrazkiarenArgazkiaActivity : AppCompatActivity() {
             .addOnSuccessListener {
                 // --- CAMBIO DE LÓGICA ---
                 progressBar.visibility = View.GONE
-                btnBidali.text = "BIDALITA. EMAITZEN ZAIN..."
+                btnBidali.text = getString(R.string.bidalita_emaitzen_zain)
                 cardSeleccionar.isEnabled = false
                 btnBidali.isEnabled = false
 
-                Toast.makeText(this, "Marrazkia ondo igo da! Emaitzen zain...", Toast.LENGTH_LONG).show()
+                Toast.makeText(this,
+                    getString(R.string.marrazkia_ondo_igo_da_emaitzen_zain), Toast.LENGTH_LONG).show()
                 escucharResultados()
             }
             .addOnFailureListener {
                 mostrarCarga(false)
-                Toast.makeText(this, "Errorea datu-basean gordetzean: ${it.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,
+                    getString(R.string.errorea_datu_basean_gordetzean, it.message), Toast.LENGTH_SHORT).show()
             }
     }
 
@@ -181,11 +185,11 @@ class GernikakoArbolaMarrazkiarenArgazkiaActivity : AppCompatActivity() {
         if (cargando) {
             progressBar.visibility = View.VISIBLE
             btnBidali.isEnabled = false
-            btnBidali.text = "IGOTZEN..."
+            btnBidali.text = getString(R.string.igotzen)
         } else {
             progressBar.visibility = View.GONE
             btnBidali.isEnabled = true
-            btnBidali.text = "BIDALI"
+            btnBidali.text = getString(R.string.bidali)
         }
     }
 

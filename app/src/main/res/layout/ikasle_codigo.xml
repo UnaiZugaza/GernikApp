@@ -33,7 +33,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Klasearen kodea sartu:"
+            android:text="@string/klasearen_kodea_sartu"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="#3b82f6"
@@ -44,7 +44,7 @@
             android:id="@+id/editTextClassCode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="6 digitu kodea"
+            android:hint="@string/_6_digitu_kodea"
             android:inputType="number"
             android:maxLength="6"
             android:gravity="center"

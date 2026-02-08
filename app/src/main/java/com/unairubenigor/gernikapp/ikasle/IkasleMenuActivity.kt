@@ -28,7 +28,7 @@ class IkasleMenuActivity : AppCompatActivity() {
 
         // Configurar Header - Cambiar título a "MENÚ"
         val headerTitle = findViewById<TextView>(R.id.textViewHeaderTitle)
-        headerTitle.text = "MENÚ"
+        headerTitle.text = "MENU"
 
         // Configurar Footer
         val btnBack = findViewById<ImageButton>(R.id.buttonBack)
@@ -43,7 +43,7 @@ class IkasleMenuActivity : AppCompatActivity() {
 
         val textViewUserName = findViewById<TextView>(R.id.textViewUserName)
         if (!nombreUsuario.isNullOrEmpty()) {
-            textViewUserName.text = "Kaixo, $nombreUsuario!"
+            textViewUserName.text = getString(R.string.kaixo, nombreUsuario)
         }
 
         val cardOption1: CardView = findViewById(R.id.cardOption1) // Mapa

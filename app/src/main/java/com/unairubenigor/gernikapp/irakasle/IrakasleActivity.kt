@@ -33,7 +33,7 @@ class IrakasleActivity : AppCompatActivity() {
         // Header Titulo
         val headerView = findViewById<View>(R.id.include_header)
         val title = headerView.findViewById<TextView>(R.id.textViewHeaderTitle)
-        title.text = "IRAKASLE GUNEA"
+        title.text = getString(R.string.irakasle_gunea)
 
         // Footer Config
         val footerView = findViewById<View>(R.id.include_footer)
@@ -81,7 +81,8 @@ class IrakasleActivity : AppCompatActivity() {
         db.collection("partidas").document(codigoClase)
             .set(datosSala)
             .addOnSuccessListener {
-                Toast.makeText(this, "Gela sortu da: $codigoClase", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,
+                    getString(R.string.gela_sortu_da, codigoClase), Toast.LENGTH_SHORT).show()
 
                 // Habilitamos los botones para gestionar las actividades
                 btnAstra.isEnabled = true
@@ -89,7 +90,7 @@ class IrakasleActivity : AppCompatActivity() {
                 btnAndraMari.isEnabled = true
             }
             .addOnFailureListener {
-                Toast.makeText(this, "Errorea gela sortzean", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.errorea_gela_sortzean), Toast.LENGTH_SHORT).show()
             }
     }
 

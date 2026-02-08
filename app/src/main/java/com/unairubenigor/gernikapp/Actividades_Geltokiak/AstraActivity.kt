@@ -84,7 +84,7 @@ class AstraActivity : AppCompatActivity() {
         inicializarVistas()
 
         if (nombreUsuario.isEmpty() || codigoClase.isEmpty()) {
-            Toast.makeText(this, "Errorea datuekin", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.errorea_datuekin), Toast.LENGTH_SHORT).show()
             finish()
             return
         }
@@ -169,7 +169,7 @@ class AstraActivity : AppCompatActivity() {
             if (document.exists()) {
                 gestionarJugador(salaRef)
             } else {
-                Toast.makeText(this, "Gela ez da existitzen", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.gela_ez_da_existitzen), Toast.LENGTH_SHORT).show()
                 finish()
             }
         }
@@ -271,7 +271,8 @@ class AstraActivity : AppCompatActivity() {
                 mapUltimoAtaquePrevio = nuevosTiemposAtaque
                 listaEstadoJugadores = nuevaListaEstados
                 isFirstLoad = false
-                tvContadorJugadores.text = "Konektatuta: ${listaEstadoJugadores.size}"
+                tvContadorJugadores.text =
+                    getString(R.string.konektatuta, listaEstadoJugadores.size)
                 adapterPueblo.actualizarLista(listaEstadoJugadores)
                 adapterPolicia.actualizarLista(listaEstadoJugadores)
                 adapterAsesino.actualizarLista(listaEstadoJugadores)
@@ -368,12 +369,13 @@ class AstraActivity : AppCompatActivity() {
                 }
             }
             if (acierto) {
-                Toast.makeText(this, "Asmatu duzu!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.asmatu_duzu), Toast.LENGTH_SHORT).show()
                 db.collection("partidas").document(codigoClase)
                     .collection("jugadores").document(nombreAsesino).update("vivo", false)
                     .addOnSuccessListener { verificarSiQuedanAsesinos() }
             } else {
-                Toast.makeText(this, "Huts egin duzu. Hil egin zara.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,
+                    getString(R.string.huts_egin_duzu_hil_egin_zara), Toast.LENGTH_SHORT).show()
                 eliminarme { verificarVictoriaAsesinos() }
             }
         }
@@ -386,7 +388,7 @@ class AstraActivity : AppCompatActivity() {
                 tvCooldown.visibility = View.INVISIBLE
                 btnMatar.isEnabled = true
                 btnMatar.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#D32F2F"))
-                btnMatar.text = "HIL"
+                btnMatar.text = getString(R.string.hil)
             }
         }.start()
     }
@@ -470,7 +472,8 @@ class AstraActivity : AppCompatActivity() {
             editor.putBoolean("astraCompletado", true) // Desbloquea la Fila 1
             editor.apply()
 
-            Toast.makeText(this, "Puzzlearen pieza berriak lortu dituzu!", Toast.LENGTH_LONG).show()
+            Toast.makeText(this,
+                getString(R.string.puzzlearen_pieza_berriak_lortu_dituzu), Toast.LENGTH_LONG).show()
             // ---------------------------------------------------------
 
             cardFinJuego.setCardBackgroundColor(Color.parseColor("#4CAF50"))

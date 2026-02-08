@@ -29,7 +29,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Taldeka, egin marrazki bat ikusitakoaren eta sentitutakoaren inguruan, paperean eta boligrafoz."
+                android:text="@string/taldeka_egin_marrazki_bat_ikusitakoaren_eta_sentitutakoaren_inguruan_paperean_eta_boligrafoz"
                 android:textColor="@android:color/black"
                 android:textSize="26sp"
                 android:textStyle="bold"
@@ -39,7 +39,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Guztion artean sortu zuen irudia, zuen taldearen ikuspegia erakusteko."
+                android:text="@string/guztion_artean_sortu_zuen_irudia_zuen_taldearen_ikuspegia_erakusteko"
                 android:textColor="@android:color/black"
                 android:textSize="26sp"
                 android:textStyle="bold"
