@@ -25,7 +25,7 @@ class MuralaVideoActivity : AppCompatActivity() {
         // --- Header ---
         val headerView = findViewById<View>(R.id.header_layout)
         val headerTitle = headerView.findViewById<TextView>(R.id.textViewHeaderTitle)
-        headerTitle.text = "BIDEOA"
+        headerTitle.text = getString(R.string.bideoa)
 
         // --- Video Action ---
         val btnPlayVideo = findViewById<ImageButton>(R.id.imageButtonVideo)

@@ -28,7 +28,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="MARRAZKIA BUKATU BADUZUE, HONA IGO!!"
+            android:text="@string/marrazkia_bukatu_baduzue_hona_igo"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="@android:color/black"
@@ -62,13 +62,13 @@
                 android:background="#FFFFFF"
                 android:scaleType="fitCenter"
                 android:padding="50dp"
-                android:contentDescription="Sakatu argazkia aukeratzeko"/>
+                android:contentDescription="@string/sakatu_argazkia_aukeratzeko"/>
         </androidx.cardview.widget.CardView>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ukitu karratua argazkia aukeratzeko"
+            android:text="@string/ukitu_karratua_argazkia_aukeratzeko"
             android:textColor="@color/azul_acento"
             android:textSize="14sp"
             android:textStyle="bold"
@@ -78,7 +78,7 @@
             android:id="@+id/btnBidali"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="BIDALI"
+            android:text="@string/bidali"
             android:background="@color/azul_acento"
             android:textColor="@android:color/black"
             android:textStyle="bold"/>

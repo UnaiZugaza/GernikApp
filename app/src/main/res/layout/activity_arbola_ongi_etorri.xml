@@ -31,7 +31,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Kaixo, lagunak!!!\nOngi etorri Gernikako Arbolara!"
+                android:text="@string/kaixo_lagunak_nongi_etorri_gernikako_arbolara"
                 android:textColor="@android:color/black"
                 android:textSize="30sp"
                 android:textStyle="bold"
@@ -41,7 +41,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Arbola hau oso garrantzitsua da gure herriarentzat. Antzina, euskal herrietako ordezkariak hemen biltzen ziren erabaki garrantzitsuak hartzeko eta herriaren izenean zin egiteko.\nHorregatik, askatasunaren, bakearen eta batasunaren ikurra bihurtu da."
+                android:text="@string/arbola_hau_oso_garrantzitsua_da_gure_herriarentzat_antzina_euskal_herrietako_ordezkariak_hemen_biltzen_ziren_erabaki_garrantzitsuak_hartzeko_eta_herriaren_izenean_zin_egiteko_nhorregatik_askatasunaren_bakearen_eta_batasunaren_ikurra_bihurtu_da"
                 android:textColor="@android:color/black"
                 android:textSize="24sp"
                 android:gravity="center"

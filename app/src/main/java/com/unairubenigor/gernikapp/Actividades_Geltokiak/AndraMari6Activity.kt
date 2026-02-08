@@ -56,7 +56,7 @@ class AndraMari6Activity : AppCompatActivity() {
         codigoClase = intent.getStringExtra("CLASS_CODE") ?: ""
 
         val headerTitle = findViewById<TextView>(R.id.textViewHeaderTitle)
-        headerTitle.text = "ANDRA MARI - 3. GELTOKIA"
+        headerTitle.text = "ANDRA MARI"
 
         imageUpload1 = findViewById(R.id.image_upload_1)
         imageUpload2 = findViewById(R.id.image_upload_2)
@@ -97,7 +97,8 @@ class AndraMari6Activity : AppCompatActivity() {
     private fun uploadImages() {
         val urisToUpload = imageUris.values.filterNotNull()
         if (urisToUpload.size < 3) {
-            Toast.makeText(this, "Hiru irudiak aukeratu behar dituzu", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,
+                getString(R.string.hiru_irudiak_aukeratu_behar_dituzu), Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -115,13 +116,15 @@ class AndraMari6Activity : AppCompatActivity() {
                         guardarEnFirestore(base64String) {
                             subidasExitosas++
                             if (subidasExitosas == 3) {
-                                Toast.makeText(this, "Irudiak ondo igo dira!", Toast.LENGTH_LONG).show()
+                                Toast.makeText(this,
+                                    getString(R.string.irudiak_ondo_igo_dira), Toast.LENGTH_LONG).show()
                                 setLoading(false)
                             }
                         }
                     } else {
                         setLoading(false)
-                        Toast.makeText(this, "Errorea irudia prozesatzean", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this,
+                            getString(R.string.errorea_irudia_prozesatzean), Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -160,7 +163,8 @@ class AndraMari6Activity : AppCompatActivity() {
             .add(datosDibujo)
             .addOnSuccessListener { onComplete() }
             .addOnFailureListener { e ->
-                Toast.makeText(this, "Errorea gordetzean: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,
+                    getString(R.string.errorea_gordetzean, e.message), Toast.LENGTH_SHORT).show()
                 setLoading(false)
             }
     }
@@ -181,6 +185,6 @@ class AndraMari6Activity : AppCompatActivity() {
 
     private fun setLoading(isLoading: Boolean) {
         uploadButton.isEnabled = !isLoading
-        uploadButton.text = if (isLoading) "Igotzen..." else "ARGAZKIAK IGO"
+        uploadButton.text = if (isLoading) getString(R.string.igotzen) else getString(R.string.argazkiak_igo)
     }
 }

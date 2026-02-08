@@ -34,7 +34,7 @@ class ArbolaAdminActivity : AppCompatActivity() {
         codigoClase = intent.getStringExtra("CLASS_CODE") ?: ""
 
         val headerTitle = findViewById<TextView>(R.id.textViewHeaderTitle)
-        headerTitle.text = "MARRAZKIAK ($codigoClase)"
+        headerTitle.text = getString(R.string.marrazkiak, codigoClase)
 
         rvLista = findViewById(R.id.rvMarrazkiak)
         progressBar = findViewById(R.id.progressBarAdmin)
@@ -57,9 +57,9 @@ class ArbolaAdminActivity : AppCompatActivity() {
     private fun checkSiYaSeRepartio() {
         db.collection("gelak").document(codigoClase).get()
             .addOnSuccessListener { doc ->
-                if (doc.exists() && doc.getBoolean("emaitzak_prest") == true) {
-                    btnBidaliEmaitzak.text = "EMAITZAK JADA BIDALITA"
-                    // No lo deshabilitamos del todo por si quieres reenviar, pero avisamos visualmente
+                if (doc.exists() && doc.getBoolean(getString(R.string.emaitzak_prest)) == true) {
+                    btnBidaliEmaitzak.text = getString(R.string.emaitzak_jada_bidalita)
+                    // No lo deshabilitamos por si quieres reenviar, pero avisamos visualmente
                 }
             }
     }
@@ -73,10 +73,11 @@ class ArbolaAdminActivity : AppCompatActivity() {
         // 1. Verificamos si ya se dieron los puntos para no duplicar (Opcional, pero recomendado)
         db.collection("gelak").document(codigoClase).get()
             .addOnSuccessListener { doc ->
-                if (doc.exists() && doc.getBoolean("emaitzak_prest") == true) {
+                if (doc.exists() && doc.getBoolean(getString(R.string.emaitzak_prest)) == true) {
                     // Ya se dieron, pero volvemos a enviar la señal por si algún alumno se quedó colgado
                     finalizarReparto()
-                    Toast.makeText(this, "Emaitzak berriz bidaltzen...", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this,
+                        getString(R.string.emaitzak_berriz_bidaltzen), Toast.LENGTH_SHORT).show()
                 } else {
                     calcularYSumarPuntos()
                 }
@@ -152,7 +153,8 @@ class ArbolaAdminActivity : AppCompatActivity() {
                 // Si falla leer los dibujos, desbloqueamos
                 progressBar.visibility = View.GONE
                 btnBidaliEmaitzak.isEnabled = true
-                Toast.makeText(this, "Errorea marrazkiak irakurtzean", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,
+                    getString(R.string.errorea_marrazkiak_irakurtzean), Toast.LENGTH_SHORT).show()
             }
     }
 
@@ -164,7 +166,8 @@ class ArbolaAdminActivity : AppCompatActivity() {
             .addOnCompleteListener {
                 progressBar.visibility = View.GONE
                 btnBidaliEmaitzak.text = "EMAITZAK BIDALITA"
-                Toast.makeText(this, "Puntuak banatu eta ikasleei abisatu zaie!", Toast.LENGTH_LONG).show()
+                Toast.makeText(this,
+                    getString(R.string.puntuak_banatu_eta_ikasleei_abisatu_zaie), Toast.LENGTH_LONG).show()
                 finish() // Cerramos la pantalla del profe
             }
     }

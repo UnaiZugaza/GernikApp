@@ -31,7 +31,7 @@ class AstraAdminActivity : AppCompatActivity() {
         codigoClase = intent.getStringExtra("CLASS_CODE") ?: ""
 
         if (codigoClase.isEmpty()) {
-            Toast.makeText(this, "Errorea: Kodea falta da", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.errorea_gelaren_kodea_falta_da), Toast.LENGTH_SHORT).show()
             finish()
             return
         }
@@ -88,7 +88,8 @@ class AstraAdminActivity : AppCompatActivity() {
             val total = listaJugadores.size
 
             if (total < 3) {
-                Toast.makeText(this, "Gutxienez 3 jokalari behar dira", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,
+                    getString(R.string.gutxienez_3_jokalari_behar_dira), Toast.LENGTH_SHORT).show()
                 return@addOnSuccessListener
             }
 
@@ -118,7 +119,7 @@ class AstraAdminActivity : AppCompatActivity() {
             batch.update(partidaRef, "asesino", nombresAsesinos.trim())
 
             batch.commit().addOnSuccessListener {
-                Toast.makeText(this, "Partida hasita!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.partida_hasita), Toast.LENGTH_SHORT).show()
             }
         }
     }

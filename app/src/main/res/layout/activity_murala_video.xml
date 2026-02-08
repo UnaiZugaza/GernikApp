@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="20dp"
-                android:text="IKUSI GERNIKAKO BONBARDAKETAREN BIDEOA"
+                android:text="@string/ikusi_gernikako_bonbardaketaren_bideoa"
                 android:textColor="@android:color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"

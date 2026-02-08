@@ -33,7 +33,7 @@ class AndraMari4Activity : AppCompatActivity() {
         codigoClase = intent.getStringExtra("CLASS_CODE") ?: ""
 
         val headerTitle = findViewById<TextView>(R.id.textViewHeaderTitle)
-        headerTitle.text = "ANDRA MARI - 1. GELTOKIA"
+        headerTitle.text = "ANDRA MARI"
 
         val buttonPlayVideo = findViewById<ImageButton>(R.id.button_play_youtube_4)
         buttonPlayVideo.setOnClickListener {
@@ -51,12 +51,14 @@ class AndraMari4Activity : AppCompatActivity() {
 
             if (r1.isNotEmpty() && r2.isNotEmpty()) {
                 if (codigoClase.isEmpty()){
-                    Toast.makeText(this, "Errorea: Gelaren kodea falta da.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this,
+                        getString(R.string.errorea_gelaren_kodea_falta_da), Toast.LENGTH_LONG).show()
                     return@setOnClickListener
                 }
                 validateAndSendAnswers(r1, r2)
             } else {
-                Toast.makeText(this, "Erantzun bi galderak mesedez", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,
+                    getString(R.string.erantzun_bi_galderak_mesedez), Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -66,7 +68,7 @@ class AndraMari4Activity : AppCompatActivity() {
     private fun validateAndSendAnswers(r1: String, r2: String) {
         // Ya no comprobamos si contiene palabras clave.
         // Simplemente avisamos que se está enviando.
-        Toast.makeText(this, "Erantzunak bidaltzen...", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, getString(R.string.erantzunak_bidaltzen), Toast.LENGTH_SHORT).show()
         enviarRespuestas(r1, r2)
     }
 
@@ -80,18 +82,18 @@ class AndraMari4Activity : AppCompatActivity() {
         )
 
         btnSend.isEnabled = false
-        btnSend.text = "BIDALTZEN..."
+        btnSend.text = getString(R.string.bidaltzen)
 
         db.collection("andra_mari_4_erantzunak").add(data)
             .addOnSuccessListener {
-                Toast.makeText(this, "Ondo bidali da!", Toast.LENGTH_SHORT).show()
-                btnSend.text = "BIDALITA ✅"
+                Toast.makeText(this, getString(R.string.ondo_bidali_da), Toast.LENGTH_SHORT).show()
+                btnSend.text = getString(R.string.bidalita)
                 // Opcional: Podrías saltar automáticamente a la siguiente actividad aquí
             }
             .addOnFailureListener { e ->
                 btnSend.isEnabled = true
-                btnSend.text = "BIDALI"
-                Toast.makeText(this, "Errorea: ${e.message}", Toast.LENGTH_SHORT).show()
+                btnSend.text = getString(R.string.bidali)
+                Toast.makeText(this, getString(R.string.ondo_bidali_da), Toast.LENGTH_SHORT).show()
             }
     }
     private fun setupFooter() {

@@ -48,7 +48,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="20dp"
-                    android:text="Hiru argi desberdinen argazkiak atera behar dituzu, bestela, mugikorra itzaliko da, eta marijesiek ez dute ezer ikusiko!"
+                    android:text="@string/hiru_argi_desberdinen_argazkiak_atera_behar_dituzu_bestela_mugikorra_itzaliko_da_eta_marijesiek_ez_dute_ezer_ikusiko"
                     android:textColor="@android:color/black"
                     android:textSize="20sp"
                     android:textStyle="bold"
@@ -101,7 +101,7 @@
                 android:id="@+id/button_upload_to_firebase"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Argazkiak Igo"
+                android:text="@string/argazkiak_igo"
                 android:backgroundTint="#FF9800"
                 android:textColor="@android:color/white"/>
 

@@ -26,7 +26,7 @@ class IkasleActivity : AppCompatActivity() {
         // --- Header ---
         val headerView = findViewById<View>(R.id.header_layout)
         val headerTitle = headerView.findViewById<TextView>(R.id.textViewHeaderTitle)
-        headerTitle.text = "KODEA"
+        headerTitle.text = getString(R.string.kodea)
 
         // --- Footer ---
         val footerView = findViewById<View>(R.id.footer_layout)
@@ -48,7 +48,8 @@ class IkasleActivity : AppCompatActivity() {
                 // Bloqueamos botón y comprobamos
                 verificarSalaYEntrar(code, userName)
             } else {
-                Toast.makeText(this, "Mesedez, sartu 6 digituko kodea.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,
+                    getString(R.string.mesedez_sartu_6_digituko_kodea), Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -57,7 +58,7 @@ class IkasleActivity : AppCompatActivity() {
         // 1. BLOQUEAR BOTÓN para evitar doble click
         btnContinue.isEnabled = false
         btnContinue.alpha = 0.5f // Efecto visual de deshabilitado
-        Toast.makeText(this, "Egiaztatzen...", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, getString(R.string.egiaztatzen), Toast.LENGTH_SHORT).show()
 
         db.collection("partidas").document(code).get()
             .addOnSuccessListener { document ->
@@ -74,14 +75,16 @@ class IkasleActivity : AppCompatActivity() {
                     // SALA NO EXISTE
                     btnContinue.isEnabled = true
                     btnContinue.alpha = 1.0f
-                    Toast.makeText(this, "Gela hori ez da existitzen ($code).", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this,
+                        getString(R.string.gela_hori_ez_da_existitzen, code), Toast.LENGTH_LONG).show()
                 }
             }
             .addOnFailureListener { e ->
                 // ERROR DE CONEXIÓN
                 btnContinue.isEnabled = true
                 btnContinue.alpha = 1.0f
-                Toast.makeText(this, "Errorea konexioan: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,
+                    getString(R.string.errorea_konexioan, e.message), Toast.LENGTH_SHORT).show()
             }
     }
 }

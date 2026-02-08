@@ -38,7 +38,7 @@ class AndraMari5Activity : AppCompatActivity() {
         codigoClase = intent.getStringExtra("CLASS_CODE")
 
         val headerTitle = findViewById<TextView>(R.id.textViewHeaderTitle)
-        headerTitle.text = "ANDRA MARI - 2. GELTOKIA"
+        headerTitle.text = "ANDRA MARI"
 
         val buttonPlayVideo = findViewById<ImageButton>(R.id.button_play_youtube)
         buttonPlayVideo.setOnClickListener {
@@ -86,7 +86,8 @@ class AndraMari5Activity : AppCompatActivity() {
             intent.putExtra("CLASS_CODE", codigoClase)
             startActivity(intent)
         } else {
-            Toast.makeText(this, "Erantzun batzuk ez dira zuzenak. Saiatu berriro!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,
+                getString(R.string.erantzun_batzuk_ez_dira_zuzenak_saiatu_berriro), Toast.LENGTH_SHORT).show()
         }
     }
 }

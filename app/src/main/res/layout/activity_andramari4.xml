@@ -48,7 +48,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="20dp"
-                    android:text="IKUSI AURKEZPEN BIDEOA ETA ERANTZUN GALDERAK"
+                    android:text="@string/ikusi_aurkezpen_bideoa_eta_erantzun_galderak"
                     android:textColor="@android:color/black"
                     android:textSize="20sp"
                     android:textStyle="bold"
@@ -71,7 +71,7 @@
                     android:scaleType="fitCenter"
                     android:padding="40dp"
                     android:background="?attr/selectableItemBackground"
-                    android:contentDescription="Reproducir video de YouTube" />
+                    android:contentDescription="@string/reproducir_video_de_youtube" />
 
             </androidx.cardview.widget.CardView>
 
@@ -93,7 +93,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Zein da marijesien eginkizuna?"
+                        android:text="@string/zein_da_marijesien_eginkizuna"
                         android:textColor="@android:color/black"
                         android:textSize="16sp"
                         android:textStyle="bold"/>
@@ -105,7 +105,7 @@
                         android:layout_marginTop="4dp"
                         android:layout_marginBottom="16dp"
                         android:background="@android:color/white"
-                        android:hint="Idatzi zure erantzuna"
+                        android:hint="@string/idatzi_zure_erantzuna"
                         android:inputType="text"
                         android:padding="10dp"
                         android:textColor="@android:color/black"/>
@@ -124,7 +124,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:background="@android:color/white"
-                        android:hint="Idatzi zure erantzuna"
+                        android:hint="@string/idatzi_zure_izena"
                         android:inputType="text"
                         android:padding="10dp"
                         android:textColor="@android:color/black"/>
@@ -136,7 +136,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="20dp"
                         android:background="@color/azul_acento"
-                        android:text="BIDALI ERANTZUNAK"
+                        android:text="@string/bidali_erantzunak"
                         android:textColor="@android:color/black"
                         android:textStyle="bold" />
 

@@ -79,7 +79,7 @@ class AndraMariAdminActivity : AppCompatActivity() {
             showKoplaSolutions()
             listenForAllDynamicData()
         } else {
-            Toast.makeText(this, "Errorea: Gelaren kodea falta da", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.errorea_gelaren_kodea_falta_da), Toast.LENGTH_SHORT).show()
         }
     }
 

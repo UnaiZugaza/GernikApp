@@ -42,7 +42,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ongi etorri Gernikako Muralera!"
+                    android:text="@string/ongi_etorri_gernikako_muralera"
                     android:textSize="26sp"
                     android:textStyle="bold"
                     android:textColor="#3b82f6"
@@ -53,7 +53,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Hau Pablo Picassoren 'Guernica' koadro ospetsuaren erreplika bat da. 1937ko apirilaren 26an Gernikak jasandako bonbardaketa irudikatzen du. Gerraren izugarrikeriak eta bakearen nahia erakusten dizkigu mundu osoari."
+                    android:text="@string/hau_pablo_picassoren_guernica_koadro_ospetsuaren_erreplika_bat_da_1937ko_apirilaren_26an_gernikak_jasandako_bonbardaketa_irudikatzen_du_gerraren_izugarrikeriak_eta_bakearen_nahia_erakusten_dizkigu_mundu_osoari"
                     android:textSize="20sp"
                     android:textColor="#0f172a"
                     android:justificationMode="inter_word"
@@ -78,7 +78,7 @@
             android:id="@+id/textViewJarraitu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Jarraitu bideoa ikusteko"
+            android:text="@string/jarraitu_bideoa_ikusteko"
             android:textSize="22sp"
             android:textStyle="bold"
             android:textColor="#059669"

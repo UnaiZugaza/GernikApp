@@ -51,7 +51,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="GELA KODEA"
+                        android:text="@string/gela_kodea"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         android:textColor="#FFFFFF"
@@ -87,7 +87,7 @@
                         android:id="@+id/tvInfoJugadores"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Jokalariak konektatuta: 0"
+                        android:text="@string/jokalariak_konektatuta_0"
                         android:textSize="18sp"
                         android:textColor="#000000"
                         android:layout_marginBottom="20dp"/>
@@ -96,7 +96,7 @@
                         android:id="@+id/btnRepartirRoles"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
-                        android:text="ROLAK BANATU ETA HASI"
+                        android:text="@string/rolak_banatu_eta_hasi"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:backgroundTint="#FF9800"
@@ -107,7 +107,7 @@
                         android:id="@+id/btnReiniciar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="BERRIRO HASI / KODE BERRIA"
+                        android:text="@string/berriro_hasi_kode_berria"
                         android:backgroundTint="#757575"
                         android:textColor="#FFFFFF"/>
                 </LinearLayout>

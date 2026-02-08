@@ -29,7 +29,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Behin marrazkia amaitutakoan, igo irudia aplikaziora, eta parte hartu bozketan ikusteko zein marrazki gustatzen zaizuen gehien."
+                android:text="@string/behin_marrazkia_amaitutakoan_igo_irudia_aplikaziora_eta_parte_hartu_bozketan_ikusteko_zein_marrazki_gustatzen_zaizuen_gehien"
                 android:textColor="@android:color/black"
                 android:textSize="24sp"
                 android:textStyle="bold"
@@ -47,7 +47,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="24dp"
-                    android:text="Gogoratu: garrantzitsuena ez da irabaztea, elkarrekin sortzea eta gure historiaren lekua ezagutzea baizik."
+                    android:text="@string/gogoratu_garrantzitsuena_ez_da_irabaztea_elkarrekin_sortzea_eta_gure_historiaren_lekua_ezagutzea_baizik"
                     android:textColor="@android:color/black"
                     android:textSize="24sp"
                     android:textStyle="bold"

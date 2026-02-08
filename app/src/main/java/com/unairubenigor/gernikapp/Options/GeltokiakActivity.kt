@@ -26,7 +26,7 @@ class GeltokiakActivity : AppCompatActivity() {
         // --- Header ---
         val headerView = findViewById<View>(R.id.header_layout)
         val headerTitle = headerView.findViewById<TextView>(R.id.textViewHeaderTitle)
-        headerTitle.text = "GELTOKIAK"
+        headerTitle.text = getString(R.string.geltokiak)
 
         // --- Footer ---
         val footerView = findViewById<View>(R.id.footer_layout)

@@ -24,7 +24,7 @@ class OptionRankingActivity : AppCompatActivity() {
         setContentView(R.layout.activity_option_ranking)
 
         // 1. RECUPERAR DATOS
-        val nombreUsuario = intent.getStringExtra("USER_NAME") ?: "Ezezaguna"
+        val nombreUsuario = intent.getStringExtra("USER_NAME") ?: getString(R.string.ezezaguna)
         codigoClase = intent.getStringExtra("CLASS_CODE") ?: ""
 
         // --- HEADER ---
@@ -48,7 +48,8 @@ class OptionRankingActivity : AppCompatActivity() {
         if (codigoClase.isNotEmpty()) {
             cargarRankingFirebase(recyclerView)
         } else {
-            Toast.makeText(this, "Ez zaude gela batean konektatuta", Toast.LENGTH_LONG).show()
+            Toast.makeText(this,
+                getString(R.string.ez_zaude_gela_batean_konektatuta), Toast.LENGTH_LONG).show()
         }
     }
 
@@ -60,7 +61,7 @@ class OptionRankingActivity : AppCompatActivity() {
             .orderBy("puntuacion", Query.Direction.DESCENDING)
             .addSnapshotListener { snapshots, e ->
                 if (e != null) {
-                    Toast.makeText(this, "Errorea: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.errorea, e.message), Toast.LENGTH_SHORT).show()
                     return@addSnapshotListener
                 }
 

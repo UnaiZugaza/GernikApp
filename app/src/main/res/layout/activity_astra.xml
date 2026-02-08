@@ -46,7 +46,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Konektatzen..."
+                    android:text="@string/konektatzen"
                     android:textSize="18sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -76,7 +76,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="AUKERATU ZURE AVATARRA"
+                            android:text="@string/aukeratu_zure_avatarra"
                             android:textSize="20sp"
                             android:textStyle="bold"
                             android:textColor="#FFFFFF"
@@ -121,7 +121,7 @@
                             android:id="@+id/tvContadorJugadores"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Irakaslearen zain..."
+                            android:text="@string/irakaslearen_zain"
                             android:textColor="#BBDEFB"
                             android:textSize="18sp"
                             android:gravity="center"/>
@@ -154,7 +154,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="HERRITARRA ZARA"
+                            android:text="@string/herritarra_zara"
                             android:textColor="#F57F17"
                             android:textSize="28sp"
                             android:textStyle="bold"
@@ -163,7 +163,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Biziraun ezazu!"
+                            android:text="@string/biziraun_ezazu"
                             android:textColor="#FBC02D"
                             android:textSize="18sp"
                             android:layout_marginBottom="10dp"/>
@@ -177,7 +177,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Oharrak / Susmoak:"
+                            android:text="@string/oharrak_susmoak"
                             android:textStyle="bold"
                             android:textColor="#F57F17"
                             android:layout_marginBottom="5dp"
@@ -188,7 +188,7 @@
                             android:layout_height="100dp"
                             android:background="#FFFFFF"
                             android:gravity="top|start"
-                            android:hint="Idatzi hemen..."
+                            android:hint="@string/idatzi_hemen"
                             android:padding="10dp"
                             android:textSize="14sp"
                             android:inputType="textMultiLine"
@@ -219,7 +219,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="POLIZIA"
+                            android:text="@string/polizia"
                             android:textColor="#0D47A1"
                             android:textSize="28sp"
                             android:textStyle="bold"
@@ -239,7 +239,7 @@
                             android:id="@+id/btnAcusar"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="IKERTU / SALATU"
+                            android:text="@string/ikertu_salatu"
                             android:backgroundTint="#0D47A1"
                             android:textColor="#FFFFFF"/>
                     </LinearLayout>
@@ -268,7 +268,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="HILTZAILEA"
+                            android:text="@string/hiltzailea"
                             android:textColor="#B71C1C"
                             android:textSize="28sp"
                             android:textStyle="bold"
@@ -288,14 +288,14 @@
                             android:id="@+id/btnMatar"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="HIL"
+                            android:text="@string/hil"
                             android:backgroundTint="#212121"
                             android:textColor="#FFFFFF"/>
                         <TextView
                             android:id="@+id/tvCooldown"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Kargatzen..."
+                            android:text="@string/kargatzen"
                             android:textColor="#B71C1C"
                             android:visibility="invisible"
                             android:layout_marginTop="5dp"/>
@@ -330,7 +330,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="ELIMINATUA"
+                            android:text="@string/eliminatua"
                             android:textColor="#F44336"
                             android:textSize="30sp"
                             android:textStyle="bold"/>
@@ -361,7 +361,7 @@
                             android:id="@+id/tvGanador"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="IRABAZLEA"
+                            android:text="@string/irabazlea"
                             android:textColor="#000000"
                             android:textSize="32sp"
                             android:textStyle="bold"
