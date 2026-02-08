@@ -1,5 +1,6 @@
 package com.unairubenigor.gernikapp.Actividades_Geltokiak
 
+import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -42,6 +43,10 @@ class AndraMari8Activity : AppCompatActivity() {
 
         // 4. Reproducir el sonido de felicitación
         playSound()
+
+        // Desbloquear pieza del puzzle (Andra Mari)
+        val prefs = getSharedPreferences("GernikaProgress", Context.MODE_PRIVATE)
+        prefs.edit().putBoolean("andraMariCompletado", true).apply()
     }
 
     private fun playSound() {
@@ -59,5 +64,7 @@ class AndraMari8Activity : AppCompatActivity() {
         mediaPlayer?.release()
         mediaPlayer = null
     }
+
+
 }
 

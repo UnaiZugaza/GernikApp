@@ -1,5 +1,6 @@
 package com.unairubenigor.gernikapp.Actividades_Geltokiak
 
+import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -73,6 +74,10 @@ class MuralaEndActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+
+        // Desbloquear pieza del puzzle (Murala)
+        val prefs = getSharedPreferences("GernikaProgress", Context.MODE_PRIVATE)
+        prefs.edit().putBoolean("muralaCompletado", true).apply()
     }
 
     override fun onDestroy() {

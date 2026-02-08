@@ -1,5 +1,6 @@
 package com.unairubenigor.gernikapp.Actividades_Geltokiak
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -64,6 +65,10 @@ class ArbolaIrabazleActivity : AppCompatActivity() {
         } else {
             tvIrabazleIzena.text = "Errorea: Kodea falta da"
         }
+
+        // Desbloquear pieza del puzzle (Arbola)
+        val prefs = getSharedPreferences("GernikaProgress", Context.MODE_PRIVATE)
+        prefs.edit().putBoolean("arbolaCompletado", true).apply()
     }
 
     private fun marcarArbolaCompletado() {
