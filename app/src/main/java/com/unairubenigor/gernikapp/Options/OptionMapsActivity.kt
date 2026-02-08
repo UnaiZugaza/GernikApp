@@ -23,10 +23,16 @@ import com.unairubenigor.gernikapp.R
 class OptionMapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
+    private var nombreUsuario: String? = ""
+    private var codigoClase: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_option_maps)
+
+        // Recoger datos de la sesión
+        nombreUsuario = intent.getStringExtra("USER_NAME")
+        codigoClase = intent.getStringExtra("CLASS_CODE")
 
         // --- 1. HEADER ---
         val headerView = findViewById<View>(R.id.header_layout)
@@ -66,7 +72,6 @@ class OptionMapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val astra      = LatLng(43.312436, -2.676803)
 
         // --- C. Añadir Marcadores con Subtítulo (Snippet) ---
-        // El snippet aparece debajo del título al tocar el pin
         val textoAyuda = "Sakatu hemen ikusteko"
 
         mMap.addMarker(MarkerOptions().position(mural).title("Gernikako murala").snippet(textoAyuda))
@@ -80,38 +85,28 @@ class OptionMapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mural, 16f))
 
         // --- E. DETECTAR CLIC EN LA BURBUJA DE INFORMACIÓN (InfoWindow) ---
-        // Esto solo se activa cuando tocas la cajita blanca que sale sobre el marcador
         mMap.setOnInfoWindowClickListener { marker ->
 
-            when (marker.title) {
-                "Gernikako murala" -> {
-                    startActivity(Intent(this, GernikakoMuralaOngiEtorriActivity::class.java))
-                }
+            val intent = when (marker.title) {
+                "Gernikako murala" -> Intent(this, GernikakoMuralaOngiEtorriActivity::class.java)
+                "Astra" -> Intent(this, AstraActivity::class.java)
+                "Gernikako Arbola" -> Intent(this, GernikakoArbolaOngiEtorriActivity::class.java)
+                "Andra Mari Eliza" -> Intent(this, AndraMari1Activity::class.java)
+                "Pasileku Plaza" -> Intent(this, PasilekuActivity::class.java)
+                else -> null
+            }
 
-                "Astra" -> {
-                    startActivity(Intent(this, AstraActivity::class.java))
-                }
-
-                "Gernikako Arbola" -> {
-                    startActivity(Intent(this, GernikakoArbolaOngiEtorriActivity::class.java))
-                }
-
-                "Andra Mari Eliza" -> {
-                    startActivity(Intent(this, AndraMari1Activity::class.java))
-                }
-
-                "Pasileku Plaza" -> {
-                    startActivity(Intent(this, PasilekuActivity::class.java))
-                }
-
-                "Bakearen museoa" -> {
-                    // Alerta informativa
-                    AlertDialog.Builder(this)
-                        .setTitle("Bakearen museoa")
-                        .setMessage("Atala hau prestatzen ari gara. Laster erabilgarri!")
-                        .setPositiveButton("Ados", null)
-                        .show()
-                }
+            if (intent != null) {
+                // Pasar datos de usuario y clase a todas las actividades
+                intent.putExtra("USER_NAME", nombreUsuario)
+                intent.putExtra("CLASS_CODE", codigoClase)
+                startActivity(intent)
+            } else if (marker.title == "Bakearen museoa") {
+                AlertDialog.Builder(this)
+                    .setTitle("Bakearen museoa")
+                    .setMessage("Atala hau prestatzen ari gara. Laster erabilgarri!")
+                    .setPositiveButton("Ados", null)
+                    .show()
             }
         }
     }
