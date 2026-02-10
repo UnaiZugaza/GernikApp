@@ -1,43 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#CC000000"
-    android:padding="20dp">
+    android:background="#B3000000"
+    android:clickable="true"
+    android:focusable="true">
+
+    <ImageView
+        android:id="@+id/ivPopupImagen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:contentDescription="Imagen ampliada"
+        android:scaleType="fitCenter" />
 
     <ImageButton
         android:id="@+id/btnPopupCerrar"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@android:drawable/ic_menu_close_clear_cancel"
-        android:background="@android:color/transparent"
-        app:tint="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="top|end"
+        android:layout_margin="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Cerrar"
+        android:src="@android:drawable/ic_menu_close_clear_cancel" 
+        app:tint="@android:color/white"/>
 
+    <!-- TextView para el nombre (opcional, lo mantenemos por si acaso) -->
     <TextView
         android:id="@+id/tvPopupNombre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Alumno"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/btnPopupCerrar"/>
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="24dp"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
-    <ImageView
-        android:id="@+id/ivPopupImagen"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:scaleType="fitCenter"
-        app:layout_constraintTop_toBottomOf="@id/btnPopupCerrar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

@@ -3,7 +3,6 @@ package com.unairubenigor.gernikapp.Actividades_Geltokiak
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -26,13 +25,13 @@ class AndraMari2Activity : AppCompatActivity() {
         val headerTitle = findViewById<TextView>(R.id.textViewHeaderTitle)
         headerTitle.text = "ANDRA MARI ELIZA"
 
-        // --- Cargar GIF del árbol ---
         val ivArbolGif = findViewById<ImageView>(R.id.iv_arbol_gif_2)
         Glide.with(this).asGif().load(R.raw.arbolgif).into(ivArbolGif)
 
         val btnBack = findViewById<ImageButton>(R.id.buttonBack)
         val btnNext = findViewById<ImageButton>(R.id.buttonContinue)
-        val buttonGoazen = findViewById<Button>(R.id.button_goazen)
+        // --- ¡AQUÍ ESTÁ LA CORRECCIÓN! ---
+        val buttonGoazen = findViewById<TextView>(R.id.button_goazen) 
 
         btnBack.visibility = View.VISIBLE
         btnNext.visibility = View.VISIBLE

@@ -20,6 +20,7 @@ class AndraMari4Activity : AppCompatActivity() {
     private lateinit var etAnswer1: EditText
     private lateinit var etAnswer2: EditText
     private lateinit var btnSend: Button
+    private lateinit var buttonContinue: ImageButton // Referencia a la flecha
 
     private var nombreUsuario: String = "Ezezaguna"
     private var codigoClase: String = ""
@@ -66,8 +67,6 @@ class AndraMari4Activity : AppCompatActivity() {
     }
 
     private fun validateAndSendAnswers(r1: String, r2: String) {
-        // Ya no comprobamos si contiene palabras clave.
-        // Simplemente avisamos que se está enviando.
         Toast.makeText(this, getString(R.string.erantzunak_bidaltzen), Toast.LENGTH_SHORT).show()
         enviarRespuestas(r1, r2)
     }
@@ -88,17 +87,26 @@ class AndraMari4Activity : AppCompatActivity() {
             .addOnSuccessListener {
                 Toast.makeText(this, getString(R.string.ondo_bidali_da), Toast.LENGTH_SHORT).show()
                 btnSend.text = getString(R.string.bidalita)
-                // Opcional: Podrías saltar automáticamente a la siguiente actividad aquí
+                // --- ¡CORRECCIÓN CLAVE! --- 
+                // Una vez enviado, hacemos visible la flecha para continuar.
+                buttonContinue.visibility = View.VISIBLE
             }
             .addOnFailureListener { e ->
                 btnSend.isEnabled = true
                 btnSend.text = getString(R.string.bidali)
-                Toast.makeText(this, getString(R.string.ondo_bidali_da), Toast.LENGTH_SHORT).show()
+                // AÑADIDO: en caso de fallo, mostramos el mensaje de error original.
+                Toast.makeText(this, "Errorea bidaltzean: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
     private fun setupFooter() {
         findViewById<ImageButton>(R.id.buttonBack).setOnClickListener { finish() }
-        findViewById<ImageButton>(R.id.buttonContinue).setOnClickListener {
+        buttonContinue = findViewById(R.id.buttonContinue)
+
+        // --- ¡CORRECCIÓN CLAVE! --- 
+        // Ocultamos la flecha de continuar al iniciar la actividad.
+        buttonContinue.visibility = View.GONE
+
+        buttonContinue.setOnClickListener {
             val intent = Intent(this, AndraMari5Activity::class.java).apply {
                 putExtra("USER_NAME", nombreUsuario)
                 putExtra("CLASS_CODE", codigoClase)

@@ -47,7 +47,7 @@
                     android:text="@string/gaur_marijesi_bat_izango_zara"
                     android:textColor="@android:color/black"
                     android:textSize="22sp"
-                    android:fontFamily="sans-serif-casual"
+                    android:textStyle="bold"
                     android:gravity="center" />
             </androidx.cardview.widget.CardView>
 
@@ -66,7 +66,6 @@
                     android:text="@string/mugikorrarekin_andra_mari_inguruan_5_geldialdi_egingo_dituzu_geldialdi_bakoitzean_bideo_bat_ikusi_galdera_bati_erantzun_edo_argazki_bat_atera_beharko_duzu_n_namaieran_domina_digital_bat_jasoko_duzu_quot_gernikako_marijesi_txikia_quot"
                     android:textColor="@android:color/black"
                     android:textSize="18sp"
-                    android:fontFamily="sans-serif-casual"
                     android:gravity="center"
                     android:lineSpacingExtra="4dp"/>
             </androidx.cardview.widget.CardView>
@@ -78,17 +77,20 @@
                 app:cardCornerRadius="25dp"
                 app:cardBackgroundColor="@color/azul_acento"
                 app:cardElevation="4dp">
-                <androidx.appcompat.widget.AppCompatButton
+                <TextView
                     android:id="@+id/button_goazen"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
                     android:padding="16dp"
                     android:text="@string/goazen_kontura_eta_argia_piztera"
                     android:textAllCaps="false"
                     android:textColor="@android:color/black"
                     android:textSize="18sp"
-                    android:fontFamily="sans-serif-casual"/>
+                    android:textStyle="bold"/>
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>
