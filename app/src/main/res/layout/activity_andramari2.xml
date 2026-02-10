@@ -78,7 +78,7 @@
 
             </androidx.cardview.widget.CardView>
 
-            <!-- Tarjeta 3: Botón "Goazen!" -->
+            <!-- Tarjeta 3: Botón "Goazen!" (AHORA ES UN TEXTVIEW) -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -87,11 +87,14 @@
                 app:cardBackgroundColor="@color/azul_acento"
                 app:cardElevation="4dp">
 
-                <androidx.appcompat.widget.AppCompatButton
+                <TextView
                     android:id="@+id/button_goazen"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
                     android:padding="16dp"
                     android:text="@string/goazen_kontura_eta_argia_piztera"
                     android:textAllCaps="false"
