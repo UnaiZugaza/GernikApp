@@ -161,4 +161,5 @@
     <string name="bideoa">BIDEOA</string>
     <string name="google_maps_api">AIzaSyDyB2RwN9EPuXLJ3UdNga4NXdXsI_pLck4</string>
     <string name="bidaltzen">BIDALTZEN...</string>
+    <string name="errorea_ezin_izan_da_gelaren_kodea_lortu">Errorea: Ezin izan da gelaren kodea lortu</string>
 </resources>

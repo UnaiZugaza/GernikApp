@@ -24,7 +24,8 @@ class IrakasleMenuActivity : AppCompatActivity() {
 
         // Comprobamos si el código ha llegado bien
         if (codigoClase.isNullOrEmpty()) {
-            Toast.makeText(this, "Errorea: Ezin izan da gelaren kodea lortu", Toast.LENGTH_LONG).show()
+            Toast.makeText(this,
+                getString(R.string.errorea_ezin_izan_da_gelaren_kodea_lortu), Toast.LENGTH_LONG).show()
             finish() // Cerramos si no hay código
             return
         }

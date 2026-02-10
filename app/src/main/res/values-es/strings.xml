@@ -159,4 +159,6 @@
     <string name="marrazkia_ondo_igo_da_emaitzen_zain">¡Dibujo subido correctamente! Esperando resultados...</string>
     <string name="errorea_datu_basean_gordetzean">Error al guardar en la base de datos: %1$s</string>
     <string name="bideoa">VÍDEO</string>
+    <string name="errorea_ezin_izan_da_gelaren_kodea_lortu">Error: No se ha podido conseguir el codigo de clase</string>
+
 </resources>
