@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/ongi_etorri_gernikako_muralera"
                     android:textSize="26sp"
-                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-casual"
                     android:textColor="#3b82f6"
                     android:textAlignment="center"
                     android:layout_marginBottom="32dp"/>
@@ -53,7 +53,8 @@
                     android:textColor="#0f172a"
                     android:justificationMode="inter_word"
                     android:lineSpacingExtra="8dp"
-                    android:layout_marginBottom="16dp"/>
+                    android:layout_marginBottom="16dp"
+                    android:fontFamily="sans-serif-casual"/>
             </LinearLayout>
         </ScrollView>
 
@@ -74,7 +75,7 @@
             android:layout_height="wrap_content"
             android:text="@string/jarraitu_bideoa_ikusteko"
             android:textSize="22sp"
-            android:textStyle="bold"
+            android:fontFamily="sans-serif-casual"
             android:textColor="#059669"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"

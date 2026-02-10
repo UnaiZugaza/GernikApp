@@ -32,7 +32,7 @@
                 android:text="@string/taldeka_egin_marrazki_bat_ikusitakoaren_eta_sentitutakoaren_inguruan_paperean_eta_boligrafoz"
                 android:textColor="@android:color/black"
                 android:textSize="26sp"
-                android:textStyle="bold"
+                android:fontFamily="sans-serif-casual"
                 android:gravity="center"
                 android:layout_marginBottom="40dp" />
 
@@ -42,7 +42,7 @@
                 android:text="@string/guztion_artean_sortu_zuen_irudia_zuen_taldearen_ikuspegia_erakusteko"
                 android:textColor="@android:color/black"
                 android:textSize="26sp"
-                android:textStyle="bold"
+                android:fontFamily="sans-serif-casual"
                 android:gravity="center" />
         </LinearLayout>
     </ScrollView>

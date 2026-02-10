@@ -39,7 +39,7 @@
                     android:text="@string/gogoratu_hemen_garrantzitsuena_ez_da_irabaztea_baizik_eta_ondo_pasatzea_parte_hartzea_eta_gure_ohiturak_ezagutzea"
                     android:textColor="@android:color/black"
                     android:textSize="22sp"
-                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-casual"
                     android:gravity="center" />
             </androidx.cardview.widget.CardView>
 
@@ -49,7 +49,7 @@
                 android:text="@string/prest_goazen_elkarrekin_disfrutatzera"
                 android:textColor="@android:color/black"
                 android:textSize="26sp"
-                android:textStyle="bold"
+                android:fontFamily="sans-serif-casual"
                 android:gravity="center"
                 android:layout_marginBottom="24dp" />
         </LinearLayout>
@@ -72,7 +72,7 @@
         android:text="@string/menura_bueltatu"
         android:textColor="@color/azul_acento"
         android:textSize="18sp"
-        android:textStyle="bold"
+        android:fontFamily="sans-serif-casual"
         android:paddingStart="32dp"
         android:paddingEnd="32dp"
         android:paddingTop="12dp"

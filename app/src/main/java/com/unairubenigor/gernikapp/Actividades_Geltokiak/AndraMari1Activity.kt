@@ -3,10 +3,9 @@ package com.unairubenigor.gernikapp.Actividades_Geltokiak
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.TextView
+import android.widget.TextView // Importante: Usamos TextView, no Button
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.unairubenigor.gernikapp.R
@@ -18,6 +17,7 @@ class AndraMari1Activity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Asegúrate de que este es el nombre correcto de tu XML (activity_andramari1 o activity_andramari)
         setContentView(R.layout.activity_andramari)
 
         nombreUsuario = intent.getStringExtra("USER_NAME")
@@ -32,7 +32,12 @@ class AndraMari1Activity : AppCompatActivity() {
 
         val btnBack = findViewById<ImageButton>(R.id.buttonBack)
         val btnNext = findViewById<ImageButton>(R.id.buttonContinue)
-        val buttonPrest = findViewById<Button>(R.id.button_prest)
+
+        // CORRECCIÓN AQUÍ:
+        // 1. Cambiamos el nombre de la variable para que tenga sentido (textPrest)
+        // 2. Buscamos un TextView (no un Button)
+        // 3. Usamos el ID nuevo (text_prest)
+        val textPrest = findViewById<TextView>(R.id.text_prest)
 
         btnBack.visibility = View.VISIBLE
         btnNext.visibility = View.VISIBLE
@@ -49,6 +54,8 @@ class AndraMari1Activity : AppCompatActivity() {
         }
 
         btnNext.setOnClickListener { navigateToNext() }
-        buttonPrest.setOnClickListener { navigateToNext() }
+
+        // Asignamos el clic al TextView
+        textPrest.setOnClickListener { navigateToNext() }
     }
 }

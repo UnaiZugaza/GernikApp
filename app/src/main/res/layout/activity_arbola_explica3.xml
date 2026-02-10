@@ -32,7 +32,7 @@
                 android:text="@string/behin_marrazkia_amaitutakoan_igo_irudia_aplikaziora_eta_parte_hartu_bozketan_ikusteko_zein_marrazki_gustatzen_zaizuen_gehien"
                 android:textColor="@android:color/black"
                 android:textSize="24sp"
-                android:textStyle="bold"
+                android:fontFamily="sans-serif-casual"
                 android:gravity="center"
                 android:layout_marginBottom="40dp" />
 
@@ -49,7 +49,7 @@
                     android:text="@string/gogoratu_garrantzitsuena_ez_da_irabaztea_elkarrekin_sortzea_eta_gure_historiaren_lekua_ezagutzea_baizik"
                     android:textColor="@android:color/black"
                     android:textSize="24sp"
-                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-casual"
                     android:gravity="center" />
             </androidx.cardview.widget.CardView>
         </LinearLayout>
