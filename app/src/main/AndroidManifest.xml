@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
+        tools:ignore="LockedOrientation"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -19,54 +20,55 @@
         <activity
             android:name=".SplashActivity"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".MainActivity" android:exported="true" />
-        <activity android:name=".irakasle.IrakasleActivity" />
-        <activity android:name=".ikasle.IkasleActivity" />
-        <activity android:name=".ikasle.IkasleMenuActivity" />
+        <activity android:name=".MainActivity" android:exported="true" android:screenOrientation="portrait"/>
+        <activity android:name=".irakasle.IrakasleActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ikasle.IkasleActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ikasle.IkasleMenuActivity" android:screenOrientation="portrait"/>
 
-        <activity android:name=".Options.GeltokiakActivity" />
-        <activity android:name=".Options.OptionMapsActivity" />
-        <activity android:name=".Options.OptionRankingActivity" />
+        <activity android:name=".Options.GeltokiakActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Options.OptionMapsActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Options.OptionRankingActivity" android:screenOrientation="portrait"/>
         <activity
             android:name=".Options.OptionPuzzleActivity"
             android:screenOrientation="landscape" />
 
-        <activity android:name=".Actividades_Geltokiak.GernikakoMuralaOngiEtorriActivity" />
-        <activity android:name=".Actividades_Geltokiak.MuralaVideoActivity" />
-        <activity android:name=".Actividades_Geltokiak.MuralaEndActivity" />
+        <activity android:name=".Actividades_Geltokiak.GernikakoMuralaOngiEtorriActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Actividades_Geltokiak.MuralaVideoActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Actividades_Geltokiak.MuralaEndActivity" android:screenOrientation="portrait"/>
 
-        <activity android:name=".Actividades_Geltokiak.AstraActivity" />
-        <activity android:name=".Actividades_Geltokiak.ArbolaActivity" />
-        <activity android:name=".Actividades_Geltokiak.GernikakoArbolaOngiEtorriActivity" />
-        <activity android:name=".Actividades_Geltokiak.GernikakoArbolaExplica1Activity" />
-        <activity android:name=".Actividades_Geltokiak.GernikakoArbolaExplica2Activity" />
-        <activity android:name=".Actividades_Geltokiak.GernikakoArbolaExplica3Activity" />
-        <activity android:name=".Actividades_Geltokiak.GernikakoArbolaBehatuActivity" />
-        <activity android:name=".Actividades_Geltokiak.GernikakoArbolaMarraztuActivity" />
-        <activity android:name=".Actividades_Geltokiak.GernikakoArbolaMarrazkiarenArgazkiaActivity" />
-        <activity android:name=".Actividades_Geltokiak.PasilekuActivity" />
-        <activity android:name=".Actividades_Geltokiak.PasilekuEndActivity" />
+        <activity android:name=".Actividades_Geltokiak.AstraActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Actividades_Geltokiak.ArbolaActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Actividades_Geltokiak.GernikakoArbolaOngiEtorriActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Actividades_Geltokiak.GernikakoArbolaExplica1Activity" android:screenOrientation="portrait"/>
+        <activity android:name=".Actividades_Geltokiak.GernikakoArbolaExplica2Activity" android:screenOrientation="portrait"/>
+        <activity android:name=".Actividades_Geltokiak.GernikakoArbolaExplica3Activity" android:screenOrientation="portrait"/>
+        <activity android:name=".Actividades_Geltokiak.GernikakoArbolaBehatuActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Actividades_Geltokiak.GernikakoArbolaMarraztuActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Actividades_Geltokiak.GernikakoArbolaMarrazkiarenArgazkiaActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Actividades_Geltokiak.PasilekuActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Actividades_Geltokiak.PasilekuEndActivity" android:screenOrientation="portrait"/>
 
-        <activity android:name=".Actividades_Geltokiak.AndraMari1Activity" />
-        <activity android:name=".Actividades_Geltokiak.AndraMari2Activity" />
-        <activity android:name=".Actividades_Geltokiak.AndraMari3Activity" />
-        <activity android:name=".Actividades_Geltokiak.AndraMari4Activity" />
-        <activity android:name=".Actividades_Geltokiak.AndraMari5Activity" />
-        <activity android:name=".Actividades_Geltokiak.AndraMari6Activity" />
-        <activity android:name=".Actividades_Geltokiak.AndraMari7Activity" />
-        <activity android:name=".Actividades_Geltokiak.AndraMari8Activity" />
-        <activity android:name=".Actividades_Geltokiak.AstraAdminActivity" />
-        <activity android:name=".irakasle.IrakasleMenuActivity" />
-        <activity android:name=".Actividades_Geltokiak.AndraMariAdminActivity" />
-        <activity android:name=".Actividades_Geltokiak.ArbolaAdminActivity" />
-        <activity android:name=".Actividades_Geltokiak.ArbolaIrabazleActivity" />
+        <activity android:name=".Actividades_Geltokiak.AndraMari1Activity" android:screenOrientation="portrait"/>
+        <activity android:name=".Actividades_Geltokiak.AndraMari2Activity" android:screenOrientation="portrait"/>
+        <activity android:name=".Actividades_Geltokiak.AndraMari3Activity" android:screenOrientation="portrait"/>
+        <activity android:name=".Actividades_Geltokiak.AndraMari4Activity" android:screenOrientation="portrait"/>
+        <activity android:name=".Actividades_Geltokiak.AndraMari5Activity" android:screenOrientation="portrait"/>
+        <activity android:name=".Actividades_Geltokiak.AndraMari6Activity" android:screenOrientation="portrait"/>
+        <activity android:name=".Actividades_Geltokiak.AndraMari7Activity" android:screenOrientation="portrait"/>
+        <activity android:name=".Actividades_Geltokiak.AndraMari8Activity" android:screenOrientation="portrait"/>
+        <activity android:name=".Actividades_Geltokiak.AstraAdminActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".irakasle.IrakasleMenuActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Actividades_Geltokiak.AndraMariAdminActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Actividades_Geltokiak.ArbolaAdminActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Actividades_Geltokiak.ArbolaIrabazleActivity" android:screenOrientation="portrait"/>
 
     </application>
 
