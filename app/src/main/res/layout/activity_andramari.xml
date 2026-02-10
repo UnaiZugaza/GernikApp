@@ -7,7 +7,6 @@
     android:background="@color/fondo_general"
     tools:context=".Actividades_Geltokiak.AndraMari1Activity">
 
-    <!-- 1. Header -->
     <include
         android:id="@+id/include_header"
         layout="@layout/menu_arriba"
@@ -17,13 +16,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- 2. Contenido Central con Scroll -->
     <ScrollView
+        android:id="@+id/scrollViewText"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
         app:layout_constraintTop_toBottomOf="@+id/include_header"
-        app:layout_constraintBottom_toTopOf="@+id/include_footer"
+        app:layout_constraintBottom_toTopOf="@+id/iv_arbol_gif_1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -32,9 +31,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp"
-            android:gravity="center">
+            android:gravity="center_horizontal">
 
-            <!-- Tarjeta 1: Bienvenida -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -42,7 +40,6 @@
                 app:cardCornerRadius="25dp"
                 app:cardBackgroundColor="@color/azul_acento"
                 app:cardElevation="4dp">
-
                 <TextView
                     android:id="@+id/text_welcome"
                     android:layout_width="match_parent"
@@ -53,10 +50,8 @@
                     android:textSize="22sp"
                     android:textStyle="bold"
                     android:gravity="center" />
-
             </androidx.cardview.widget.CardView>
 
-            <!-- Tarjeta 2: Descripción -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -64,7 +59,6 @@
                 app:cardCornerRadius="25dp"
                 app:cardBackgroundColor="@color/azul_acento"
                 app:cardElevation="4dp">
-
                 <TextView
                     android:id="@+id/text_description"
                     android:layout_width="match_parent"
@@ -74,10 +68,8 @@
                     android:textColor="@android:color/black"
                     android:textSize="18sp"
                     android:gravity="center" />
-
             </androidx.cardview.widget.CardView>
 
-            <!-- Tarjeta 3: Botón -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -85,33 +77,31 @@
                 app:cardCornerRadius="25dp"
                 app:cardBackgroundColor="@color/azul_acento"
                 app:cardElevation="4dp">
-
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/button_prest"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
                     android:padding="16dp"
                     android:text="@string/prest_zaudete_barneratzeko"
                     android:textAllCaps="false"
                     android:textColor="@android:color/black"
                     android:textSize="18sp"
                     android:textStyle="bold"/>
-
             </androidx.cardview.widget.CardView>
-
-            <!-- GIF del Árbol (Fuera de tarjeta, al final) -->
-            <ImageView
-                android:id="@+id/iv_arbol_gif_1"
-                android:layout_width="180dp"
-                android:layout_height="180dp"
-                android:scaleType="centerInside"
-                android:contentDescription="Arbola animated gif" />
 
         </LinearLayout>
     </ScrollView>
 
-    <!-- 3. Footer -->
+    <ImageView
+        android:id="@+id/iv_arbol_gif_1"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        android:scaleType="fitCenter"
+        android:contentDescription="Arbola animated gif"
+        app:layout_constraintBottom_toTopOf="@+id/include_footer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <include
         android:id="@+id/include_footer"
         layout="@layout/footer"

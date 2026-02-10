@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:background="@color/fondo_general">
 
-    <!-- Header -->
     <include
         android:id="@+id/include_header"
         layout="@layout/menu_arriba"
@@ -17,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@+id/include_header"
-        app:layout_constraintBottom_toTopOf="@+id/btn_volver_menu">
+        app:layout_constraintBottom_toTopOf="@+id/iv_arbol_gif_pasileku_end">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,7 +32,6 @@
                 app:cardBackgroundColor="@color/azul_acento"
                 app:cardElevation="4dp"
                 android:layout_marginBottom="40dp">
-
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -54,19 +52,19 @@
                 android:textStyle="bold"
                 android:gravity="center"
                 android:layout_marginBottom="24dp" />
-
-            <!-- GIF del Árbol -->
-            <ImageView
-                android:id="@+id/iv_arbol_gif_pasileku_end"
-                android:layout_width="200dp"
-                android:layout_height="180dp"
-                android:contentDescription="Arbola animated gif"
-                android:scaleType="centerInside" />
-
         </LinearLayout>
     </ScrollView>
 
-    <!-- Botón para volver al menú -->
+    <ImageView
+        android:id="@+id/iv_arbol_gif_pasileku_end"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:scaleType="fitCenter"
+        android:contentDescription="Arbola animated gif"
+        app:layout_constraintBottom_toTopOf="@+id/btn_volver_menu"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_volver_menu"
         android:layout_width="wrap_content"
@@ -85,7 +83,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Footer -->
     <include
         android:id="@+id/include_footer"
         layout="@layout/footer"
