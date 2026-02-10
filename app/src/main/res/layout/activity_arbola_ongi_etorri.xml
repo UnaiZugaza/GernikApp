@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:background="@color/fondo_general">
 
-    <!-- Header -->
     <include
         android:id="@+id/include_header"
         layout="@layout/menu_arriba"
@@ -13,7 +12,6 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- ScrollView solo para el texto -->
     <ScrollView
         android:id="@+id/scrollViewText"
         android:layout_width="match_parent"
@@ -34,7 +32,7 @@
                 android:text="@string/kaixo_lagunak_nongi_etorri_gernikako_arbolara"
                 android:textColor="@android:color/black"
                 android:textSize="30sp"
-                android:textStyle="bold"
+                android:fontFamily="sans-serif-casual"
                 android:gravity="center"
                 android:layout_marginBottom="32dp" />
 
@@ -44,25 +42,22 @@
                 android:text="@string/arbola_hau_oso_garrantzitsua_da_gure_herriarentzat_antzina_euskal_herrietako_ordezkariak_hemen_biltzen_ziren_erabaki_garrantzitsuak_hartzeko_eta_herriaren_izenean_zin_egiteko_nhorregatik_askatasunaren_bakearen_eta_batasunaren_ikurra_bihurtu_da"
                 android:textColor="@android:color/black"
                 android:textSize="24sp"
+                android:fontFamily="sans-serif-casual"
                 android:gravity="center"
                 android:lineSpacingExtra="4dp" />
-
         </LinearLayout>
     </ScrollView>
 
-    <!-- GIF del Árbol (FUERA DEL SCROLL, FIJO ABAJO) -->
     <ImageView
         android:id="@+id/iv_arbol_gif_ongi_etorri"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginBottom="8dp"
-        android:scaleType="centerInside"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:scaleType="fitCenter"
         android:contentDescription="Arbola animated gif"
         app:layout_constraintBottom_toTopOf="@+id/include_footer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Footer -->
     <include
         android:id="@+id/include_footer"
         layout="@layout/footer"

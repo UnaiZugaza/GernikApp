@@ -8,21 +8,18 @@
     android:background="@color/fondo_general"
     tools:context=".Actividades_Geltokiak.GernikakoMuralaOngiEtorriActivity">
 
-    <!-- HEADER -->
     <include
         android:id="@+id/header_layout"
         layout="@layout/menu_arriba"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <!-- CONTENIDO PRINCIPAL -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:padding="32dp">
 
-        <!-- Zona de texto desplazable (Título y Explicación) -->
         <ScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -38,18 +35,16 @@
                 android:orientation="vertical"
                 android:gravity="center_horizontal">
 
-                <!-- Título -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/ongi_etorri_gernikako_muralera"
                     android:textSize="26sp"
-                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-casual"
                     android:textColor="#3b82f6"
                     android:textAlignment="center"
                     android:layout_marginBottom="32dp"/>
 
-                <!-- Explicación -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -58,29 +53,29 @@
                     android:textColor="#0f172a"
                     android:justificationMode="inter_word"
                     android:lineSpacingExtra="8dp"
-                    android:layout_marginBottom="16dp"/>
+                    android:layout_marginBottom="16dp"
+                    android:fontFamily="sans-serif-casual"/>
             </LinearLayout>
         </ScrollView>
 
-        <!-- GIF del árbol (Ajustado a 200dp) -->
         <ImageView
             android:id="@+id/iv_arbol_gif"
-            android:layout_width="193dp"
-            android:layout_height="144dp"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
             android:layout_marginBottom="12dp"
+            android:scaleType="fitCenter"
             android:contentDescription="Arbola animated gif"
             app:layout_constraintBottom_toTopOf="@+id/textViewJarraitu"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <!-- Texto final -->
         <TextView
             android:id="@+id/textViewJarraitu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/jarraitu_bideoa_ikusteko"
             android:textSize="22sp"
-            android:textStyle="bold"
+            android:fontFamily="sans-serif-casual"
             android:textColor="#059669"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -89,7 +84,6 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- FOOTER -->
     <include
         android:id="@+id/footer_layout"
         layout="@layout/footer"

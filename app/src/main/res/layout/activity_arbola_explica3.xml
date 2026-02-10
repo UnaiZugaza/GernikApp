@@ -17,7 +17,7 @@
         android:layout_height="0dp"
         android:fillViewport="true"
         app:layout_constraintTop_toBottomOf="@+id/include_header"
-        app:layout_constraintBottom_toTopOf="@+id/include_footer">
+        app:layout_constraintBottom_toTopOf="@+id/iv_arbol_gif_explica3">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -32,7 +32,7 @@
                 android:text="@string/behin_marrazkia_amaitutakoan_igo_irudia_aplikaziora_eta_parte_hartu_bozketan_ikusteko_zein_marrazki_gustatzen_zaizuen_gehien"
                 android:textColor="@android:color/black"
                 android:textSize="24sp"
-                android:textStyle="bold"
+                android:fontFamily="sans-serif-casual"
                 android:gravity="center"
                 android:layout_marginBottom="40dp" />
 
@@ -42,7 +42,6 @@
                 app:cardCornerRadius="25dp"
                 app:cardBackgroundColor="@color/azul_acento"
                 app:cardElevation="4dp">
-
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -50,21 +49,21 @@
                     android:text="@string/gogoratu_garrantzitsuena_ez_da_irabaztea_elkarrekin_sortzea_eta_gure_historiaren_lekua_ezagutzea_baizik"
                     android:textColor="@android:color/black"
                     android:textSize="24sp"
-                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-casual"
                     android:gravity="center" />
             </androidx.cardview.widget.CardView>
-
-            <!-- GIF del Árbol -->
-            <ImageView
-                android:id="@+id/iv_arbol_gif_explica3"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_marginTop="24dp"
-                android:scaleType="centerInside"
-                android:contentDescription="Arbola animated gif" />
-
         </LinearLayout>
     </ScrollView>
+
+    <ImageView
+        android:id="@+id/iv_arbol_gif_explica3"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:scaleType="fitCenter"
+        android:contentDescription="Arbola animated gif"
+        app:layout_constraintBottom_toTopOf="@+id/include_footer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <include
         android:id="@+id/include_footer"

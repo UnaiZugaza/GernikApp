@@ -7,7 +7,6 @@
     android:background="@color/fondo_general"
     tools:context=".Actividades_Geltokiak.AndraMari2Activity">
 
-    <!-- 1. Header -->
     <include
         android:id="@+id/include_header"
         layout="@layout/menu_arriba"
@@ -17,13 +16,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- 2. Contenido Central con Scroll -->
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
         app:layout_constraintTop_toBottomOf="@+id/include_header"
-        app:layout_constraintBottom_toTopOf="@+id/include_footer"
+        app:layout_constraintBottom_toTopOf="@+id/iv_arbol_gif_2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -34,7 +32,6 @@
             android:padding="16dp"
             android:gravity="center">
 
-            <!-- Tarjeta 1: Título -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -42,7 +39,6 @@
                 app:cardCornerRadius="25dp"
                 app:cardBackgroundColor="@color/azul_acento"
                 app:cardElevation="4dp">
-
                 <TextView
                     android:id="@+id/text_title_card"
                     android:layout_width="match_parent"
@@ -51,12 +47,10 @@
                     android:text="@string/gaur_marijesi_bat_izango_zara"
                     android:textColor="@android:color/black"
                     android:textSize="22sp"
-                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-casual"
                     android:gravity="center" />
-
             </androidx.cardview.widget.CardView>
 
-            <!-- Tarjeta 2: Descripción -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -64,7 +58,6 @@
                 app:cardCornerRadius="25dp"
                 app:cardBackgroundColor="@color/azul_acento"
                 app:cardElevation="4dp">
-
                 <TextView
                     android:id="@+id/text_description_card"
                     android:layout_width="match_parent"
@@ -73,12 +66,11 @@
                     android:text="@string/mugikorrarekin_andra_mari_inguruan_5_geldialdi_egingo_dituzu_geldialdi_bakoitzean_bideo_bat_ikusi_galdera_bati_erantzun_edo_argazki_bat_atera_beharko_duzu_n_namaieran_domina_digital_bat_jasoko_duzu_quot_gernikako_marijesi_txikia_quot"
                     android:textColor="@android:color/black"
                     android:textSize="18sp"
+                    android:fontFamily="sans-serif-casual"
                     android:gravity="center"
                     android:lineSpacingExtra="4dp"/>
-
             </androidx.cardview.widget.CardView>
 
-            <!-- Tarjeta 3: Botón "Goazen!" (AHORA ES UN TEXTVIEW) -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -86,36 +78,32 @@
                 app:cardCornerRadius="25dp"
                 app:cardBackgroundColor="@color/azul_acento"
                 app:cardElevation="4dp">
-
-                <TextView
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/button_goazen"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center"
                     android:padding="16dp"
                     android:text="@string/goazen_kontura_eta_argia_piztera"
                     android:textAllCaps="false"
                     android:textColor="@android:color/black"
                     android:textSize="18sp"
-                    android:textStyle="bold"/>
-
+                    android:fontFamily="sans-serif-casual"/>
             </androidx.cardview.widget.CardView>
-
-            <!-- GIF del Árbol (Fuera de tarjeta, al final) -->
-            <ImageView
-                android:id="@+id/iv_arbol_gif_2"
-                android:layout_width="180dp"
-                android:layout_height="180dp"
-                android:scaleType="centerInside"
-                android:contentDescription="Arbola animated gif" />
 
         </LinearLayout>
     </ScrollView>
 
-    <!-- 3. Footer -->
+    <ImageView
+        android:id="@+id/iv_arbol_gif_2"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        android:scaleType="fitCenter"
+        android:contentDescription="Arbola animated gif"
+        app:layout_constraintBottom_toTopOf="@+id/include_footer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <include
         android:id="@+id/include_footer"
         layout="@layout/footer"

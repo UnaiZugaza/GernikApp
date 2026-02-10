@@ -7,7 +7,6 @@
     android:background="@color/fondo_general"
     tools:context=".Actividades_Geltokiak.AndraMari1Activity">
 
-    <!-- 1. Header -->
     <include
         android:id="@+id/include_header"
         layout="@layout/menu_arriba"
@@ -17,13 +16,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- 2. Contenido Central con Scroll -->
     <ScrollView
+        android:id="@+id/scrollViewText"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
         app:layout_constraintTop_toBottomOf="@+id/include_header"
-        app:layout_constraintBottom_toTopOf="@+id/include_footer"
+        app:layout_constraintBottom_toTopOf="@+id/iv_arbol_gif_1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -32,9 +31,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp"
-            android:gravity="center">
+            android:gravity="center_horizontal">
 
-            <!-- Tarjeta 1: Bienvenida -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -42,7 +40,6 @@
                 app:cardCornerRadius="25dp"
                 app:cardBackgroundColor="@color/azul_acento"
                 app:cardElevation="4dp">
-
                 <TextView
                     android:id="@+id/text_welcome"
                     android:layout_width="match_parent"
@@ -51,12 +48,10 @@
                     android:text="@string/kaixo_lagun_nongi_etorri_gernikako_marijesien_ibilbidera"
                     android:textColor="@android:color/black"
                     android:textSize="22sp"
-                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-casual"
                     android:gravity="center" />
-
             </androidx.cardview.widget.CardView>
 
-            <!-- Tarjeta 2: Descripción -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -64,7 +59,6 @@
                 app:cardCornerRadius="25dp"
                 app:cardBackgroundColor="@color/azul_acento"
                 app:cardElevation="4dp">
-
                 <TextView
                     android:id="@+id/text_description"
                     android:layout_width="match_parent"
@@ -73,11 +67,10 @@
                     android:text="@string/urtero_abenduan_gernikako_andra_mari_elizatik_abiatzen_dira_talde_batzuk_goiz_goizetik_kantatzera_marijesiak_deitzen_zaie_eta_jesus_jaio_aurreko_bederatzi_gauetan_ibiltzen_dira_kalez_kale"
                     android:textColor="@android:color/black"
                     android:textSize="18sp"
+                    android:fontFamily="sans-serif-casual"
                     android:gravity="center" />
-
             </androidx.cardview.widget.CardView>
 
-            <!-- Tarjeta 3: Botón (AHORA ES UN TEXTVIEW) -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -87,34 +80,30 @@
                 app:cardElevation="4dp">
 
                 <TextView
-                    android:id="@+id/button_prest"
+                    android:id="@+id/text_prest"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center"
                     android:padding="16dp"
                     android:text="@string/prest_zaudete_barneratzeko"
-                    android:textAllCaps="false"
                     android:textColor="@android:color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold"/>
-
+                    android:textSize="20sp"
+                    android:fontFamily="sans-serif-casual"
+                    android:gravity="center"/>
             </androidx.cardview.widget.CardView>
-
-            <!-- GIF del Árbol (Fuera de tarjeta, al final) -->
-            <ImageView
-                android:id="@+id/iv_arbol_gif_1"
-                android:layout_width="180dp"
-                android:layout_height="180dp"
-                android:scaleType="centerInside"
-                android:contentDescription="Arbola animated gif" />
 
         </LinearLayout>
     </ScrollView>
 
-    <!-- 3. Footer -->
+    <ImageView
+        android:id="@+id/iv_arbol_gif_1"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        android:scaleType="fitCenter"
+        android:contentDescription="Arbola animated gif"
+        app:layout_constraintBottom_toTopOf="@+id/include_footer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <include
         android:id="@+id/include_footer"
         layout="@layout/footer"
