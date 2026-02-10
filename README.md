@@ -1,21 +1,16 @@
 # GernikApp
 
-Una aplicación moderna desarrollada en **Kotlin** para [describe aquí el propósito de tu aplicación].
+Una aplicación moderna desarrollada en **Kotlin** para una app de Gernika para los alumnos de ciertas clases de primaria.
 
 ## 📋 Descripción
 
-GernikApp es un proyecto Android/Kotlin que [completa con la descripción de las funcionalidades principales].
+GernikApp es un proyecto Android/Kotlin que funciona como una app de Gernika para los alumnos de ciertas clases donde aprenderan mediante ciertas paradas la historia de Gernika.
 
-## 🚀 Características
-
-- ✨ [Característica 1]
-- ✨ [Característica 2]
-- ✨ [Característica 3]
 
 ## 📦 Requisitos Previos
 
 - **Java 11+**
-- **Android SDK** (si es aplicación Android)
+- **Android SDK**
 - **Gradle 7.0+**
 
 ## 🔧 Instalación
@@ -71,32 +66,8 @@ Edita `gradle.properties` para personalizar:
 # Versiones y configuración del proyecto
 ```
 
-## 📚 Documentación
 
-[Incluye links a documentación, wiki o guías adicionales si existen]
-
-## 🤝 Contribuciones
-
-Las contribuciones son bienvenidas. Por favor:
-
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
-
-## 📝 Licencia
-
-[Especifica tu licencia o indica "Sin licencia especificada"]
 
 ## 👤 Autor
 
-**Unai Zugaza** - [@UnaiZugaza](https://github.com/UnaiZugaza)
-
-## 📧 Contacto
-
-Para más información o reportar issues, abre un [GitHub Issue](https://github.com/UnaiZugaza/GernikApp/issues)
-
----
-
-**Última actualización:** 10 de febrero de 2026
+**Unai Zugaza** - **Igor Esparza** - **Ruben Luna**
