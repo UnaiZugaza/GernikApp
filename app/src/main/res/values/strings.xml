@@ -159,7 +159,7 @@
     <string name="marrazkia_ondo_igo_da_emaitzen_zain">Marrazkia ondo igo da! Emaitzen zain...</string>
     <string name="errorea_datu_basean_gordetzean">Errorea datu-basean gordetzean: %1$s</string>
     <string name="bideoa">BIDEOA</string>
-    <string name="google_maps_api">AIzaSyDyB2RwN9EPuXLJ3UdNga4NXdXsI_pLck4</string>
+    <string name="google_maps_api">YOUR_GOOGLE_MAPS_API_KEY_HERE</string>    
     <string name="bidaltzen">BIDALTZEN...</string>
     <string name="errorea_ezin_izan_da_gelaren_kodea_lortu">Errorea: Ezin izan da gelaren kodea lortu</string>
 </resources>
